@@ -13,7 +13,7 @@ To load the image the &#39;docker pull&#39; command should be used. The image na
 docker pull artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:1.1.0
 
 ## How to use
-For the steps to deploy, please follow [Deploying Identity Management Framework][def2]
+For the steps to deploy, please follow [Deploying Identity Management Framework][def2].
 
 ## Examine the log file of the container
 
@@ -25,7 +25,7 @@ The official documentation of the Identity Management Framework is available at 
 
 ## Contributing
 
-If you are interested in contributing to the STA IdM connector project, start by reading the [Contributing guide](/CONTRIBUTING.md).
+If you are interested in contributing to the Identity Management Framework project, start by reading the [Contributing guide](/CONTRIBUTING.md).
 
 ## License
 
