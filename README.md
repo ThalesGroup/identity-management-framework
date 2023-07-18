@@ -1,44 +1,37 @@
-# Thales Open Source Template Project
+# Identity Management Framework 
 
-Template for creating a new project in the [Thales GitHub organization](https://github.com/ThalesGroup).
+## Overview
 
-Each Thales OSS project repository **MUST** contain the following files at the root:
+The Identity Management (IdM) Framework enables users and groups provisioning between SafeNet Trusted Access and other third-party applications and directories. It utilizes an open-source identity management and governance platform, [midPoint][def], underneath.
 
-- a `LICENSE` which has been chosen in accordance with legal department depending on your needs
+Please refer to STA documentation for more information about Identity Management Framework. 
 
-- a `README.md` outlining the project goals, sponsoring sig, and community contact information, [GitHub tips about README.md](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes)
+## Accessing the Image
 
-- a `CONTRIBUTING.md` outlining how to contribute to the project, how to submit a pull request and an issue
+To load the image the &#39;docker pull&#39; command should be used. The image name should be supplied with the pull command, along with a tag which corresponds to the image version number. For example:
 
-- a `SECURITY.md` outlining how the security concerns are handled, [GitHub tips about SECURITY.md](https://docs.github.com/en/github/managing-security-vulnerabilities/adding-a-security-policy-to-your-repository)
+docker pull artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:1.1.0
 
-Below is an example of the common structure and information expected in a README.
+## How to use
+For the steps to deploy, please follow [Deploying Identity Management Framework][def2]
 
-**Please keep this structure as is and only fill the content for each section according to your project.**
+## Examine the log file of the container
 
-If you need assistance or have question, please contact oss@thalesgroup.com
-
-## Get started
-
-XXX project purpose it to ...
-
-**Please also add the description into the About section (Description field)**
+docker logs -f <container-name>.
 
 ## Documentation
 
-Documentation is available at [xxx/docs](https://xxx/docs/).
-
-You can use [GitHub pages](https://guides.github.com/features/pages/) to create your documentation.
-
-See an example here : https://github.com/ThalesGroup/ThalesGroup.github.io
-
-**Please also add the documentation URL into the About section (Website field)**
+The official documentation of the Identity Managemwnt Framework is available at [Thalesdocs][def3].
 
 ## Contributing
 
-If you are interested in contributing to the XXX project, start by reading the [Contributing guide](/CONTRIBUTING.md).
+If you are interested in contributing to the STA IdM connector project, start by reading the [Contributing guide](/CONTRIBUTING.md).
 
 ## License
 
-The chosen license in accordance with legal department must be defined into an explicit [LICENSE](https://github.com/ThalesGroup/template-project/blob/master/LICENSE) file at the root of the repository
-You can also link this file in this README section.
+The project uses [Apache-2.0 license](/LICENSE).
+
+
+[def]: https://docs.evolveum.com/midpoint/
+[def2]: https://thalesdocs.com/sta/operator/user_synchronization/user_provisioning_through_safenet_trusted_access_idm_connector/idm_deployment/index.html
+[def3]: https://thalesdocs.com/sta/operator/user_synchronization/user_provisioning_through_safenet_trusted_access_idm_connector/index.html

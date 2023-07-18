@@ -1,0 +1,77 @@
+version: "3.3"
+
+services:
+  IdM_Framework_data:
+    image: postgres:13-alpine
+    container_name: PostgreSql
+    environment:
+     - POSTGRES_PASSWORD_FILE=/run/secrets/mp_database_password.txt
+     - POSTGRES_USER=midpoint
+     - POSTGRES_DB=IdM_DB
+     - POSTGRES_INITDB_ARGS=--lc-collate=en_US.utf8 --lc-ctype=en_US.utf8
+    networks:
+     - net
+    secrets:
+     - mp_database_password.txt
+    volumes:
+     - IdM_Framework_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:latest
+    container_name: Nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "443:443"
+    secrets:
+     - private.key
+    volumes:
+      - ./configs-and-secrets/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./configs-and-secrets/nginx/Certificate.crt:/etc/nginx/Certificate.crt
+      - ./configs-and-secrets/nginx/private.key:/etc/nginx/private.key
+    networks:
+      - net
+
+  IdM_Framework_server:
+    image: artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:1.1.0
+    container_name: IdM-Framework
+    depends_on:
+     - IdM_Framework_data
+    environment:
+     - REPO_DATABASE_TYPE=postgresql
+     - REPO_HOST=IdM_Framework_data
+     - REPO_DATABASE=IdM_DB
+     - REPO_USER=midpoint
+     - REPO_PASSWORD_FILE=/run/secrets/mp_database_password.txt
+     - REPO_MISSING_SCHEMA_ACTION
+     - REPO_UPGRADEABLE_SCHEMA_ACTION
+     - REPO_SCHEMA_VERSION_IF_MISSING
+     - REPO_SCHEMA_VARIANT
+     - MP_KEYSTORE_PASSWORD_FILE=/run/secrets/mp_keystore_password.txt
+     - MP_MEM_MAX
+     - MP_MEM_INIT
+     - MP_JAVA_OPTS
+     - TZ
+    networks:
+     - net
+    secrets:
+     - mp_database_password.txt
+     - mp_keystore_password.txt
+    volumes:
+     - IdM_Framework_home:/opt/midpoint/var
+    
+networks:
+  net:
+    driver: bridge
+
+secrets:
+  mp_database_password.txt:
+    file: ./configs-and-secrets/IdM_Framework/database_password.txt
+  mp_keystore_password.txt:
+    file: ./configs-and-secrets/IdM_Framework/keystore_password.txt
+  private.key:
+    file: ./configs-and-secrets/nginx/private.key
+
+volumes:
+  IdM_Framework_data:
+  IdM_Framework_home:

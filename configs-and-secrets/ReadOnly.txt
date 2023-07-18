@@ -1,0 +1,5 @@
+Use following credentials for first time login to IdM Framework as administrator:
+Username: administrator
+Password: 5ecr3t
+
+** You must change this password. Once you log in using the default credentials, in the left pane, go to Credentials tab and change the password.**
