@@ -8,7 +8,7 @@ Please refer to STA documentation for more information about Identity Management
 
 ## Accessing the Image
 
-To load the image the &#39;docker pull&#39; command should be used. The image name should be supplied with the pull command, along with a tag which corresponds to the image version number. For example:
+To load the image the &#39;docker pull&#39; command should be used. The image name should be supplied with the pull command, along with a tag that corresponds to the image version number. For example:
 
 docker pull artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:1.1.0
 
@@ -17,11 +17,11 @@ For the steps to deploy, please follow [Deploying Identity Management Framework]
 
 ## Examine the log file of the container
 
-docker logs -f <container-name>.
+docker logs -f &lt;container-name&gt;
 
 ## Documentation
 
-The official documentation of the Identity Managemwnt Framework is available at [Thalesdocs][def3].
+The official documentation of the Identity Management Framework is available at [Thalesdocs][def3].
 
 ## Contributing
 
