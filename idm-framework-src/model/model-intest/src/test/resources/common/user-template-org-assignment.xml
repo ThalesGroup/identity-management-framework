@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<objectTemplate oid="10000000-0000-0000-0000-000000000444"
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:c='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+   xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+   >
+    <name>User Template giving org assignments</name>
+
+    <mapping>
+        <name>Assign orgs from authoritative source</name>
+        <authoritative>true</authoritative>
+        <source>
+            <c:path>$user/organizationalUnit</c:path>
+        </source>
+        <expression>
+            <assignmentTargetSearch>
+                <targetType>c:OrgType</targetType>
+                <filter>
+                    <q:equal>
+                        <q:path>name</q:path>
+                        <expression>
+                            <c:path>$organizationalUnit</c:path>
+                        </expression>
+                    </q:equal>
+                </filter>
+            </assignmentTargetSearch>
+        </expression>
+        <target>
+            <c:path>assignment</c:path>
+        </target>
+    </mapping>
+
+    <!-- MID-3545 -->
+    <mapping>
+        <name>autorole</name>
+        <authoritative>true</authoritative>
+        <trace>true</trace>
+        <source>
+            <c:path>$user/subtype</c:path>
+        </source>
+        <expression>
+            <trace>true</trace>
+            <assignmentTargetSearch>
+                <targetType>RoleType</targetType>
+                <filter>
+                    <q:equal>
+                        <q:path>name</q:path>
+                        <expression>
+                            <trace>true</trace>
+                            <script>
+                                <trace>true</trace>
+                                <code>subtype.substring(5,subtype.length())</code>
+                            </script>
+                        </expression>
+                    </q:equal>
+                </filter>
+                <defaultTargetRef oid="12345111-1111-2222-1111-121212111112" type="RoleType"/> <!-- Empty Role -->
+            </assignmentTargetSearch>
+        </expression>
+        <target>
+            <c:path>assignment</c:path>
+        </target>
+        <condition>
+            <trace>true</trace>
+            <script>
+                <code>subtype?.startsWith('ROLE:')</code>
+            </script>
+        </condition>
+    </mapping>
+
+</objectTemplate>

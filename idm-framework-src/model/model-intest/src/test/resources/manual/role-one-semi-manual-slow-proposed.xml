@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="ca7fefc6-75ff-11e7-9833-572f6bf86a81"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+    <name>One: Semi Manual Slow Proposed</name>
+    <inducement>
+        <construction>
+            <resourceRef oid="512d749a-75ff-11e7-8176-8be7fb6f4e45" type="ResourceType"/> <!-- Semi Manual slow proposed -->
+            <kind>account</kind>
+            <attribute>
+                <ref>ri:interests</ref>
+                <outbound>
+                    <source> <!-- fake source, just to disable unconditional execution of this normal, originally sourceless mapping - see MID-6443 -->
+                        <path>name</path>
+                    </source>
+                    <expression>
+                        <value>one</value>
+                    </expression>
+                </outbound>
+            </attribute>
+        </construction>
+    </inducement>
+</role>

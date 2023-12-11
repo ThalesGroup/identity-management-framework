@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3" xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <filter>
+        <or>
+            <substring>
+                <path>c:subtype</path>
+                <value>A</value>
+            </substring>
+            <substring>
+                <path>c:subtype</path>
+                <value>B</value>
+                <anchorStart>true</anchorStart>
+            </substring>
+            <substring>
+                <path>c:subtype</path>
+                <value>C</value>
+                <anchorEnd>true</anchorEnd>
+            </substring>
+            <substring>
+                <matching>polyStringOrig</matching>
+                <path>c:name</path>
+                <value>john</value>
+                <anchorStart>true</anchorStart>
+            </substring>
+        </or>
+    </filter>
+</query>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="7d79f012-d861-11e8-b788-07bda6c5bb24">
+    <name>Import: OpenDJ groups resource</name>
+    <taskIdentifier>7d79f012-d861-11e8-b788-07bda6c5bb24</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="10000000-0000-0000-0000-000000000003" type="c:ResourceType"/>
+    <activity>
+        <work>
+            <import>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000003"/>
+                    <kind>entitlement</kind>
+                    <intent>group-org-global</intent>
+                    <objectclass>ri:organizationalUnit</objectclass>
+                </resourceObjects>
+            </import>
+        </work>
+    </activity>
+</task>

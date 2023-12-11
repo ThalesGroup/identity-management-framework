@@ -1,0 +1,1973 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<xsd:schema targetNamespace="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:a="http://prism.evolveum.com/xml/ns/public/annotation-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:mr="http://prism.evolveum.com/xml/ns/public/matching-rule-3"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+        elementFormDefault="qualified"
+        jaxb:extensionBindingPrefixes="xjc"
+        jaxb:version="3.0">
+
+    <xsd:annotation>
+        <xsd:documentation>
+            Parts of the common schema that are related to the correlation process.
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <!-- Don't provide schemaLocation here, as it causes xjc to really contact the URIs (!) -->
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/annotation-3"/>
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/types-3"/>
+
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-core-3" />
+
+    <xsd:complexType name="CorrelationDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of a correlation (e.g. for resource object type).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="correlators" type="tns:CompositeCorrelatorType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Definition of a correlator or correlators to be used.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:since>4.5</a:since>
+                        <a:elaborate>true</a:elaborate>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="thresholds" type="tns:CorrelationConfidenceThresholdsDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Boundary confidence values used to determine the correlation results.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:since>4.6</a:since>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+    <xsd:element name="correlationDefinition" type="tns:CorrelationDefinitionType"/>
+
+    <xsd:complexType name="LegacyCorrelationDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                This type exists just to allow (deprecated) "cases" element in legacy synchronization bean.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:deprecated>true</a:deprecated>
+                <a:deprecatedSince>4.8</a:deprecatedSince>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:CorrelationDefinitionType">
+                <xsd:sequence>
+                    <xsd:element name="cases" type="tns:CorrelationCasesDefinitionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether and how should we create correlation cases.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>4.5</a:since>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="legacyCorrelationDefinition" type="tns:LegacyCorrelationDefinitionType"/>
+
+    <xsd:complexType name="CorrelationCasesDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Legacy definition of whether to create correlation cases.
+                This is now handled by "createCorrelationCase" synchronization action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:deprecated>true</a:deprecated>
+                <a:deprecatedSince>4.8</a:deprecatedSince>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="enabled" type="xsd:boolean" minOccurs="0" default="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Should the system create correlation cases? The default is "true" if this definition is present,
+                        false otherwise.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <!-- the operators + deadlines are defined in resource business definition -->
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+    <xsd:element name="correlationCasesDefinition" type="tns:CorrelationCasesDefinitionType"/>
+
+    <xsd:complexType name="CompositeCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                User-friendly way of defining a correlator or correlators.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:elaborate>true</a:elaborate>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element name="scaling" type="tns:CompositeCorrelatorScalingDefinitionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Scaling to be applied to the results of this correlator.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>4.6</a:since>
+                                <a:displayName>CompositeCorrelatorType.scaling</a:displayName>
+                                <a:displayOrder>70</a:displayOrder>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="extension" type="tns:ExtensionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlators not defined in the static schema. (E.g. dummy correlator used for testing,
+                                or custom correlators.)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="none" type="tns:NoOpCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                "No-op" correlation that always returns "certainly no owner" result.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="items" type="tns:ItemsSubCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlation using a list of matching items.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="filter" type="tns:FilterSubCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlation using a query filter.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="expression" type="tns:ExpressionSubCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlation using a custom expression.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="idMatch" type="tns:IdMatchSubCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlation using ID Match service.
+                                See https://spaces.at.internet2.edu/display/cifer/SOR-Registry+Strawman+ID+Match+API.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="composite" type="tns:CompositeSubCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Correlation using multiple correlators.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="use" type="tns:CorrelationUseType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Determines when the correlation should be used. If not specified, synchronization is assumed.
+
+                                Note: For synchronization, only one correlator makes sense, but for username recovery, many
+                                correlators might be defined.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="compositeCorrelator" type="tns:CompositeCorrelatorType"/>
+
+    <xsd:simpleType name="CorrelationUseType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Describes situations in which the correlator should be activated. E.g. only for synchronization. If not specified,
+                synchronization is assumed.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.8</a:since>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="synchronization">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Correlator is used only during synchronizations.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <jaxb:typesafeEnumMember name="SYNCHRONIZATION"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="identityRecovery">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Correlator is used for identity recovery functionality.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <jaxb:typesafeEnumMember name="IDENTITY_RECOVERY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+           <!-- TODO later add option for progressive profile,...-->
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="AbstractCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of a correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name of the correlator. Should be unique in the given context (object type definition,
+                        resource, or system-wide).
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.name</a:displayName>
+                        <a:displayOrder>10</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns:displayName" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.displayName</a:displayName>
+                        <a:displayOrder>20</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns:description" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.description</a:displayName>
+                        <a:displayOrder>30</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns:documentation" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.documentation</a:displayName>
+                        <a:displayOrder>40</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="confidence" type="tns:CorrelationConfidenceDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Defines how this correlator - if matching - increases the overall confidence of its results.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:since>4.6</a:since>
+                        <a:displayName>AbstractCorrelatorType.confidence</a:displayName>
+                        <a:displayOrder>70</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="enabled" type="xsd:boolean" minOccurs="0" default="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A way how to disable a correlator (either temporarily, or e.g. for sub-types).
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.enabled</a:displayName>
+                        <a:displayOrder>90</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="super" type="tns:SuperCorrelatorReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference to the "super-correlator", serving as a template for this correlator.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.super</a:displayName>
+                        <a:displayOrder>100</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="SuperCorrelatorReferenceType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Reference to a super-correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="ref" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name of the correlator.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="CorrelatorCompositionDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of how the results of the correlator should be integrated in the parent (composite) one.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="tier" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Tier this correlator belongs to. All correlators in a given tier are evaluated together.
+                        Only if they provide no decisive result (i.e. one above "owner" threshold), the next tier is evaluated.
+                        Smaller numbers go first. Entries with no tier number present the last tier.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>CorrelatorCompositionDefinitionType.tier</a:displayName>
+                        <a:displayOrder>10</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="order" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Order in which this correlator is to be evaluated. (Related to other correlators in the given tier.)
+                        Smaller numbers go first. Entries with no order go last.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>CorrelatorCompositionDefinitionType.order</a:displayName>
+                        <a:displayOrder>20</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="weight" type="xsd:double" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        What is the weight of this correlator? The confidence value of the correlator (i.e., a number
+                        between 0 and 1) is multiplied by this weight in order to compute the respective increment
+                        of confidence value.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>CorrelatorCompositionDefinitionType.weight</a:displayName>
+                        <a:displayOrder>70</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ignoreIfMatchedBy" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        If any of these match the candidate that this particular correlator matches as well, the confidence
+                        increment stemming from being matched by this correlator is not applied.
+
+                        E.g. if rule 1 states that matching by both givenName and familyName (at the same time) gives
+                        confidence boost of 0.5, and rule 2 states that matching familyName (without regarding any other item)
+                        gives confidence boost of 0.3, then the rule 2 should be ignored if rule 1 matches; otherwise, any
+                        candidate that matches both on givenName and familyName would get a boost of 0.5 + 0.3 = 0.8.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>AbstractCorrelatorType.ignoreIfMatchedBy</a:displayName>
+                        <a:displayOrder>80</a:displayOrder>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="NoOpCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                "No-op" correlation that always returns "certainly no owner" result.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="noOpCorrelator" type="tns:NoOpCorrelatorType"/>
+
+    <xsd:complexType name="ItemsCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Correlator that compares individual items.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element name="item" type="tns:CorrelationItemType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Item that should be correlated.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="itemsCorrelator" type="tns:ItemsCorrelatorType"/>
+
+    <xsd:complexType name="CorrelationItemType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Item that should be correlated as part of this correlator (i.e., correlation rule).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name by which this definition is referenced. If not present, the last segment of the path
+                        is used to derive the name.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns:description" minOccurs="0"/>
+            <xsd:element ref="tns:documentation" minOccurs="0"/>
+            <xsd:element name="ref" type="t:ItemPathType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A reference to focus item that is being correlated (using its path).
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>CorrelationItemType.ref</a:displayName>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="search" type="tns:ItemSearchDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        How to search for the item values? This overrides any search definition attached to the item.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="itemCorrelation" type="tns:CorrelationItemType"/>
+
+    <xsd:complexType name="FilterCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A correlator that uses a specified filter to find shadow owner.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element name="ownerFilter" type="tns:ConditionalSearchFilterType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <!-- TODO RENAME IF NEEDED -->
+                                <!-- TODO should the focus type be specified here? -->
+                                <p>The filter that should return a list of candidate focus entries that may be owners
+                                    of a particular shadow.</p>
+                                <p>The filter in this case is conditional, i.e. there can be specified an expression
+                                    that denotes a necessary condition for the filter to be applied.</p>
+                                <p>Beware that the list of filters is unordered, so individual filters can be executed
+                                    in arbitrary order. If you want to prescribe specific order, please use multiple
+                                    filter correlators.</p>
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="confirmation" type="c:ExpressionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Confirmation expression. The arguments are an account and a candidate owner (user). The
+                                confirmation expressions should return true if the user should be owner of the account. It
+                                should return false if the user cannot be owner of the account.
+
+                                The evaluation of the confirmation expression may be relatively inefficient, as it will only
+                                be run for candidate entries returned by correlation expression.
+
+                                The expression variables should be set as follows:
+                                $user - the candidate user object (one of the results of correlation expression)
+                                $account - the changed account object
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="useConfirmationForSingleCandidate" type="xsd:boolean" minOccurs="0" default="true">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Should be the confirmation expression used also when there is only a single candidate
+                                found by the filter? (The default is true. This is consistent with midPoint 4.3+ behavior.
+                                Before midPoint 4.3, the default was false.)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="filterCorrelator" type="tns:FilterCorrelatorType"/>
+
+    <xsd:complexType name="ExpressionCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A correlator that uses a specified expression to find shadow owner.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                    <xsd:choice>
+                        <xsd:element name="owner" type="c:ExpressionType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Expression that returns owner as an ObjectType.
+                                    (MAYBE WE WILL REMOVE THIS.)
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="ownerRef" type="c:ExpressionType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Expression that returns owner as an ObjectReferenceType.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:choice>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="expressionCorrelator" type="tns:ExpressionCorrelatorType"/>
+
+    <xsd:complexType name="IdMatchCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Correlation using ID Match service.
+                See https://spaces.at.internet2.edu/display/cifer/SOR-Registry+Strawman+ID+Match+API.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element name="sorLabel" type="xsd:string" minOccurs="0" default="midpoint">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Label for this System of Record. Default is "midpoint".
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="sorIdentifierPrefix" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                First part of the SOR identifier. Used to distinguish between various source systems
+                                with overlapping primary ID spaces.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="sorIdentifierProperty" type="t:ItemPathType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Attribute whose value provides the base of the SOR identifier. Default is the primary
+                                identifier in the shadow.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="url" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                ID Match service URL.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="username" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                User (login) name used to connect to the service.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="password" type="t:ProtectedStringType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Password used to connect to the service.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="followOn" type="tns:CompositeCorrelatorType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                The correlator that is applied to the resolved (or potentially-matching) reference identifier
+                                provided by the ID Match service. It should be the single one (no composition), and must not
+                                return uncertain results: only "existing (single) owner" and "no owner" answers are accepted.
+
+                                REMOVED: Please use "referenceIdProperty" instead.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:removed>true</a:removed>
+                                <a:deprecatedSince>4.6</a:deprecatedSince>
+                                <a:removedSince>4.8</a:removedSince>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="referenceIdProperty" type="t:ItemPathType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Where (in the focus object) the reference ID property should be stored.
+                                The property must be indexed, i.e. searchable for; and it must be loaded by default
+                                (majority of properties are loaded by default; exceptions are e.g. jpegPhoto).
+
+                                Examples: extension/referenceId, employeeNumber.
+
+                                Do not specify any variable like $focus.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>4.6</a:since>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="correlationProperties" type="tns:IdMatchCorrelationPropertiesType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                What properties should be sent to the ID Match service. Default: All pre-focus properties.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>4.6</a:since>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="candidateConfidenceLimit" type="xsd:double" minOccurs="0" default="0.9">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Maximum confidence value that is acceptable for the given candidate.
+                                If the ID Match service provides a higher value, it is cropped to this one.
+                                (The same is true if ID Match provides no value.)
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>4.6</a:since>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="idMatchCorrelator" type="tns:IdMatchCorrelatorType"/>
+
+    <xsd:complexType name="IdMatchCorrelationPropertiesType">
+        <xsd:annotation>
+            <xsd:documentation>
+                What properties should be sent to the ID Match service.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="path" type="t:ItemPathType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Path of the property. It may start with $shadow (or $projection) - then it denotes
+                        the value from the shadow being correlated.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:element name="composition" type="tns:CorrelatorCompositionDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The role of this correlator in the overall composition.
+                Technically, this is a part of the parent (composite) correlator definition.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:displayName>AbstractCorrelatorType.composition</a:displayName> <!-- TODO -->
+                <a:displayOrder>50</a:displayOrder> <!-- TODO -->
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <!-- "Sub-correlators" ... TODO explanation -->
+
+    <xsd:complexType name="ItemsSubCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Composition-enabled items correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ItemsCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:composition" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="FilterSubCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Composition-enabled filter correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:FilterCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:composition" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ExpressionSubCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Composition-enabled expression correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ExpressionCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:composition" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="IdMatchSubCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Composition-enabled ID Match correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:IdMatchCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:composition" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="CompositeSubCorrelatorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Composition-enabled composite correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:CompositeCorrelatorType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:composition" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ShadowCorrelationStateType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Current state of the correlation process.
+
+                This container is reset when a correlation starts, so data from (any) previous correlations
+                are not mixed with the data about the current one.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="correlationStartTimestamp" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        When did the (last) correlation of this shadow start.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="correlationEndTimestamp" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        When did the (last) correlation of this shadow end. The "end" means that the correlation came
+                        to a definite conclusion: it either found an owner or determined that there is none.
+                        (I.e. coming to the state of "disputed" is not considered to be the end of a correlation.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="correlationCaseOpenTimestamp" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        When was the correlation case opened. (If any.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="correlationCaseCloseTimestamp" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        When was the correlation case closed. (If any case is present, and if it was closed.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <!-- The name "performerRef" is used also in work item. Let's stick with this term. -->
+            <xsd:element name="performerRef" type="tns:ObjectReferenceType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference to the user(s) that performed the correlation - if known.
+                        Currently, we include only performers that have provided the same outcome as was the final one.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:UserType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="performerComment" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Comments of the user(s) during the correlation of the data. Note that these comments are in no
+                        particular order, so basically it is not known who entered which comment.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="situation" type="tns:CorrelationSituationType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        What was the resulting situation of the correlation? (uncertain, ownerFound, noOwner)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ownerOptions" type="tns:ResourceObjectOwnerOptionsType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Options for object owner, if any were found. If present, the correlation is not complete.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="resultingOwner" type="tns:ObjectReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The owner as determined by the correlation. Null if the correlation is not yet complete,
+                        or if it concluded that no owner exists.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:FocusType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <!-- We could have a reference to case object here, but this link is maintained on the side of the case
+                 (via case.objectRef). -->
+            <xsd:element name="correlatorState" type="tns:AbstractCorrelatorStateType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        State of the specific correlator that has been used.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:FocusType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ResourceObjectOwnerOptionsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Describes the options for an owner of a resource object.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="option" type="tns:ResourceObjectOwnerOptionType"
+                    minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Options among which (if any) the user should decide. Should be at least two,
+                        otherwise there's nothing to decide. One of the options is "no owner".
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="resourceObjectOwnerOptions" type="tns:ResourceObjectOwnerOptionsType"/>
+
+    <xsd:complexType name="ResourceObjectOwnerOptionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An option when choosing an owner for a resource object.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="identifier" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Identifier of the option. Generated and interpreted by the correlator.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="confidence" type="xsd:double" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A value between 0 and 1. Later we'll convert xsd:double to something like xsd:decimal, after
+                        it will be supported by prism layer.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="candidateOwnerRef" type="tns:ObjectReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The candidate owner. Null if a new owner has to be created.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:FocusType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <!-- Here could come some details provided by the correlator(s).
+             E.g. how the correlator(s) came to the specific confidence value. -->
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+    <xsd:element name="resourceObjectOwnerOption" type="tns:ResourceObjectOwnerOptionType"/>
+
+    <xsd:complexType name="AbstractCorrelatorStateType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Current state of a correlator being used.
+
+                Currently, it is expected that there is exactly one correlator. But, in the future, there might
+                be hierarchical correlators, so this structure may become hierarchical as well.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="correlatorName" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name of the correlator used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="correlatorType" type="xsd:QName" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Type of the correlator used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="IdMatchCorrelatorStateType">
+        <xsd:annotation>
+            <xsd:documentation>
+                State of the process driven by ID Match correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractCorrelatorStateType">
+                <xsd:sequence>
+                    <xsd:element name="referenceId" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Reference ID determined by ID Match (if known).
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="matchRequestId" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Match request ID - present if the match is pending.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="idMatchCorrelationState" type="tns:IdMatchCorrelatorStateType"/>
+
+    <xsd:complexType name="IdMatchAttributesType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Attributes to be sent to the external ID Match service.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:container/>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax">
+            </xsd:any>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+    <xsd:element name="idMatchAttributes" type="tns:IdMatchAttributesType" />
+
+    <xsd:complexType name="CorrelationConfidenceDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Defines the custom confidence value for given correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:choice>
+            <xsd:element name="expression" type="tns:ExpressionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation> <!-- TODO describe the inputs -->
+                        Expression providing the confidence value for the correlator. It should output
+                        a double precision value between 0 and 1, inclusive. If not specified, all candidate
+                        owners provided by the correlator have a confidence of 1.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="CorrelationConfidenceThresholdsDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                These values are used to determine the correlation results.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="definite" type="xsd:double" minOccurs="0" default="1.0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The value of the rescaled confidence (i.e., between 0 and 1) that marks the candidate as "the chosen" one.
+                        The threshold is inclusive.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="candidate" type="xsd:double" minOccurs="0" default="0.0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The value of the rescaled confidence (i.e., between 0 and 1) that marks the candidate as "the considered"
+                        one. Candidates below this value are not returned by the correlator. The threshold is inclusive.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="CompositeCorrelatorScalingDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of scaling for the composite correlator.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="scale" type="xsd:double" minOccurs="0" default="1.0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This value is used to rescale the summed confidence values into the interval of [0,1]:
+                        each confidence value is divided by this number. Any values above the top will be truncated to 1.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemCorrelationDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of correlation-related aspects of a focus item.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="search" type="tns:ItemSearchDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        How to search for the item values? May be overridden in specific correlator
+                        where this item is referenced.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemCorrelatorDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of a single-item correlator for an item (a resource object attribute or a focus item).
+
+                LIMITATION: Currently supported only for resource attributes.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="search" type="tns:ItemSearchDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        How to search for the item values?
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:experimental>true</a:experimental>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="focusItem" type="t:ItemPathType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Item to which this attribute should be correlated to. (To be used only for attributes.
+                        Not necessary if there is a single item bound to that attribute by a suitable inbound mapping.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="MultiSourceItemDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of "multi-source" item.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:QName" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name of this identity item. By default, the last segment of the item path is considered
+                        to be the item name.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="selection" type="tns:ObjectTemplateMappingType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A mapping that takes existing identity data and provides a value for the target item.
+
+                        It has a default strength of `strong`, and a default sources of `identities/identity`
+                        and `identities/defaultAuthoritativeSource`.
+                    </xsd:documentation> <!--  (TODO: ok?) -->
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="MultiSourceDataHandlingType">
+        <xsd:annotation>
+            <xsd:documentation>
+                How should be a multi-source item handled.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="defaultAuthoritativeSource" type="tns:ObjectTemplateMappingType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A mapping that takes existing identity data and provides a value for
+                        `identities/defaultAuthoritativeSource` property.
+
+                        It has a default strength of `strong`, and a default source of `identities/identity`.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FocusIdentitiesType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Alternative identities for a focus.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="identity" type="tns:FocusIdentityType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A single (alternative) identity.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="normalizedData" type="tns:FocusNormalizedDataType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A single (alternative) identity.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="defaultAuthoritativeSource" type="tns:FocusIdentitySourceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Used by the default authoritative source selection and default item value selection mappings:
+
+                        If present, single-valued focus items are populated from the specified source.
+                        (Multivalued items are aggregated.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FocusIdentityType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Alternative identity for a focus.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="source" type="tns:FocusIdentitySourceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Source of the identity data. Conceptually similar to `ProvenanceAcquisitionType`, but there are some
+                        small differences: we are not interested in the timestamp (yet), and we keep more detailed information
+                        for resource objects.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="data" type="tns:FocusType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The data itself.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:embeddedObject>true</a:embeddedObject>
+                        <a:elaborate>true</a:elaborate>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FocusIdentitySourceType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Source of a focus identity.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="originRef" type="tns:ObjectReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Reference to identity origin.
+
+                        _Origin_ is an abstract, high-level representation of data source.
+                        It represents something that the users will understand, such as _human resource data_,
+                        _marketing data broker_ or _self-service user data entry_. Origin is an ordinary midPoint object,
+                        it is expected that _org_ or _service_ will usually be used to represent origin.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="resourceRef" type="tns:ObjectReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The resource on which the object providing the identity resides. (If applicable.)
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:ResourceType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="kind" type="tns:ShadowKindType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Kind of resource object providing the identity. (If applicable.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="intent" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Intent of resource object providing the identity. (If applicable.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="tag" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Tag of shadow of the resource object providing the identity. (If applicable.)
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="shadowRef" type="tns:ObjectReferenceType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The shadow of the resource object that provides the identity. (If applicable.)
+                    </xsd:documentation> <!-- TODO Is this really needed? -->
+                    <xsd:appinfo>
+                        <a:objectReferenceTargetType>tns:ShadowType</a:objectReferenceTargetType>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FocusNormalizedDataType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A single (alternative) identity.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:container/>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax">
+            </xsd:any>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="SystemConfigurationCorrelationType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Global settings related to correlation.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.5</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="correlators" type="tns:CompositeCorrelatorType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Globally-defined correlators.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ObjectTemplateCorrelationType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Object-template-related settings related to correlation.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="correlators" type="tns:CompositeCorrelatorType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Correlator(s) for this object template. Multiple correlators might exist. It is therefore important
+                        to properly set "use" attribute to indicate which correlator should be used for which operation.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemIndexingDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of a custom indexing for an item.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="indexedItemName" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Local item name in the 'indexed items' container.
+                        Usually it can be left unspecified, because by default, the item local name is used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="normalization" type="tns:IndexedItemNormalizationDefinitionType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Set of normalizations that are applied to the given item.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="IndexedItemNormalizationDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of item normalization (for custom indexing).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Name of the index (normalization). It is appended to the item name.
+                        Usually it can be left unspecified, because it is derived from the normalization step(s).
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="default" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Is this the default index (normalization) for the given item?
+                        It is necessary to specify it only if there is more than one normalization defined.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="indexedNormalizedItemName" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Overrides the generated name for the indexed item (original item name + normalization name).
+                        Should not be normally needed.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="steps" type="tns:NormalizationStepsType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        How the indexed value is computed? The default is using system-defined polystring normalization method.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="NormalizationStepsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Steps to be applied during item normalization (for custom indexing).
+
+                Default is "polystring".
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="none" type="tns:NoOpNormalizationStepType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Does no normalization, i.e., keeps the original value intact.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="polyString" type="tns:PolyStringNormalizationStepType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Applies system-defined or custom PolyString normalization.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="prefix" type="tns:PrefixNormalizationStepType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Takes first N characters of the value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="custom" type="tns:CustomNormalizationStepType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Applies a custom expression to the value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="AbstractNormalizationStepType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Common supertype for item normalization steps (for custom indexing).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="order" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Order in which the step is to be applied.
+                        It should be used, because current prism structures (containers) are not guaranteed
+                        to preserve the order of their values.
+                        Steps without value go last.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="documentation" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Technical documentation for this step.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="NoOpNormalizationStepType">
+        <xsd:annotation>
+            <xsd:documentation>
+                "No-op" normalization step (for custom indexing).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractNormalizationStepType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="PolyStringNormalizationStepType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Polystring->string normalization step (for custom indexing).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractNormalizationStepType">
+                <xsd:sequence>
+                    <xsd:element name="configuration" type="t:PolyStringNormalizerConfigurationType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Configuration of PolyString normalizer.
+                                If not specified, the one defined at the system level is used.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="PrefixNormalizationStepType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A normalization step taking only prefix into account (for custom indexing).
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractNormalizationStepType">
+                <xsd:sequence>
+                    <xsd:element name="length" type="xsd:int" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                How many characters to keep.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="CustomNormalizationStepType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Normalization carried out using custom expression.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:experimental>true</a:experimental>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractNormalizationStepType">
+                <xsd:sequence>
+                    <xsd:element name="expression" type="tns:ExpressionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Expression that transforms the value to its normalized form.
+                                Expects `input` as the original value.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemSearchDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Specifies how to search for the item.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="index" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        What index to use when matching this item? If none is specified, then:
+                        If the item is indexed, the default index is used. If it is not, the original value is used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="matchingRule" type="xsd:QName" minOccurs="0" default="mr:default">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            What matching rule to use?
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="fuzzy" type="tns:FuzzySearchDefinitionType" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Specification of the fuzzy search to be used.
+                        </xsd:documentation>
+                        <xsd:appinfo>
+                            <a:displayName>ItemSearchDefinitionType.fuzzy</a:displayName>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element name="confidence" type="tns:ItemSearchConfidenceDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Expression for computing the resulting confidence value. If not specified, value of 1 is assumed.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FuzzySearchDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Specifies the fuzzy search algorithm to use for searching.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="levenshtein" type="tns:LevenshteinDistanceSearchDefinitionType" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Search using Levenshtein edit distance.
+                        </xsd:documentation>
+                        <xsd:appinfo>
+                            <a:displayName>FuzzySearchDefinitionType.levenshtein</a:displayName>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="similarity" type="tns:TrigramSimilaritySearchDefinitionType" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Search using trigram similarity.
+                        </xsd:documentation>
+                        <xsd:appinfo>
+                            <a:displayName>FuzzySearchDefinitionType.similarity</a:displayName>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="LevenshteinDistanceSearchDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Specifies the use of Levenshtein edit distance for searching.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="threshold" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Upper limit on the edit distance to be matched.
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>LevenshteinDistanceSearchDefinitionType.threshold</a:displayName>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="inclusive" type="xsd:boolean" minOccurs="0" default="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Is the value of "threshold" meant to be inclusive?
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:displayName>LevenshteinDistanceSearchDefinitionType.inclusive</a:displayName>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="TrigramSimilaritySearchDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Specifies the use of trigram similarity for searching.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="threshold" type="xsd:float" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Lower limit on the similarity to be matched.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="inclusive" type="xsd:boolean" minOccurs="0" default="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Is the value of "threshold" meant to be inclusive?
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ItemSearchConfidenceDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Defines the custom confidence value for given search item.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.6</a:since>
+                <a:container>true</a:container>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:choice>
+            <xsd:element name="expression" type="tns:ExpressionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Expression providing the confidence value for the correlation item.
+                        Its input (variable named `input`) is a value specific to given matching method,
+                        e.g., Levenshtein edit distance (a non-negative integer) or trigram similarity value
+                        (a decimal number between 0 and 1). Non-fuzzy methods provide the value of 1 there.
+
+                        It should output a double precision value, usually between 0 and 1, inclusive.
+                        Outputs of such expressions are multiplied together, yielding the final confidence
+                        value for the whole match.
+                    </xsd:documentation> <!-- TODO other inputs? -->
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+        <xsd:attribute name="id" type="xsd:long"/>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,65 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="col-12">
+        <div wicket:id="message"/>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label class="col-form-label font-weight-bold">
+                <wicket:message key="ObjectReferenceType.relation"/>
+            </label>
+            <select class="form-control" wicket:id="relation"/>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label class="col-form-label">
+                <wicket:message key="ActivationType.administrativeStatus"/>
+                <span class="text-gray font-weight-light">- <wicket:message key="ShoppingCartEditPanel.optional"/></span>
+            </label>
+            <select class="form-control" wicket:id="administrativeStatus"/>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label class="col-form-label">
+                <wicket:message key="ShoppingCartEditPanel.validity"/>
+                <span class="text-gray font-weight-light">- <wicket:message key="ShoppingCartEditPanel.optional"/></span>
+            </label>
+
+            <div wicket:id="customValidity"/>
+        </div>
+    </div>
+    <wicket:enclosure child="extension">
+        <div class="col-12">
+            <div class="form-group">
+                <label class="col-form-label">
+                    <wicket:message key="AssignmentType.extension"/>
+                    <span class="text-gray font-weight-light">- <wicket:message key="ShoppingCartEditPanel.optional"/></span>
+                </label>
+                <div wicket:id="extension"/>
+            </div>
+        </div>
+    </wicket:enclosure>
+
+    <wicket:fragment wicket:id="buttons">
+        <div class="d-flex flex-wrap gap-2 w-100">
+            <a class="btn btn-success" wicket:id="save">
+                <i class="fa-solid fa-floppy-disk mr-1"></i>
+                <wicket:message key="ShoppingCartEditPanel.saveChanges"/>
+            </a>
+            <a class="btn btn-outline-primary" wicket:id="close">
+                <i class="fa-solid fa-xmark mr-1"></i>
+                <wicket:message key="Button.close"/>
+            </a>
+        </div>
+    </wicket:fragment>
+</wicket:panel>
+</html>

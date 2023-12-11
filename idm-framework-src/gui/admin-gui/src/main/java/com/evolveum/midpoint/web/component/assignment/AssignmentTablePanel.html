@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+
+    <div class="assignments" wicket:id="assignments" about="assignments">
+        <div class="d-flex assignable-header assignments-header">
+
+            <div class="d-flex">
+                <input class="align-self-center mr-2" type="checkbox" wicket:id="assignmentsCheckAll" />
+                <h3><span wicket:id="assignmentsHeader" /></h3>
+            </div>
+            <div class="col-xs-2 cog cog-xs ml-auto" wicket:id="assignmentsMenu" />
+        </div>
+        <hr class="hr mt-1"/>
+
+        <div wicket:id="assignmentList">
+            <div class="card assignment" wicket:id="assignmentEditor"/>
+        </div>
+    </div>
+</wicket:panel>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>midpoint</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>custom</artifactId>
+    <packaging>pom</packaging>
+
+    <name>midPoint Customizations</name>
+
+    <modules>
+        <!-- add submodule here:
+        <module>custom-foo</module>
+        -->
+    </modules>
+
+    <dependencies>
+        <!-- Required for surefire plugin not to complain -->
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>test-ng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- reference failsafe to run integration tests (surefire/units run by default) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

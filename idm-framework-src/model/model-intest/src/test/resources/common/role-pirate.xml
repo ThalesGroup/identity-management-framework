@@ -1,0 +1,160 @@
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="12345678-d34d-b33f-f00d-555555556666"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Pirate</name>
+    <description>Scurvy Pirates</description>
+    <inducement id="1111">
+        <extension>
+            <piracy:sea>The Seven Seas</piracy:sea>
+        </extension>
+        <!-- This role is always assigned to users. Therefore this should not be needed.
+             But, there are some attempts in security tests to assign this role to another role.
+             This attempt fails on gossip attribute mapping not getting fullName. We do not want
+             that failure, we want to check whether security properly denies the operation.
+             Hence the focusType definition. -->
+        <focusType>UserType</focusType>
+        <construction id="60004">
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="c:ResourceType"/>
+            <kind>account</kind>
+            <attribute>
+                <ref>ri:title</ref>
+                <outbound>
+                    <expression>
+                        <value>Bloody Pirate</value>
+                    </expression>
+                </outbound>
+            </attribute>
+            <attribute>
+                <ref>ri:location</ref>
+                <outbound>
+                    <source>
+                        <path>locality</path>
+                    </source>
+                    <condition>
+                        <script>
+                            <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#Groovy</language>
+                            <code>
+                                assert resource != null
+                                locality?.getNorm() != "hidden"
+                            </code>
+                        </script>
+                    </condition>
+                </outbound>
+            </attribute>
+            <attribute>
+                <ref>ri:weapon</ref>
+                <outbound>
+                    <strength>weak</strength>
+                    <expression>
+                        <value>cutlass</value>
+                    </expression>
+                </outbound>
+            </attribute>
+            <attribute>
+                <ref>ri:gossip</ref>
+                <outbound>
+                    <source>
+                        <path>$user/fullName</path>
+                    </source>
+                    <source>
+                        <path>$user/locality</path>
+                    </source>
+                    <expression>
+                        <script>
+                            <code>fullName + ' is the best pirate ' + ( locality == null ? 'the world' : locality ) + ' has ever seen'</code>
+                        </script>
+                    </expression>
+                </outbound>
+            </attribute>
+            <attribute>
+                <ref>ri:sea</ref>
+                <outbound>
+                    <source>
+                        <path>$focus/name</path>
+                    </source>
+                    <source>
+                        <path>$assignment/extension/piracy:sea</path>
+                        <name>magicSea</name>
+                    </source>
+                    <source>
+                        <path>$focusAssignment/extension/piracy:sea</path>
+                        <name>focusSea</name>
+                    </source>
+                    <source>
+                        <path>$immediateAssignment/extension/piracy:sea</path>
+                        <name>immediateSea</name>
+                    </source>
+                    <source>
+                        <path>$immediateRole/extension/piracy:sea</path>
+                        <name>immediateRoleSea</name>
+                    </source>
+                    <source>
+                        <path>$thisAssignment/extension/piracy:sea</path>
+                        <name>thisSea</name>
+                    </source>
+                    <expression>
+                        <script>
+                            <code>name + " sailed " + magicSea + ", immediately " + immediateSea + ", role " + immediateRoleSea + ", with this " + thisSea + " while focused on " + focusSea + " (in "+source.getName()+")"</code>
+                        </script>
+                    </expression>
+                    <condition>
+                        <script>
+                            <code>
+                                assert resource != null
+                                !magicSea?.isAllWhitespace()
+                            </code>
+                        </script>
+                    </condition>
+                </outbound>
+            </attribute>
+        </construction>
+    </inducement>
+    <authorization>
+        <action>http://midpoint.evolveum.com/xml/ns/test/authorization#loot</action>
+        <phase>execution</phase>
+    </authorization>
+    <requestable>true</requestable>
+    <delegable>true</delegable>
+    <adminGuiConfiguration>
+        <homePage>
+            <type>UserType</type>
+            <widget>
+                <identifier>search</identifier>
+                <visibility>automatic</visibility>
+            </widget>
+            <widget>
+                <identifier>myWorkItems</identifier>
+                <visibility>vacant</visibility>
+            </widget>
+        </homePage>
+        <additionalMenuLink>
+            <targetUrl>http://piracy.com/plunder</targetUrl>
+            <label>Plunder</label>
+        </additionalMenuLink>
+        <userDashboardLink>
+            <targetUrl>http://example.com/swashbuckle</targetUrl>
+            <label>Swashbuckle</label>
+        </userDashboardLink>
+        <objectDetails>
+            <objectDetailsPage>
+                <type>UserType</type>
+                <panel>
+                    <identifier>com.piracy.form.PirateUserPanel</identifier>
+                    <panelType>basic</panelType>
+                    <display>
+                        <label>PirateUserPanel</label>
+                    </display>
+                </panel>
+            </objectDetailsPage>
+        </objectDetails>
+    </adminGuiConfiguration>
+</role>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="95bd6a35-ab67-46c9-bda6-51f5bfb070da"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <name>LiveSync Full: Dummy</name>
+
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>suspended</executionState>
+
+    <activity>
+        <work>
+            <liveSynchronization>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000003" />
+                    <kind>account</kind>
+                    <intent>default</intent>
+                    <objectclass>ri:inetOrgPerson</objectclass>
+                </resourceObjects>
+            </liveSynchronization>
+        </work>
+    </activity>
+    <activityState>
+        <activity>
+            <workState xsi:type="LiveSyncWorkStateType">
+                <token xsi:type="xsd:int">3</token> <!-- there are 3 events at the beginning: user1, user2, user3 -->
+            </workState>
+            <persistence>perpetual</persistence>
+        </activity>
+    </activityState>
+</task>

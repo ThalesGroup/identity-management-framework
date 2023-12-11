@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="unit" parallel="none" verbose="1">
+    <test name="Parsing XML with namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="xml"/>
+        <parameter name="namespaces" value="true"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUserPolyString"/> <!-- currently not in other variants -->
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseShadow"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseShadowLegacy"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseCertificationCase"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseMappings"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseMapping"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpressionXsiType"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseApprovalContext"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseMappingConst"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptOutput"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Parsing XML without namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="xml"/>
+        <parameter name="namespaces" value="false"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Parsing JSON with namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="json"/>
+        <parameter name="namespaces" value="true"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Parsing JSON without namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="json"/>
+        <parameter name="namespaces" value="false"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Parsing YAML with namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="yaml"/>
+        <parameter name="namespaces" value="true"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Parsing YAML without namespaces" preserve-order="false" verbose="1">
+        <parameter name="language" value="yaml"/>
+        <parameter name="namespaces" value="false"/>
+        <classes>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseUser"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseResource"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseForm"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseScriptingExpression"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjects"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIteratively"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyFirstTwo"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseObjectsIterativelyWrong"/>
+            <class name="com.evolveum.midpoint.schema.parser.TestParseSystemConfiguration"/>
+        </classes>
+    </test>
+    <test name="Other" preserve-order="false" verbose="1">
+        <classes>
+            <class name="com.evolveum.midpoint.schema.TestDiffEquals"/>
+            <class name="com.evolveum.midpoint.schema.TestSchemaSanity"/>
+            <class name="com.evolveum.midpoint.schema.TestParseTask"/>
+            <class name="com.evolveum.midpoint.schema.TestParseLookupTable"/>
+            <class name="com.evolveum.midpoint.schema.TestParseTaskBulkAction"/>
+            <class name="com.evolveum.midpoint.schema.TestParseTaskBulkAction2"/>
+            <class name="com.evolveum.midpoint.schema.TestParseGenericObject"/>
+            <class name="com.evolveum.midpoint.schema.TestParseObjectTemplate"/>
+            <class name="com.evolveum.midpoint.schema.TestParsePasswordPolicy"/>
+            <class name="com.evolveum.midpoint.schema.path.ItemPathCanonicalizationTest"/>
+            <class name="com.evolveum.midpoint.schema.processor.TestResourceSchema"/>
+            <class name="com.evolveum.midpoint.schema.processor.SchemaProcessorTest"/>
+            <class name="com.evolveum.midpoint.schema.util.XsdTypeConverterTest"/>
+            <class name="com.evolveum.midpoint.schema.TestSchemaRegistry"/>
+            <class name="com.evolveum.midpoint.schema.TestJaxbParsing"/>
+            <class name="com.evolveum.midpoint.schema.TestObjectConstruction"/>
+            <class name="com.evolveum.midpoint.schema.TestJaxbConstruction"/>
+            <class name="com.evolveum.midpoint.schema.TestParseDiffPatch"/>
+            <class name="com.evolveum.midpoint.schema.TestDeltaConverter"/>
+            <class name="com.evolveum.midpoint.schema.TestQueryConverter"/>
+            <class name="com.evolveum.midpoint.schema.TestDynamicSchema"/>
+            <class name="com.evolveum.midpoint.schema.TestSchemaDelta"/>
+            <class name="com.evolveum.midpoint.schema.TestJavaSerialization"/>
+            <class name="com.evolveum.midpoint.schema.TestPrismSerialization"/>
+            <class name="com.evolveum.midpoint.schema.TestOperationResult"/>
+            <class name="com.evolveum.midpoint.schema.TestEmptyItems"/>
+            <class name="com.evolveum.midpoint.schema.TestMiscellaneous"/>
+            <class name="com.evolveum.midpoint.schema.TestParseMisc"/>
+            <class name="com.evolveum.midpoint.schema.validator.TestObjectValidator"/>
+            <class name="com.evolveum.midpoint.schema.validator.processor.TestUpgradeProcessors"/>
+            <class name="com.evolveum.midpoint.schema.TestSchemaImmutability"/>
+            <class name="com.evolveum.midpoint.schema.TestParseFilter"/>
+            <class name="com.evolveum.midpoint.schema.TestFilterSimplifier"/>
+            <class name="com.evolveum.midpoint.schema.simulations.TestSimulationMetricComputations"/>
+            <class name="com.evolveum.midpoint.schema.TestConfigErrorReporter"/>
+            <class name="com.evolveum.midpoint.schema.validator.processor.TestUpgradeProcessors"/>
+            <class name="com.evolveum.midpoint.schema.merger.TestMerger"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="91919191-76e0-59e2-86d6-3d4f02d30000">
+    <name>Reconciliation: OpenDJ</name>
+    <taskIdentifier>91919191-76e0-59e2-86d6-3d4f02d30000</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="ef2bc95b-76e0-59e2-86d6-3d4f02d3ffff" type="ResourceType"/>
+    <binding>tight</binding>
+    <activity>
+        <work>
+            <reconciliation>
+                <resourceObjects>
+                    <resourceRef oid="ef2bc95b-76e0-59e2-86d6-3d4f02d3ffff"/>
+                    <kind>account</kind>
+                    <intent>internal</intent>
+                    <objectclass>ri:inetOrgPerson</objectclass>
+                </resourceObjects>
+            </reconciliation>
+        </work>
+    </activity>
+</task>

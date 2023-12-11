@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+        <span wicket:id="label"/>
+        <span wicket:id="required" style="color: #f00; font-weight: bold;" wicket:message="title:prismPropertyPanel.required">*</span>
+        <wicket:enclosure child="help">
+            <span class="btn btn-tool">
+                <i wicket:id="help"/>
+            </span>
+        </wicket:enclosure>
+        <wicket:enclosure child="deprecated">
+            <span class="btn btn-tool">
+                <i wicket:id="deprecated"/>
+            </span>
+        </wicket:enclosure>
+        <wicket:enclosure child="experimental">
+            <span class="btn btn-tool">
+                <i wicket:id="experimental"/>
+            </span>
+        </wicket:enclosure>
+
+        <wicket:child/>
+
+        <button wicket:id="add" class="btn btn-tool text-primary" trigger="hover">
+            <i class="fa fa-plus-circle pr-1"></i>
+            <wicket:message key="VerticalFormItemHeaderPanel.addValue"/>
+        </button>
+
+        <button wicket:id="remove" class="btn btn-tool text-danger" trigger="hover">
+            <i class="fa fa-eraser pr-1"></i>
+            <wicket:message key="VerticalFormItemHeaderPanel.removeAll"/>
+        </button>
+</wicket:panel>
+</html>

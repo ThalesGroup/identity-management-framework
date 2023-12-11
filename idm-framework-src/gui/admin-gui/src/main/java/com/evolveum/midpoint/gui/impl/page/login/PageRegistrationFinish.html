@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2013 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <div wicket:id="successPanel" class="d-flex">
+        <i class="fa fa-check-circle fa-2x text-success justify-content-center"></i>
+        <h3 wicket:id="successLabel"/>
+    </div>
+    <div wicket:id="errorPanel" class="d-flex">
+        <i class="fa fa-times-circle fa-2x text-error"></i>
+        <h3 class="center" wicket:id="errorLabel"/>
+    </div>
+</wicket:extend>
+</body>
+</html>

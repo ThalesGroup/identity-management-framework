@@ -1,0 +1,62 @@
+MidPoint Identity Manager
+Copyright 2010-2023 Evolveum
+
+This project is dual-licensed under Apache License 2.0
+and European Union Public License. See LICENSE file for details.
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+This product includes portions created by Sun Microsystems
+and other parties distributed under the terms of
+Common Development and Distribution License (CDDL):
+http://opensource.org/licenses/CDDL-1.0
+Please see the headers of individual source files for more
+details.
+
+This product includes the jQuery JavaScript Library.
+Copyright (c) 2012 jQuery Foundation and other contributors,
+jQuery is dually licensed under the MIT and GPL licenses, and
+is included in this software distribution under the MIT license.
+For details, see the jQuery web site: http://jquery.com/
+
+This product includes DejaVu fonts.
+Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved.
+Bitstream Vera is a trademark of Bitstream, Inc.
+For details, see http://dejavu-fonts.org
+and http://dejavu-fonts.org/wiki/License
+
+This product includes Panzoom library,
+Copyright 2016-2019 Timmy Willison.
+Panzoom is distributed under the terms of MIT license.
+Please see https://github.com/timmywil/panzoom for details.
+
+This product includes Perfect Scrollbar library,
+Copyright (c) 2012-2019 Hyunje Jun, MDBootstrap.com and other contributors.
+Perfect Scrollbar is distributed under the terms of MIT license.
+Please see https://github.com/mdbootstrap/perfect-scrollbar for details.
+
+This product includes Raphaël library,
+Copyright © 2008-2012 Dmitry Baranovskiy, Copyright © 2008-2012 Sencha Labs.
+Raphaël is distributed under the terms of MIT license.
+Please see http://raphaeljs.com/ for details.
+
+This product includes Treant-js library,
+(c) 2013 Fran Peručić.
+Treant-js is distributed under the terms of MIT license.
+Please see http://fperucic.github.io/treant-js for details.
+
+This product includes AdminLTE template
+Copyright (c) 2014-2016 Abdullah Almsaeed
+AdminLTE is distributed under the terms of The MIT License
+
+This product includes software developed at
+Python Software Foundation (https://www.python.org/).
+
+This software contains unmodified binary redistributions for
+H2 database engine (http://www.h2database.com/),
+which is dual licensed and available under the MPL 2.0
+(Mozilla Public License) or under the EPL 1.0 (Eclipse Public License).
+An original copy of the license agreement can be found at:
+http://www.h2database.com/html/license.html
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="10000000-0000-0000-5656-565674633311"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+
+    <name>Jack's Mock Task</name>
+
+    <taskIdentifier>10000000-0000-0000-5656-565674633301</taskIdentifier>
+    <ownerRef oid="c0c010c0-d34d-b33f-f00d-111111111111"/>
+    <executionState>runnable</executionState>
+    <binding>tight</binding>
+    <schedule>
+        <interval>1</interval>
+    </schedule>
+
+    <activity>
+        <work>
+            <noOp/>
+        </work>
+    </activity>
+</task>

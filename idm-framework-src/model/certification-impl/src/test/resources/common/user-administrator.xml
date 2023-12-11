@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user oid="00000000-0000-0000-0000-000000000002" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:org="http://midpoint.evolveum.com/xml/ns/public/common/org-3">
+    <name>administrator</name>
+    <parentOrgRef oid="00000000-8888-6666-0000-300000000000" type="c:OrgType"/>
+    <fullName>midPoint Administrator</fullName>
+    <givenName>midPoint</givenName>
+    <familyName>Administrator</familyName>
+    <emailAddress>administrator@evolveum.com</emailAddress>
+    <assignment id="1">
+        <targetRef oid="00000000-0000-0000-0000-000000000004" type="c:RoleType"/>       <!-- Superuser -->
+    </assignment>
+    <assignment id="2">
+        <targetRef oid="00000000-d34d-b33f-f00d-000000000002" type="c:RoleType"/>       <!-- COO -->
+    </assignment>
+    <assignment id="3">
+        <targetRef oid="00000000-d34d-b33f-f00d-000000000001" type="c:RoleType"/>       <!-- CEO -->
+    </assignment>
+    <assignment id="4">
+        <targetRef oid="00000000-8888-6666-0000-300000000000" type="c:OrgType"/>        <!-- ERoot -->
+    </assignment>
+    <assignment id="5">
+        <targetRef oid="00000000-d34d-b33f-f00d-000000000002" type="c:RoleType" relation="org:owner"/>   <!-- COO -->
+    </assignment>
+</user>

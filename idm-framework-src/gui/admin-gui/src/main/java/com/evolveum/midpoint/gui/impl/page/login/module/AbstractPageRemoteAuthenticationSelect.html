@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2013 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <div wicket:id="providers" class="col-md-12 pt-3">
+        <a wicket:id="provider" class="p-3 mb-2 card tile-panel selectable btn text-left"/>
+    </div>
+    <div class="pull-right">
+        <form method="post" wicket:id="logoutForm">
+
+            <div wicket:id="csrfField"/>
+
+            <button type="submit" class="m-auto btn btn-link nav-link" wicket:message="title:PageBase.logout">
+                <i class="fas fa-power-off"></i>
+                <span class="pl-2">
+                    <wicket:message key="PageBase.logout"/>
+                </span>
+            </button>
+        </form>
+    </div>
+</wicket:extend>
+
+</body>
+</html>

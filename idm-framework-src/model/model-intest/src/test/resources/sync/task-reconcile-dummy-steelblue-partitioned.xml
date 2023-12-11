@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="0e1f67e2-45b3-4fd9-b193-e1a5fea1d315"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <name>Reconcile: Dummy SteelBlue</name>
+
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+
+    <activity>
+        <work>
+            <reconciliation>
+                <resourceObjects>
+                    <resourceRef oid="8d97261a-ef5e-4199-9700-670577441c7f" />
+                    <kind>account</kind>
+                    <intent>default</intent>
+                    <objectclass>ri:AccountObjectClass</objectclass>
+                </resourceObjects>
+            </reconciliation>
+        </work>
+        <distribution>
+            <subtasks/>
+        </distribution>
+        <reporting>
+            <reports>
+                <buckets/>
+                <items/>
+                <connIdOperations/>
+                <internalOperations/>
+            </reports>
+        </reporting>
+        <tailoring>
+            <change>
+                <reference>resourceObjects</reference>
+                <distribution>
+                    <buckets>
+                        <explicitSegmentation>
+                            <discriminator>attributes/name</discriminator>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00000</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00001</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00002</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00003</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00004</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00005</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00006</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00007</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00008</prefix>
+                            </content>
+                            <content xsi:type="StringPrefixWorkBucketContentType">
+                                <prefix>user00009</prefix>
+                            </content>
+                        </explicitSegmentation>
+                    </buckets>
+                    <workers>
+                        <workersPerNode>
+                            <count>10</count>
+                        </workersPerNode>
+                    </workers>
+                </distribution>
+            </change>
+        </tailoring>
+    </activity>
+</task>

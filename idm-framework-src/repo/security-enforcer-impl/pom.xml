@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>repo</artifactId>
+        <groupId>com.evolveum.midpoint.repo</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>security-enforcer-impl</artifactId>
+    <packaging>jar</packaging>
+
+    <name>midPoint Security Enforcer - impl</name>
+
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.axiom</groupId>
+            <artifactId>axiom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>schema</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>security-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>security-enforcer-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>task-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+</project>

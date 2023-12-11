@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="c8cfe559-3888-4b39-b835-3aead9a46581"
+      xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:ext="http://midpoint.evolveum.com/xml/ns/public/model/extension-3"
+      xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+      xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <name>Recompute: Roles Multinode</name>
+
+    <taskIdentifier>c8cfe559-3888-4b39-b835-3aead9a46581</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+
+    <activity>
+        <work>
+            <recomputation>
+                <objects>
+                    <type>RoleType</type>
+                    <query>
+                        <q:filter>
+                            <q:substring>
+                                <q:path>name</q:path>
+                                <q:value>ry</q:value>
+                                <q:anchorStart>true</q:anchorStart>
+                            </q:substring>
+                        </q:filter>
+                    </query>
+                </objects>
+            </recomputation>
+        </work>
+        <distribution>
+            <buckets>
+                <stringSegmentation>
+                    <discriminator>name</discriminator>
+                    <boundary>
+                        <position>1</position>
+                        <characters>r</characters>
+                    </boundary>
+                    <boundary>
+                        <position>2</position>
+                        <characters>y</characters>
+                    </boundary>
+                    <boundary>
+                        <position>3</position>
+                        <position>4</position>
+                        <characters>0-9</characters>
+                    </boundary>
+                    <comparisonMethod>prefix</comparisonMethod>
+                </stringSegmentation>
+            </buckets>
+            <workers>
+                <workersPerNode>
+                    <count>2</count>
+                </workersPerNode>
+            </workers>
+            <workerThreads>2</workerThreads>
+        </distribution>
+    </activity>
+</task>

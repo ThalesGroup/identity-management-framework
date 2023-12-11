@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2013 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <form wicket:id="mainForm" class="form-horizontal">
+        <div wicket:id="operationsPanel">
+            <fieldset wicket:id="main">
+                <a class="btn btn-sm btn-default" wicket:id="backButton"/>
+                <a class="btn btn-sm btn-primary" wicket:id="saveButton"/>
+            </fieldset>
+            <fieldset class="flex-wrap gap-3" wicket:id="options">
+                <div wicket:id="encrypt"/>
+                <div wicket:id="validateSchema"/>
+                <div wicket:id="saveAsRaw"/>
+                <div wicket:id="reevaluateSearchFilters"/>
+                <div wicket:id="switchToPlainText"/>
+            </fieldset>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div wicket:id="viewButtonPanel"/>
+            </div>
+            <div class="card-body p-0">
+                <textarea wicket:id="aceEditor"></textarea>
+                <textarea class="text-area" wicket:id="plainTextarea"/>
+            </div>
+        </div>
+    </form>
+</wicket:extend>
+</body>
+</html>

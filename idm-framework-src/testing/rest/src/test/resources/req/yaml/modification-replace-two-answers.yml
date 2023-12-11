@@ -1,0 +1,22 @@
+#
+# Copyright (c) 2010-2020 Evolveum and contributors
+#
+# This work is dual-licensed under the Apache License 2.0
+# and European Union Public License. See LICENSE file for details.
+#
+---
+'@ns': "http://midpoint.evolveum.com/xml/ns/public/common/api-types-3"
+objectModification:
+  itemDelta:
+    '@ns': "http://prism.evolveum.com/xml/ns/public/types-3"
+    modificationType: "replace"
+    path: "credentials/securityQuestions/questionAnswer"
+    value:
+       - '@ns': "http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+         questionIdentifier: "http://midpoint.evolveum.com/xml/ns/public/security/question-2#q001"
+         questionAnswer:
+           clearValue: "yet another answer"
+       - '@ns': "http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+         questionIdentifier: "http://midpoint.evolveum.com/xml/ns/public/security/question-2#q002"
+         questionAnswer:
+           clearValue: "42"

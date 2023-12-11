@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<objectTemplate oid="c0c010c0-d34d-b33f-f00d-00000000f004"
+                xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+                xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+                xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3">
+
+    <name>User template for users imported from HR</name>
+
+    <mapping>
+        <name>Volatile Target Assignment</name>
+        <expression>
+            <value>
+                <construction>
+                    <resourceRef oid="10000000-0000-0000-0000-00000000f104"/>
+                </construction>
+            </value>
+        </expression>
+        <target>
+            <path>assignment</path>
+        </target>
+    </mapping>
+
+</objectTemplate>

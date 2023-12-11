@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="12345678-d34d-b33f-f00d-55555555cccc"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+    <name>Captain</name>
+    <!-- This role is NOT delegable -->
+    <inducement>
+        <focusMappings>
+            <mapping>
+                <expression>
+                    <value>G001</value> <!-- Same CC as defined in user-template-complex -->
+                </expression>
+                <target>
+                    <path>costCenter</path>
+                </target>
+            </mapping>
+        </focusMappings>
+    </inducement>
+    <authorization>
+        <action>http://midpoint.evolveum.com/xml/ns/test/authorization#command</action>
+    </authorization>
+</role>

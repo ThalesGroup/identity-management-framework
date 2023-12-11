@@ -1,0 +1,50 @@
+<!--
+  ~ Copyright (c) 2014 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="10000000-0000-0000-0000-000000001603"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Landluber</name>
+    <inducement>
+        <construction>
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="c:ResourceType"/>
+            <kind>account</kind>
+            <association>
+                <ref>ri:group</ref>
+                <outbound>
+                    <source>
+                        <path>$configuration/name</path>
+                    </source>
+                    <expression>
+                        <associationTargetSearch>
+                            <filter>
+                                <q:equal>
+                                    <q:path>declare namespace icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3";
+                                        attributes/icfs:name</q:path>
+                                    <expression>    <!-- expression is here only to test MID-2372 -->
+                                        <script>
+                                            <code>
+                                                log.info('config object name = {}', configuration.name)
+                                                log.info('config object name 2 = {}', name)
+                                                log.info('actor = {}', actor)
+                                                'landlubers'
+                                            </code>
+                                        </script>
+                                    </expression>
+                                </q:equal>
+                            </filter>
+                        </associationTargetSearch>
+                    </expression>
+                </outbound>
+            </association>
+        </construction>
+    </inducement>
+</role>

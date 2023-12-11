@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="eba4a816-2a05-11e9-9123-03a2334b9b4c">
+    <name>Live Sync: OpenDJ</name>
+    <taskIdentifier>eba4a816-2a05-11e9-9123-03a2334b9b4c</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="10000000-0000-0000-0000-000000000003" type="c:ResourceType"/>
+    <binding>tight</binding>
+    <schedule>
+        <interval>1</interval>
+    </schedule>
+    <activity>
+        <work>
+            <liveSynchronization>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000003"/>
+                    <objectclass>ri:inetOrgPerson</objectclass>
+                </resourceObjects>
+            </liveSynchronization>
+        </work>
+    </activity>
+</task>

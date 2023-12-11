@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="0f19ae56-050f-4a6d-b407-25a6cf49297d"
+      xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3">
+
+    <name>Recompute 16 buckets, 4 workers</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <recomputation>
+                <objects>
+                    <type>UserType</type>
+                    <query>
+                        <q:filter>
+                            <q:substring>
+                                <q:path>name</q:path>
+                                <q:value>user-</q:value>
+                                <q:anchorStart>true</q:anchorStart>
+                            </q:substring>
+                        </q:filter>
+                    </query>
+                </objects>
+            </recomputation>
+        </work>
+        <distribution>
+            <buckets>
+                <oidSegmentation>
+                    <depth>1</depth>
+                </oidSegmentation>
+                <allocation>
+                    <workAllocationInitialDelay>0</workAllocationInitialDelay>
+                </allocation>
+            </buckets>
+            <workers>
+                <workersPerNode>
+                    <count>4</count>
+                </workersPerNode>
+            </workers>
+        </distribution>
+        <reporting>
+            <logging>
+                <bucketCompletion>full</bucketCompletion>
+            </logging>
+        </reporting>
+    </activity>
+</task>

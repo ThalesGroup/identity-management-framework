@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.evolveum.midpoint.tools</groupId>
+        <artifactId>tools</artifactId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>ninja</artifactId>
+    <packaging>jar</packaging>
+
+    <name>midPoint Tools - Ninja</name>
+
+    <properties>
+        <midpoint.version>${project.version}</midpoint.version>
+
+        <main.class>com.evolveum.midpoint.ninja.Main</main.class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-api</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>task-api</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>schema</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>common</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-sqlbase</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-sql-impl</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-sqale</artifactId>
+            <version>${midpoint.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint</groupId>
+            <artifactId>midpoint-localization</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-cache</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>audit-log-impl</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>system-init</artifactId>
+            <version>${midpoint.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.opensaml</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio-jvm</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- LOGGING -->
+
+        <!-- TEST DEPENDENCIES -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Required for surefire plugin not to complain -->
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.beust</groupId>
+                    <artifactId>jcommander</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>test-ng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>task-quartz-impl</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-test-util</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>security-impl</artifactId>
+            <version>${midpoint.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>ninja</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <includes>
+                    <include>version</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <excludes>
+                    <exclude>version</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <layout>ZIP</layout>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

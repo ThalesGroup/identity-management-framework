@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="unit" parallel="none">
+<listeners>
+        <listener class-name="com.evolveum.midpoint.tools.testng.AlphabeticalMethodInterceptor"/>
+    </listeners>
+
+    <test name="Story" parallel="none" verbose="10" enabled="true">
+        <classes>
+            <class name="com.evolveum.midpoint.testing.story.TestOrgSync"/>
+<!--            <class name="com.evolveum.midpoint.testing.story.TestVillage"/>-->      <!-- temporarily disabled -->
+            <class name="com.evolveum.midpoint.testing.story.TestScience"/>
+            <class name="com.evolveum.midpoint.testing.story.TestUniversity"/>
+            <class name="com.evolveum.midpoint.testing.story.TestUnix"/>
+            <class name="com.evolveum.midpoint.testing.story.TestUnixTolerantAux"/>
+            <class name="com.evolveum.midpoint.testing.story.uuid.TestUuidClient"/>
+            <class name="com.evolveum.midpoint.testing.story.uuid.TestUuidExtension"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.TestLdapVirtualGroup"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.TestLdapDependency"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.TestLdapSyncMassive"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.TestLdapComplex"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.TestLdapMutilated"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.hierarchy.TestLdapFlat"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.hierarchy.TestLdapNested"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.hierarchy.TestLdapHierarchical"/>
+            <class name="com.evolveum.midpoint.testing.story.ldap.hierarchy.TestLdapDeeplyHierarchical"/>
+            <class name="com.evolveum.midpoint.testing.story.TestRetirement"/>
+            <class name="com.evolveum.midpoint.testing.story.TestNullAttribute"/>
+            <class name="com.evolveum.midpoint.testing.story.TestMachineIntelligence"/>
+<!--            <class name="com.evolveum.midpoint.testing.story.TestEntertainment"/>-->        <!-- temporarily disabled -->
+            <class name="com.evolveum.midpoint.testing.story.TestStrings"/>
+            <class name="com.evolveum.midpoint.testing.story.TestDependencyRename"/>
+            <class name="com.evolveum.midpoint.testing.story.TestPlentyOfAssignments"/>
+            <class name="com.evolveum.midpoint.testing.story.notorious.TestNotoriousRole"/>
+            <class name="com.evolveum.midpoint.testing.story.notorious.TestNotoriousOrg"/>
+            <class name="com.evolveum.midpoint.testing.story.TestDelivery"/>
+            <class name="com.evolveum.midpoint.testing.story.TestMapleLeaf"/>
+            <class name="com.evolveum.midpoint.testing.story.TestNormalizers"/>
+            <class name="com.evolveum.midpoint.testing.story.TestOperationPerf"/>
+            <class name="com.evolveum.midpoint.testing.story.TestReconNullValue"/>
+            <class name="com.evolveum.midpoint.testing.story.TestExistentialIssues"/>
+            <class name="com.evolveum.midpoint.testing.story.TestServiceAccounts"/>
+            <class name="com.evolveum.midpoint.testing.story.TestLimitedResources"/>
+          <!--MID-3353 -->
+            <class name="com.evolveum.midpoint.testing.story.consistency.TestConsistencyMechanism"/>
+            <class name="com.evolveum.midpoint.testing.story.consistency.TestConsistencyReaper"/>
+            <class name="com.evolveum.midpoint.testing.story.TestDelayedEnable"/>
+            <class name="com.evolveum.midpoint.testing.story.TestMisbehavingResources"/>
+            <class name="com.evolveum.midpoint.testing.story.TestInboundOutboundAssociation"/>
+            <class name="com.evolveum.midpoint.testing.story.TestFirstSteps"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryReconSimulate"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryReconSimulateMultithreaded"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryReconExecute"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryReconExecuteMultithreaded"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryReconExecuteMultinode"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryLiveSyncSimulate"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryLiveSyncSimulateMultithreaded"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryLiveSyncExecute"/>
+            <class name="com.evolveum.midpoint.testing.story.TestThresholdsStoryLiveSyncExecuteMultithreaded"/>
+            <class name="com.evolveum.midpoint.testing.story.TestMappingMadness"/>
+            <class name="com.evolveum.midpoint.testing.story.TestConfiguredCapabilitiesActivation"/>
+            <class name="com.evolveum.midpoint.testing.story.TestImportGroups"/>
+            <class name="com.evolveum.midpoint.testing.story.security.TestPrivacy"/>
+            <class name="com.evolveum.midpoint.testing.story.security.TestRoleMembers"/>
+            <class name="com.evolveum.midpoint.testing.story.TestPhotoAssignment"/>
+            <class name="com.evolveum.midpoint.testing.story.grouper.TestGrouperAsyncUpdate"/>
+            <class name="com.evolveum.midpoint.testing.story.TestWriter"/>
+            <class name="com.evolveum.midpoint.testing.story.TestResourceInMaintenance"/>
+            <class name="com.evolveum.midpoint.testing.story.TestOrphanedTasks"/>
+            <class name="com.evolveum.midpoint.testing.story.async.TestAsyncProvisioning"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestIdMatchCorrelationSimpleDummy"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestIdMatchCorrelationMediumDummy"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestIdMatchCorrelationMultiAccountsDummy"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationSimple"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationSimpleSimplified"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium"/>
+            <class name="com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMultiAccounts"/>
+            <class name="com.evolveum.midpoint.testing.story.TestVeryAuthoritativeSource"/>
+            <class name="com.evolveum.midpoint.testing.story.TestInducement"/>
+            <class name="com.evolveum.midpoint.testing.story.TestTrustedBulkActions"/>
+        </classes>
+    </test>
+</suite>

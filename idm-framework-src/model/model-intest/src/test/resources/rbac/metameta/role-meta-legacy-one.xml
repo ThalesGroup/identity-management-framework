@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- This is a meta-role. A Role indented to be assigned to other roles.
+     I really mean assigned, not included or induced. -->
+
+<role oid="e902b8d8-bd68-11e7-a98c-f7b5a9a28d97"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>metaone</name>
+
+    <assignment>
+        <targetRef oid="7c1c759c-bd68-11e7-ae5e-276b40bf04e6" type="RoleType"/> <!-- Legacy metameta role -->
+    </assignment>
+
+</role>

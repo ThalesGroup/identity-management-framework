@@ -1,0 +1,89 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<objectTemplate xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+                xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+                xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+                xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+                oid="10000000-0000-0000-0000-000000000231">
+   <name>Object Template ORG</name>
+   <mapping>
+      <name>Org Metarole assignment</name>
+      <authoritative>true</authoritative>
+      <source>
+         <c:path>subtype</c:path>
+      </source>
+      <expression>
+         <assignmentTargetSearch>
+            <targetType>RoleType</targetType>
+            <filter>
+               <q:equal>
+                  <q:path>name</q:path>
+                  <q:value>Metarole ORG</q:value>
+               </q:equal>
+            </filter>
+         </assignmentTargetSearch>
+      </expression>
+      <target>
+         <c:path>assignment</c:path>
+      </target>
+      <condition>
+         <script>
+            <code>
+               subtype == 'functional'
+            </code>
+         </script>
+      </condition>
+   </mapping>
+   <mapping>
+      <name>Parent Org assignment</name>
+      <authoritative>true</authoritative>
+      <source>
+         <c:path>name</c:path>
+      </source>
+      <source>
+         <c:path>extension/orgpath</c:path>
+      </source>
+      <source>
+         <c:path>subtype</c:path>
+      </source>
+      <expression>
+         <assignmentTargetSearch>
+            <targetType>OrgType</targetType>
+            <filter>
+               <q:equal>
+                  <q:path>name</q:path>
+                  <expression>
+                     <script>
+                        <code>
+                           parent = null
+                           if (orgpath?.tokenize(':')?.size() &gt; 0) parent = orgpath?.tokenize(':')[-1]
+                           if (parent == null) {
+                              return "TOP";
+                           }
+                           else {
+                              return parent;
+                           }
+                        </code>
+                     </script>
+                  </expression>
+               </q:equal>
+            </filter>
+         </assignmentTargetSearch>
+      </expression>
+      <target>
+         <c:path>assignment</c:path>
+      </target>
+      <condition>
+         <script>
+            <code>subtype == 'functional' &amp;&amp; name != 'TOP'</code>
+         </script>
+      </condition>
+   </mapping>
+</objectTemplate>

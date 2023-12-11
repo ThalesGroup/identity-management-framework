@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user oid="c0c010c0-d34d-b33f-f00d-111111111111"
+        xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'>
+
+    <name>jack</name>
+    <description>Where's the rum?</description>
+    <fullName>Jack Sparrow</fullName>
+    <givenName>Jack</givenName>
+    <familyName>Sparrow</familyName>
+    <additionalName>Jackie</additionalName>
+    <honorificPrefix>Cpt.</honorificPrefix>
+    <honorificSuffix>PhD.</honorificSuffix>
+    <emailAddress>jack.sparrow@evolveum.com</emailAddress>
+    <telephoneNumber>555-1234</telephoneNumber>
+    <employeeNumber>emp1234</employeeNumber>
+    <subtype>CAPTAIN</subtype>
+    <locality>Caribbean</locality>
+
+    <credentials>
+        <password>
+            <!-- Simple value. No metadata. -->
+            <value>
+                <clearValue>deadmentellnotales</clearValue>
+            </value>
+        </password>
+    </credentials>
+
+    <activation>
+        <administrativeStatus>enabled</administrativeStatus>
+    </activation>
+</user>

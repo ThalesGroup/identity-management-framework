@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (c) 2014 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- This is a meta-role. A Role indented to be assigned to other roles.
+     I really mean assigned, not included or induced. -->
+
+<role oid="ab33ec1e-0c0b-11e4-ba88-001e8c717e5b"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Project Orgstruct Metarole</name>
+
+    <inducement>
+        <construction>
+            <!-- OpenDJ resource -->
+            <resourceRef oid="10000000-0000-0000-0000-000000000003" type="c:ResourceType"/>
+            <kind>generic</kind>
+            <intent>projOu</intent>
+        </construction>
+    </inducement>
+
+    <inducement>
+        <construction>
+            <!-- OpenDJ resource -->
+            <resourceRef oid="10000000-0000-0000-0000-000000000003" type="c:ResourceType"/>
+            <kind>entitlement</kind>
+            <intent>projAdmGroup</intent>
+        </construction>
+    </inducement>
+
+</role>

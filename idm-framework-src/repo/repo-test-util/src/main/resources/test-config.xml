@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<configuration>
+    <midpoint>
+        <global>
+            <extensionDir>./src/test/resources/schema</extensionDir>
+        </global>
+        <repository>
+            <repositoryServiceFactoryClass>com.evolveum.midpoint.repo.sql.testing.TestSqlRepositoryFactory</repositoryServiceFactoryClass>
+            <port>5438</port>
+            <asServer>true</asServer>
+            <dropIfExists>true</dropIfExists>
+            <!-- this is here for custom column creation in audit, audit uses default repo conf -->
+            <createMissingCustomColumns>true</createMissingCustomColumns>
+
+            <performanceStatisticsLevel>10</performanceStatisticsLevel>
+            <performanceStatisticsFile>./target/performance.log</performanceStatisticsFile>
+        </repository>
+        <workflow>
+            <enabled>true</enabled>
+        </workflow>
+        <audit>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.audit.impl.LoggerAuditServiceFactory</auditServiceFactoryClass>
+            </auditService>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.repo.sql.SqlAuditServiceFactory</auditServiceFactoryClass>
+                <!-- Needed for model-intest where these properties are used. -->
+                <customColumn>
+                    <columnName>foo</columnName>
+                    <eventRecordPropertyName>foo</eventRecordPropertyName>
+                </customColumn>
+                <customColumn>
+                    <columnName>ship</columnName>
+                    <eventRecordPropertyName>ship</eventRecordPropertyName>
+                </customColumn>
+            </auditService>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.test.DummyAuditServiceFactory</auditServiceFactoryClass>
+            </auditService>
+        </audit>
+        <taskManager>
+            <jdbcJobStore>false</jdbcJobStore>
+            <waitingTasksCheckInterval>5</waitingTasksCheckInterval>
+            <testMode>true</testMode>
+            <useThreadInterrupt>whenNecessary</useThreadInterrupt> <!-- needed for task manager tests -->
+            <threads>50</threads> <!-- some performance tests use this -->
+        </taskManager>
+        <icf>
+            <scanClasspath>true</scanClasspath>
+            <scanDirectory>${midpoint.home}/connid-connectors</scanDirectory>
+        </icf>
+        <keystore>
+            <keyStorePath>${midpoint.home}/keystore.jceks</keyStorePath>
+            <keyStorePassword>changeit</keyStorePassword>
+            <encryptionKeyAlias>default</encryptionKeyAlias>
+        </keystore>
+        <constants>
+            <useless>xUSEless</useless>
+            <drink>rum</drink>
+            <blabla>Bla bla bla</blabla>
+            <baseDn>dc=example,dc=com</baseDn>
+            <passwordClear>secret</passwordClear>
+            <adBaseDn>DC=ad,DC=evolveum,DC=com</adBaseDn>
+            <adUsersDn>CN=Users,DC=ad,DC=evolveum,DC=com</adUsersDn>
+            <ad2012BaseDn>DC=ad2012,DC=lab,DC=evolveum,DC=com</ad2012BaseDn>
+            <ad2012UsersDn>CN=Users,DC=ad2012,DC=lab,DC=evolveum,DC=com</ad2012UsersDn>
+            <ad2019BaseDn>DC=ad2019,DC=lab,DC=evolveum,DC=com</ad2019BaseDn>
+            <ad2019UsersDn>CN=Users,DC=ad2019,DC=lab,DC=evolveum,DC=com</ad2019UsersDn>
+            <ad2016BaseDn>DC=ad2016,DC=lab,DC=evolveum,DC=com</ad2016BaseDn>
+            <ad2016UsersDn>CN=Users,DC=ad2016,DC=lab,DC=evolveum,DC=com</ad2016UsersDn>
+            <ad2022BaseDn>DC=ad2022,DC=lab,DC=evolveum,DC=com</ad2022BaseDn>
+            <ad2022UsersDn>CN=Users,DC=ad2022,DC=lab,DC=evolveum,DC=com</ad2022UsersDn>
+        </constants>
+    </midpoint>
+</configuration>

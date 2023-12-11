@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3"
+       xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+       xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <filter>
+        <and>
+            <exists>
+                <path>..</path>
+                <filter>
+                    <or>
+                        <inOid>
+                            <value>123456</value>
+                        </inOid>
+                        <ref>
+                            <path>c:ownerRef</path>
+                            <value xsi:type="t:ObjectReferenceType" oid="1234567890" type="c:UserType" />
+                        </ref>
+                    </or>
+                </filter>
+            </exists>
+            <exists>
+                <path>workItem</path>
+                <filter>
+                    <equal>
+                        <path>stageNumber</path>
+                        <value>3</value>
+                    </equal>
+                </filter>
+            </exists>
+        </and>
+    </filter>
+</query>

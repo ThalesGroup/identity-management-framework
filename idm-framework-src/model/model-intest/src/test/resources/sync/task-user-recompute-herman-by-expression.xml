@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        oid="91919191-76e0-59e2-86d6-3d4f02d3aadd">
+    <name>User Recompute: Herman (by expression)</name>
+    <assignment>
+        <targetRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    </assignment>
+    <archetypeRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    <roleMembershipRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    <!-- No task identifier. It will be generated during import -->
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <recomputation>
+                <objects>
+                    <type>UserType</type>
+                    <query>
+                        <q:filter>
+                            <q:equal>
+                                <q:path>name</q:path>
+                                <expression>
+                                    <script>
+                                        <code>
+                                            'herman'
+                                        </code>
+                                    </script>
+                                </expression>
+                            </q:equal>
+                        </q:filter>
+                    </query>
+                </objects>
+            </recomputation>
+        </work>
+    </activity>
+</task>

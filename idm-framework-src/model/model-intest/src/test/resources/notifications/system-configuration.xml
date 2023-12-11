@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<systemConfiguration oid="00000000-0000-0000-0000-000000000001" version="0"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <name>SystemConfiguration</name>
+    <logging>
+        <rootLoggerAppender>File Appender</rootLoggerAppender>
+        <rootLoggerLevel>INFO</rootLoggerLevel>
+        <classLogger>
+            <level>TRACE</level>
+            <package>com.evolveum.midpoint.common.LoggingConfigurationManager</package>
+        </classLogger>
+        <c:classLogger>
+            <c:level>TRACE</c:level>
+            <c:package>com.evolveum.midpoint.notifications</c:package>
+        </c:classLogger>
+        <appender xsi:type="c:FileAppenderConfigurationType" name="File Appender" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <pattern>%date [%thread] %-5level \(%logger{46}\): %message%n</pattern>
+            <fileName>target/test.log</fileName>
+            <append>true</append>
+        </appender>
+    </logging>
+    <notificationConfiguration>
+        <handler>
+            <accountPasswordNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <bodyExpression>
+                    <script>
+                        <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#velocity</language>
+                        <code>Password for account $event.shadowName on $event.resourceName is: $event.plaintextPassword</code>
+                    </script>
+                </bodyExpression>
+                <transport>dummy:accountPasswordNotifier</transport>
+            </accountPasswordNotifier>
+        </handler>
+        <handler>
+            <userPasswordNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:userPasswordNotifier</transport>
+            </userPasswordNotifier>
+        </handler>
+        <handler>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <status>failure</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-FAILURE</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <status>inProgress</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-IN-PROGRESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <operation>add</operation>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <bodyExpression>
+                    <script>
+                        <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#velocity</language>
+                        <!-- @formatter:off -->
+                        <code>Notification about account-related operation
+
+#if ($event.requesteeObject)Owner: $!event.requesteeDisplayName ($event.requesteeName, oid $event.requesteeOid)#end
+
+Resource: $!event.resourceName (oid $event.resourceOid)
+
+An account has been successfully created on the resource with attributes:
+$event.contentAsFormattedList
+Channel: $!event.channel</code>
+                        <!-- @formatter:on -->
+                    </script>
+                </bodyExpression>
+                <transport>dummy:simpleAccountNotifier-ADD-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <operation>delete</operation>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <bodyExpression>
+                    <script>
+                        <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#velocity</language>
+                        <!-- @formatter:off -->
+                        <code>Notification about account-related operation
+
+#if ($event.requesteeObject)Owner: $!event.requesteeDisplayName ($event.requesteeName, oid $event.requesteeOid)#end
+
+Resource: $event.resourceName (oid $event.resourceOid)
+Account: $!event.shadowName
+
+The account has been successfully removed from the resource.
+
+Channel: $!event.channel</code>
+                        <!-- @formatter:on -->
+                    </script>
+                </bodyExpression>
+
+                <transport>dummy:simpleAccountNotifier-DELETE-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <bodyExpression>
+                    <script>
+                        <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#velocity</language>
+                        <!-- @formatter:off -->
+                        <code>Notification about ${event.focusTypeName.toLowerCase()}-related operation (status: $event.statusAsText)
+
+$event.focusTypeName: $event.requesteeDisplayName ($event.requesteeName, oid $event.requesteeOid)
+
+#if ($event.add)The ${event.focusTypeName.toLowerCase()} record was created with the following data:
+$event.contentAsFormattedList
+#elseif ($event.modify)The ${event.focusTypeName.toLowerCase()} record was modified. Modified attributes are:
+$event.contentAsFormattedList
+#elseif ($event.delete)The ${event.focusTypeName.toLowerCase()} record was deleted.
+#end
+Channel: $!event.channel</code>
+                    </script>
+                </bodyExpression>
+                <transport>dummy:simpleUserNotifier</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <simpleFocalObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <expressionFilter>
+                    <script>
+                        <code>import com.evolveum.midpoint.xml.ns._public.common.common_3.RoleType
+
+                        event.requesteeIs(RoleType.class)</code>
+                    </script>
+                </expressionFilter>
+                <transport>dummy:simpleRoleNotifier</transport>
+            </simpleFocalObjectNotifier>
+        </handler>
+        <handler>
+            <operation>add</operation>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-ADD</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <operation>delete</operation>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-DELETE</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <status>failure</status>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-FAILURE</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'get'
+                    </code>
+                </script>
+            </expressionFilter>
+            <customNotifier>
+                <expression>
+                    <script>
+                        <code>
+                            import com.evolveum.midpoint.xml.ns._public.common.common_3.*
+
+                            m = new NotificationMessageType()
+                            m.setFrom("+421999000999")
+                            m.getTo().add("+421905123456")
+                            m.setBody(String.valueOf(event.object))
+                            log.info('prismContext = {}', prismContext)
+                            log.info('localizationService = {}', localizationService)
+                            m
+                        </code>
+                    </script>
+                </expression>
+                <transport>sms:with-get</transport>
+            </customNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'get-via-proxy'
+                    </code>
+                </script>
+            </expressionFilter>
+            <customNotifier>
+                <expression>
+                    <script>
+                        <code>
+                            import com.evolveum.midpoint.xml.ns._public.common.common_3.*
+
+                            m = new NotificationMessageType()
+                            m.setFrom("+421999000999")
+                            m.getTo().add("+421905123456")
+                            m.setBody(String.valueOf(event.object))
+                            m
+                        </code>
+                    </script>
+                </expression>
+                <transport>sms:with-get-via-proxy</transport>
+            </customNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'post'
+                    </code>
+                </script>
+            </expressionFilter>
+            <customNotifier>
+                <expression>
+                    <script>
+                        <code>
+                            import com.evolveum.midpoint.xml.ns._public.common.common_3.*
+
+                            m = new NotificationMessageType()
+                            m.setFrom("+421999000999")
+                            m.getTo().add("+421905123456")
+                            m.setBody(String.valueOf(event.object))
+                            m
+                        </code>
+                    </script>
+                </expression>
+                <transport>sms:with-post</transport>
+            </customNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'general-post'
+                    </code>
+                </script>
+            </expressionFilter>
+            <generalNotifier>
+                <fromExpression>
+                    <value>from</value>
+                </fromExpression>
+                <recipientExpression>
+                    <value>+123</value>
+                    <value>+456</value>
+                    <value>+789</value>
+                </recipientExpression>
+                <bodyExpression>
+                    <value>body</value>
+                </bodyExpression>
+                <transport>sms:with-post-multi</transport>
+            </generalNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'check-variables'
+                    </code>
+                </script>
+            </expressionFilter>
+            <customNotifier>
+                <expression>
+                    <script>
+                        <code>
+                            import com.evolveum.midpoint.xml.ns._public.common.common_3.*
+
+                            if (notificationFunctions != null &amp;&amp;
+                                    textFormatter != null &amp;&amp;
+                                    configuration != null) {
+                                body = "variables ok"
+                            } else {
+                                body = "variables NOT ok"       // very probably we got an exception instead of getting here
+                            }
+                            m = new NotificationMessageType()
+                            m.setBody(body)
+                            m
+                        </code>
+                    </script>
+                </expression>
+                <transport>dummy:check-variables</transport>
+            </customNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <expressionFilter>
+                    <script>
+                        <code>
+                            basic.stringify(requestee?.name) == 'testStringAttachmentUser'
+                        </code>
+                    </script>
+                </expressionFilter>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <attachment>
+                    <contentType>text/plain</contentType>
+                    <content xsi:type="xsd:string">Hello world</content>
+                    <fileName>plain.txt</fileName>
+                </attachment>
+                <transport>dummy:string-attachment</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <expressionFilter>
+                    <script>
+                        <code>
+                            basic.stringify(requestee?.name) == 'testByteAttachmentUser'
+                        </code>
+                    </script>
+                </expressionFilter>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <attachment>
+                    <contentType>image/jpeg</contentType>
+                    <content xsi:type="xsd:base64Binary">/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAFAAUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDg/hn471A6fqljY22i28kWq3V9NPNayTNcG6fzlU4lU/uwfLBJOVVeFxyUUV5OXcXZxSw8YU8RJLXRW6tt9O55nEnhZwnicxqVsRgKcpPlu2m3pFJat9Ekl5H/2Q==</content>
+                    <fileName>alf.jpg</fileName>
+                </attachment>
+                <transport>dummy:byte-attachment</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <expressionFilter>
+                    <script>
+                        <code>
+                            basic.stringify(requestee?.name) == 'testAttachmentFromFileUser'
+                        </code>
+                    </script>
+                </expressionFilter>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <attachment>
+                    <contentType>image/png</contentType>
+                    <contentFromFile>/home/user/example.png</contentFromFile>
+                    <fileName>alf.png</fileName>
+                </attachment>
+                <transport>dummy:attachment-from-file</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <expressionFilter>
+                    <script>
+                        <code>
+                            basic.stringify(requestee?.name) == 'testExpressionAttachmentUser'
+                        </code>
+                    </script>
+                </expressionFilter>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <attachmentExpression>
+                    <script>
+                        <code>
+                            import com.evolveum.midpoint.xml.ns._public.common.common_3.NotificationMessageAttachmentType;
+
+                            NotificationMessageAttachmentType attachment = new NotificationMessageAttachmentType();
+                            attachment.setContentType("text/html");
+                            attachment.setContent("&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;");
+                            attachment.setFileName("hello_world.html");
+                            return attachment;
+                        </code>
+                    </script>
+                </attachmentExpression>
+                <transport>dummy:expression-attachment</transport>
+            </simpleUserNotifier>
+        </handler>
+    </notificationConfiguration>
+    <messageTransportConfiguration>
+        <mail>
+            <redirectToFile>target/mail-notifications.log</redirectToFile>
+        </mail>
+        <sms>
+            <name>sms:with-get</name>
+            <gateway>
+                <urlExpression>
+                    <script>
+                        <!-- $$port$$ is replaced by actual port on test class initialization -->
+                        <!-- @formatter:off -->
+                        <code>"http://127.0.0.1:$$port$$/send?number=" + encodedTo + "&amp;text=" + encodedMessageText</code>
+                        <!-- @formatter:on -->
+                    </script>
+                </urlExpression>
+                <logToFile>target/sms.log</logToFile>
+            </gateway>
+        </sms>
+        <sms>
+            <name>sms:with-get-via-proxy</name>
+            <gateway>
+                <urlExpression>
+                    <script>
+                        <!-- $$port$$ is replaced by actual port on test class initialization -->
+                        <!-- @formatter:off -->
+                        <code>"http://127.0.0.1:$$port$$/send?number=" + encodedTo + "&amp;text=" + encodedMessageText</code>
+                        <!-- @formatter:on -->
+                    </script>
+                </urlExpression>
+                <proxyHost>127.0.0.1</proxyHost>
+                <proxyPort>$$port$$</proxyPort>
+                <proxyUsername>a9038321</proxyUsername>
+                <proxyPassword>5ecr3t</proxyPassword>
+                <logToFile>target/sms.log</logToFile>
+            </gateway>
+        </sms>
+        <sms>
+            <name>sms:with-post</name>
+            <gateway>
+                <method>post</method>
+                <urlExpression>
+                    <!-- $$port$$ is replaced by actual port on test class initialization -->
+                    <value>http://127.0.0.1:$$port$$/send</value>
+                </urlExpression>
+                <headersExpression>
+                    <value>Content-Type: application/x-www-form-urlencoded</value>
+                    <value>X-Custom: test</value>
+                </headersExpression>
+                <bodyExpression>
+                    <script>
+                        <code>"Body=\"$encodedMessageText\"&amp;To=$encodedTo&amp;From=$encodedFrom".toString()</code>
+                    </script>
+                </bodyExpression>
+                <username>a9038321</username>
+                <password>5ecr3t</password>
+                <logToFile>target/sms.log</logToFile>
+            </gateway>
+        </sms>
+        <sms>
+            <name>sms:with-post-multi</name>
+            <gateway>
+                <method>post</method>
+                <urlExpression>
+                    <!-- $$port$$ is replaced by actual port on test class initialization -->
+                    <value>http://127.0.0.1:$$port$$/send</value>
+                </urlExpression>
+                <headersExpression>
+                    <value>Content-Type: application/x-www-form-urlencoded</value>
+                    <value>X-Custom: test</value>
+                </headersExpression>
+                <bodyExpression>
+                    <script>
+                        <code>"Body=\"$encodedMessageText\"&amp;To=$encodedToList&amp;From=$encodedFrom".toString()</code>
+                    </script>
+                </bodyExpression>
+                <username>a9038321</username>
+                <password>5ecr3t</password>
+                <logToFile>target/sms.log</logToFile>
+            </gateway>
+        </sms>
+    </messageTransportConfiguration>
+</systemConfiguration>

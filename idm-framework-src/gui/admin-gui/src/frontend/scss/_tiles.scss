@@ -1,0 +1,123 @@
+/*
+ * Copyright (c) 2022 Evolveum and contributors
+ *
+ * This work is dual-licensed under the Apache License 2.0
+ * and European Union Public License. See LICENSE file for details.
+ */
+
+/*
+ * Contains all styles for all kinds of tile panels
+ */
+
+@mixin tile {
+  border: 2px solid $white;
+  border-radius: $border-radius;
+  background-color: $white;
+  @include smooth-transition(0.1s);
+
+  &.selectable {
+    @include selectable-tile();
+  }
+
+  &.simple-tile > i {
+      font-size: 2.625rem;
+  }
+
+  &.simple-tile.vertical > i {
+      font-size: 1.3rem;
+      line-height: 1.5;
+      width: 1.625rem;
+      text-align: center;
+      margin-right: 0.65rem;
+  }
+}
+
+@mixin selectable-tile {
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid $primary;
+    border-radius: $border-radius;
+    @include smooth-transition(0.1s);
+  }
+
+  &.active {
+    border: 2px solid $primary;
+    border-radius: $border-radius;
+    background-color: mix($white, $primary, 85%);
+    @include smooth-transition(0.1s);
+  }
+}
+
+@mixin tile-dark-mode {
+  border-color: $secondary-alt;
+  background-color: lighten($dark, 7.5%) !important;
+  color: $white !important;
+  @include smooth-transition(0.1s);
+
+  &.selectable {
+    @include selectable-tile-dark-mode();
+  }
+}
+
+@mixin selectable-tile-dark-mode {
+  &:hover {
+    border-color: $gray-400;
+    @include smooth-transition(0.1s);
+  }
+
+  &.active {
+    border-color: $primary-alt;
+    background-color: rgba($primary-alt, 15%);
+    @include smooth-transition(0.1s);
+  }
+}
+
+.tile-panel {
+  @include tile();
+}
+
+@include dark-mode() {
+  .tile-panel {
+    @include tile-dark-mode();
+  }
+}
+
+.catalog-tile-panel {
+  @include tile();
+
+  & > .logo {
+    min-width: 84px;
+    width: 84px;
+    height: 84px;
+    min-height: 84px;
+    border-radius: 108px;
+    background-color: rgba(60, 141, 188, 0.1);
+  }
+
+  & > .rounded-icon {
+    position: relative;
+    top: -20px;
+    left: 32px;
+    margin-bottom: -20px;
+
+    &.rounded-icon-none {
+      margin-bottom: 0;
+    }
+  }
+
+  & > .tile-description {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+  }
+}
+
+@include dark-mode() {
+  .catalog-tile-panel.selectable {
+    @include tile-dark-mode();
+  }
+}

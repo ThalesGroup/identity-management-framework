@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>midpoint</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <groupId>com.evolveum.midpoint.model</groupId>
+    <artifactId>model</artifactId>
+    <packaging>pom</packaging>
+
+    <name>midPoint Model</name>
+
+    <modules>
+        <module>model-api</module>
+        <module>model-common</module>
+        <module>model-test</module>
+        <module>model-impl</module>
+        <module>model-intest</module>
+        <module>workflow-api</module>
+        <module>workflow-impl</module>
+        <module>cases-api</module>
+        <module>cases-impl</module>
+        <module>notifications-api</module>
+        <module>notifications-impl</module>
+        <module>report-api</module>
+        <module>report-impl</module>
+        <module>certification-api</module>
+        <module>certification-impl</module>
+        <module>authentication-api</module>
+        <module>authentication-impl</module>
+        <!-- TODO separate rest-api after PoC is finished -->
+        <module>rest-impl</module>
+    </modules>
+</project>

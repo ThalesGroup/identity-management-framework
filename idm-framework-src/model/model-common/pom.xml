@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>model</artifactId>
+        <groupId>com.evolveum.midpoint.model</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>model-common</artifactId>
+    <packaging>jar</packaging>
+
+    <name>midPoint Model - common</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>schema</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.model</groupId>
+            <artifactId>model-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>task-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>security-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <!--
+        Python is optional, must be provided in ${midpoint.home}/lib if desired.
+        For more see: https://docs.evolveum.com/midpoint/reference/expressions/expressions/script/python/
+        -->
+        <dependency>
+            <groupId>org.python</groupId>
+            <artifactId>jython-standalone</artifactId>
+            <version>2.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <type>pom</type>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Testing dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>test-util</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>test-ng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.repo</groupId>
+            <artifactId>repo-test-util</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+        JavaScript/ECMAScript is optional in JDK 15+.
+        If desired the JAR from this dependency can be provided in ${midpoint.home}/lib.
+        For more see: https://docs.evolveum.com/midpoint/reference/expressions/expressions/script/javascript/
+        -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- For JavaScript test dependency only, that's why it's not in main POM. -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- This one is needed by GUI too, so midPoint brings it in. -->
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <!-- The rest must be provided in midpoint.home manually if we want JavaScript/ECMAScript. -->
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-commons</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-tree</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

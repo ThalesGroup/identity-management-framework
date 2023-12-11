@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<systemConfiguration oid="00000000-0000-0000-0000-000000000001"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>SystemConfiguration</name>
+    <roleManagement>
+        <autoassignEnabled>true</autoassignEnabled>
+    </roleManagement>
+    <expressions>
+        <expressionProfile>
+            <identifier>restricted</identifier>
+            <description>
+                THIS EXPRESSION PROFILE IS PROVIDED ONLY FOR THE TESTS.
+                DO NOT USE FOR OTHER PURPOSES THAN THIS TEST.
+            </description>
+            <decision>deny</decision>
+            <evaluator>
+                <type>asIs</type>
+                <decision>allow</decision>
+            </evaluator>
+            <evaluator>
+                <type>path</type>
+                <decision>allow</decision>
+            </evaluator>
+            <evaluator>
+                <type>value</type>
+                <decision>allow</decision>
+            </evaluator>
+            <evaluator>
+                <type>const</type>
+                <decision>allow</decision>
+            </evaluator>
+            <evaluator>
+                <type>script</type>
+                <decision>deny</decision>
+                <script>
+                    <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#Groovy</language>
+                    <decision>allow</decision>
+                    <typeChecking>true</typeChecking>
+                    <permissionProfile>script-restricted</permissionProfile>
+                </script>
+            </evaluator>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>trusted</identifier>
+            <decision>allow</decision>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>empty</identifier>
+            <decision>deny</decision>
+            <bulkActionsProfile>empty</bulkActionsProfile>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>no-privilege-elevation</identifier>
+            <decision>allow</decision>
+            <privilegeElevation>deny</privilegeElevation>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>little-trusted</identifier>
+            <documentation>Trusts but only so that a "simpleTrustedFunction" is allowed to be run.</documentation>
+            <decision>deny</decision> <!-- no expressions except for specified ones -->
+            <evaluator>
+                <type>function</type>
+                <decision>allow</decision>
+            </evaluator>
+            <functionLibrariesProfile>little-trusted</functionLibrariesProfile>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>little-trusted-variant</identifier>
+            <documentation>Trusts but only so that a "anotherTrustedFunction" is allowed to be run.</documentation>
+            <decision>deny</decision> <!-- no expressions except for specified ones -->
+            <evaluator>
+                <type>function</type>
+                <decision>allow</decision>
+            </evaluator>
+            <functionLibrariesProfile>little-trusted-variant</functionLibrariesProfile>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>little-trusted-variant-two</identifier>
+            <documentation>Trusts but only so that functions from library `two` are allowed to be run.</documentation>
+            <decision>deny</decision> <!-- no expressions except for specified ones -->
+            <evaluator>
+                <type>function</type>
+                <decision>allow</decision>
+            </evaluator>
+            <functionLibrariesProfile>little-trusted-variant-two</functionLibrariesProfile>
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>forbidden-generate-value-action</identifier>
+            <documentation>Allows all bulk actions except for `generate-value`.</documentation>
+            <decision>allow</decision> <!-- all expression evaluators -->
+            <bulkActionsProfile>forbidden-generate-value-action</bulkActionsProfile>
+            <!-- all function libraries -->
+        </expressionProfile>
+        <expressionProfile>
+            <identifier>forbidden-generate-value-action-alt</identifier>
+            <documentation>Allows all bulk actions except for `generateValue` (alternative).</documentation>
+            <decision>allow</decision> <!-- all expression evaluators -->
+            <bulkActionsProfile>forbidden-generate-value-action-alt</bulkActionsProfile>
+            <!-- all function libraries -->
+        </expressionProfile>
+        <permissionProfile>
+            <identifier>script-restricted</identifier>
+            <decision>deny</decision>
+            <package>
+                <name>com.evolveum.midpoint.xml.ns._public.common.common_3</name>
+                <description>MidPoint common schema - generated bean classes</description>
+                <decision>allow</decision>
+            </package>
+            <package>
+                <name>com.evolveum.prism.xml.ns._public.types_3</name>
+                <description>Prism schema - bean classes</description>
+                <decision>allow</decision>
+            </package>
+            <class>
+                <name>java.lang.Integer</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.lang.Object</name>
+                <description>Basic Java operations.</description>
+                <decision>deny</decision>
+                <method>
+                    <name>equals</name>
+                    <decision>allow</decision>
+                </method>
+                <method>
+                    <name>hashCode</name>
+                    <decision>allow</decision>
+                </method>
+            </class>
+            <class>
+                <name>java.lang.String</name>
+                <description>String operations are generally safe. But Groovy is adding execute() method which is very dangerous.</description>
+                <decision>allow</decision>
+                <method>
+                    <name>execute</name>
+                    <decision>deny</decision>
+                </method>
+            </class>
+            <class>
+                <name>java.lang.CharSequence</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.lang.Enum</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.util.List</name>
+                <description>List operations are generally safe. But Groovy is adding execute() method which is very dangerous.</description>
+                <decision>allow</decision>
+                <method>
+                    <name>execute</name>
+                    <decision>deny</decision>
+                </method>
+            </class>
+            <class>
+                <name>java.util.ArrayList</name>
+                <description>List operations are generally safe. But Groovy is adding execute() method which is very dangerous.</description>
+                <decision>allow</decision>
+                <method>
+                    <name>execute</name>
+                    <decision>deny</decision>
+                </method>
+            </class>
+            <class>
+                <name>java.util.Map</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.util.HashMap</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.util.Date</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>javax.xml.namespace.QName</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>javax.xml.datatype.XMLGregorianCalendar</name>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.lang.System</name>
+                <description>Just a few methods of System are safe enough.</description>
+                <decision>deny</decision>
+                <method>
+                    <name>currentTimeMillis</name>
+                    <decision>allow</decision>
+                </method>
+            </class>
+            <class>
+                <name>java.lang.IllegalStateException</name>
+                <description>Basic Java exception.</description>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>java.lang.IllegalArgumentException</name>
+                <description>Basic Java exception.</description>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>com.evolveum.midpoint.model.common.expression.functions.BasicExpressionFunctions</name>
+                <description>MidPoint basic functions library</description>
+                <decision>allow</decision>
+            </class>
+            <class>
+                <name>com.evolveum.midpoint.model.common.expression.functions.LogExpressionFunctions</name>
+                <description>MidPoint logging functions library</description>
+                <decision>allow</decision>
+            </class>
+        </permissionProfile>
+        <bulkActionsProfile>
+            <identifier>empty</identifier>
+            <decision>deny</decision>
+        </bulkActionsProfile>
+        <bulkActionsProfile>
+            <identifier>restricted</identifier>
+            <description>
+                THIS EXPRESSION PROFILE IS PROVIDED ONLY FOR THE TESTS.
+                DO NOT USE FOR OTHER PURPOSES THAN THIS TEST.
+            </description>
+            <decision>deny</decision>
+            <action>
+                <name>expression</name>
+                <decision>allow</decision>
+            </action>
+        </bulkActionsProfile>
+        <bulkActionsProfile>
+            <identifier>forbidden-generate-value-action</identifier>
+            <decision>allow</decision>
+            <action>
+                <name>generate-value</name>
+                <decision>deny</decision>
+            </action>
+        </bulkActionsProfile>
+        <bulkActionsProfile>
+            <identifier>forbidden-generate-value-action-alt</identifier>
+            <decision>allow</decision>
+            <action>
+                <name>generateValue</name>
+                <decision>deny</decision>
+            </action>
+        </bulkActionsProfile>
+        <functionLibrariesProfile>
+            <identifier>little-trusted</identifier>
+            <decision>deny</decision>
+            <library>
+                <ref oid="8752dce7-432a-48ad-aa10-1d4deb31dcba"/>
+                <decision>deny</decision>
+                <function>
+                    <name>simpleTrustedFunction</name>
+                    <decision>allow</decision>
+                </function>
+            </library>
+        </functionLibrariesProfile>
+        <functionLibrariesProfile>
+            <identifier>little-trusted-variant</identifier>
+            <decision>deny</decision>
+            <library>
+                <ref oid="8752dce7-432a-48ad-aa10-1d4deb31dcba"/>
+                <decision>deny</decision>
+                <function>
+                    <name>anotherTrustedFunction</name>
+                    <decision>allow</decision>
+                </function>
+            </library>
+        </functionLibrariesProfile>
+        <functionLibrariesProfile>
+            <identifier>little-trusted-variant-two</identifier>
+            <decision>deny</decision>
+            <library>
+                <ref oid="f28e0119-5dfe-4e6f-92d7-3a1ad5b1cc91"/>
+                <decision>allow</decision>
+            </library>
+        </functionLibrariesProfile>
+    </expressions>
+</systemConfiguration>

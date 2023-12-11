@@ -1,0 +1,146 @@
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<objectTemplate
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        oid="297208c0-7928-49e7-8990-131a20fc2dd8">
+    <name>object-template-user</name>
+    <iterationSpecification>
+        <maxIterations>9999</maxIterations>
+    </iterationSpecification>
+    <item>
+        <ref>givenName</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>familyName</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>extension/dateOfBirth</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>extension/nationalId</ref>
+        <multiSource/>
+    </item>
+    <mapping>
+        <strength>strong</strength>
+        <source>
+            <path>givenName</path>
+        </source>
+        <source>
+            <path>familyName</path>
+        </source>
+        <expression>
+            <script>
+                <code>
+                    basic.stringify(givenName) + ' ' + basic.stringify(familyName)
+                </code>
+            </script>
+        </expression>
+        <target>
+            <path>fullName</path>
+        </target>
+    </mapping>
+    <mapping>
+        <strength>weak</strength>
+        <source>
+            <path>familyName</path>
+        </source>
+        <expression>
+            <script>
+                <code>
+                    basic.stringify(familyName).toLowerCase() + (iteration + 1)
+                </code>
+            </script>
+        </expression>
+        <target>
+            <path>name</path>
+        </target>
+    </mapping>
+    <multiSource>
+        <defaultAuthoritativeSource>
+            <expression>
+                <script>
+                    <code>
+                        import com.evolveum.midpoint.util.MiscUtil
+
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_EXTERNAL
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_HR
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_SIS
+
+                        // The order of authoritativeness is: SIS, HR, external
+
+                        if (identity == null) {
+                            return null
+                        }
+
+                        def sources = identity
+                                .collect { it.source }
+                                .findAll { it != null }
+
+                        def sis = sources.find { it.resourceRef?.oid == RESOURCE_SIS.oid }
+                        def hr = sources.find { it.resourceRef?.oid == RESOURCE_HR.oid }
+                        def external = sources.find { it.resourceRef?.oid == RESOURCE_EXTERNAL.oid }
+
+                        MiscUtil.getFirstNonNull(sis, hr, external)
+                    </code>
+                </script>
+            </expression>
+        </defaultAuthoritativeSource>
+    </multiSource>
+    <correlation>
+        <correlators>
+            <items>
+                <name>name-date-id</name>
+                <documentation>
+                    If key attributes (family name, date of birth, national ID) exactly match,
+                    we are immediately done. We ignore given name here.
+                </documentation>
+                <item>
+                    <ref>familyName</ref>
+                </item>
+                <item>
+                    <ref>extension/dateOfBirth</ref>
+                </item>
+                <item>
+                    <ref>extension/nationalId</ref>
+                </item>
+                <composition>
+                    <tier>1</tier>
+                </composition>
+            </items>
+            <items>
+                <name>names-date</name>
+                <documentation>If given and family name and the date of birth match, we present an option to the operator.</documentation>
+                <item>
+                    <ref>givenName</ref>
+                </item>
+                <item>
+                    <ref>familyName</ref>
+                </item>
+                <item>
+                    <ref>extension/dateOfBirth</ref>
+                </item>
+                <composition>
+                    <weight>0.1</weight>
+                </composition>
+            </items>
+            <items>
+                <name>id</name>
+                <documentation>If national ID matches, we present an option to the operator.</documentation>
+                <item>
+                    <ref>extension/nationalId</ref>
+                </item>
+                <composition>
+                    <weight>0.1</weight>
+                </composition>
+            </items>
+        </correlators>
+    </correlation>
+</objectTemplate>

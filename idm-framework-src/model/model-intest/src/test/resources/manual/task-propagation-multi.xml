@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+  <!-- MID-4440 -->
+
+<task oid="01db4542-f224-11e7-8833-bbe6634814e7"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3">
+
+    <name>Propagation: propagated provisioning resources</name>
+
+    <taskIdentifier>01db4542-f224-11e7-8833-bbe6634814e7</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+
+    <activity>
+        <work>
+            <multiPropagation>
+                <resources>
+                    <query>
+                        <q:filter>
+                            <q:equal>
+                                <q:path>extension/provisioning</q:path>
+                                <q:value>propagated</q:value>
+                            </q:equal>
+                        </q:filter>
+                    </query>
+                </resources>
+            </multiPropagation>
+        </work>
+    </activity>
+</task>

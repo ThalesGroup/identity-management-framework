@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="4838ce2c-5250-4d9c-b5cc-b6b946852806"
+      xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <!-- This is a hidden thief; not directly listed in criminal-exclusion participants. But should be excluded nevertheless. -->
+    <name>Respectable</name>
+    <inducement>
+        <targetRef oid="ee6a1809-a0ed-4983-a0b4-6eef24e8a76d" type="RoleType"/> <!-- Thief -->
+    </inducement>
+</role>

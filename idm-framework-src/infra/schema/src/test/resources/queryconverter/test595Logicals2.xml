@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3">
+    <filter>
+        <or>
+            <and>
+                <equal>
+                    <path>description</path>
+                    <value>A</value>
+                </equal>
+                <equal>
+                    <path>description</path>
+                    <value>B</value>
+                </equal>
+            </and>
+            <and>
+                <equal>
+                    <path>description</path>
+                    <value>C</value>
+                </equal>
+                <equal>
+                    <path>description</path>
+                    <value>D</value>
+                </equal>
+                <or>
+                    <and>
+                        <equal>
+                            <path>description</path>
+                            <value>E1</value>
+                        </equal>
+                        <equal>
+                            <path>description</path>
+                            <value>E2</value>
+                        </equal>
+                    </and>
+                    <equal>
+                        <path>description</path>
+                        <value>E3</value>
+                    </equal>
+                </or>
+            </and>
+        </or>
+    </filter>
+</query>

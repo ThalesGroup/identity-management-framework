@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2014 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<xsd:schema targetNamespace="http://midpoint.evolveum.com/xml/ns/public/task/noop/handler-3"
+            xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/task/noop/handler-3"
+            xmlns:a="http://prism.evolveum.com/xml/ns/public/annotation-3"
+            xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+    <xsd:import namespace="http://midpoint.evolveum.com/xml/ns/public/common/common-3"/>
+
+    <xsd:annotation>
+        <xsd:documentation>
+            NoOp task handler task extensions.
+        </xsd:documentation>
+        <xsd:appinfo>
+            <a:defaultPrefix>noop</a:defaultPrefix>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:element name="delay" type="xsd:int">
+        <xsd:annotation>
+            <xsd:documentation>
+                TODO
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:displayName>Delay</a:displayName>
+                <a:displayOrder>110</a:displayOrder>
+                <a:minOccurs>0</a:minOccurs>
+                <a:maxOccurs>1</a:maxOccurs>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:element name="steps" type="xsd:int">
+        <xsd:annotation>
+            <xsd:documentation>
+                TODO
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:displayName>Number of steps</a:displayName>
+                <a:displayOrder>100</a:displayOrder>
+                <a:minOccurs>0</a:minOccurs>
+                <a:maxOccurs>1</a:maxOccurs>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="NoopParametersType">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:container>true</a:container>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="c:AbstractWorkDefinitionType">
+                <xsd:sequence>
+                    <xsd:element name="delay" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="steps" type="xsd:int" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="noop" type="tns:NoopParametersType" />
+
+</xsd:schema>
