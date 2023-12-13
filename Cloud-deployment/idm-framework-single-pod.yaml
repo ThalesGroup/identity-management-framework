@@ -1,0 +1,214 @@
+#To create a StatefulSet for PostGres Database (IdM Framework Repository)
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: idm-framework-db
+  namespace: <NameSpace>
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idm-framework-db
+  template:
+    metadata:
+      labels:
+        app: idm-framework-db
+    spec:
+      volumes:
+        - name: init-db
+          emptyDir: {}
+      initContainers:
+        - name: mp-db-init
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
+          env:
+            - name: MP_INIT_DB_CONCAT
+              value: /opt/db-init/010-init.sql
+          volumeMounts:
+            - name: init-db
+              mountPath: /opt/db-init
+          imagePullPolicy: IfNotPresent
+      containers:
+        - name: idm-framework-db
+          image: 'postgres:16-alpine'
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_INITDB_ARGS
+              value: '--lc-collate=en_US.utf8 --lc-ctype=en_US.utf8'
+            - name: POSTGRES_USER
+              value: midpoint
+            - name: POSTGRES_PASSWORD
+              value: SuperSecretPassword007
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: init-db
+              mountPath: /docker-entrypoint-initdb.d/
+            - name: idm-framework-pg-storage
+              mountPath: /var/lib/postgresql/data
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+  serviceName: idm-framework-db-service
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: idm-framework-pg-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 50Gi
+        storageClassName: standard
+        volumeMode: Filesystem
+...
+---
+# To create a StatefulSet for IdM Framework Server
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: idm-framework-server
+  namespace: <NameSpace>
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idm-framework-server
+  template:
+    metadata:
+      labels:
+        app: idm-framework-server
+    spec:
+      volumes:
+        - name: mp-home
+          emptyDir: {}
+        - name: db-pass
+          secret:
+            secretName: idm-framework
+            defaultMode: 420
+      initContainers:
+        - name: mp-config-init
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
+          env:
+            - name: MP_INIT_CFG
+              value: /opt/mp-home
+          volumeMounts:
+            - name: mp-home
+              mountPath: /opt/mp-home
+          imagePullPolicy: IfNotPresent
+      containers:
+        - name: idm-framework-server
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          ports:
+            - name: gui
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: MP_ENTRY_POINT
+              value: /opt/midpoint-dirs-docker-entrypoint
+            - name: MP_SET_midpoint_repository_database
+              value: postgresql
+            - name: MP_SET_midpoint_repository_jdbcUsername
+              value: midpoint
+            - name: MP_SET_midpoint_repository_jdbcPassword_FILE
+              value: /opt/midpoint/config-secrets/password
+            - name: MP_SET_midpoint_repository_jdbcUrl
+              value: jdbc:postgresql://idm-framework-db-service.<NameSpace>.svc.cluster.local:5432/midpoint #Update this URL as per namespace e.g. <NameSpace>
+            - name: MP_UNSET_midpoint_repository_hibernateHbm2ddl
+              value: "1"
+            - name: MP_NO_ENV_COMPAT
+              value: "1"          
+          volumeMounts:
+            - name: mp-home
+              mountPath: /opt/midpoint/var
+            - name: db-pass
+              mountPath: /opt/midpoint/config-secrets  
+          imagePullPolicy: IfNotPresent
+  serviceName: idm-framework-server
+...
+---
+#To create a Service for PostGres Database (IdM Framework Repository)
+apiVersion: v1
+kind: Service
+metadata:
+  name: idm-framework-db-service
+  namespace: <NameSpace>
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: idm-framework-db
+  type: ClusterIP
+  sessionAffinity: None
+...
+---
+#To create a Service for IdM Framework Server
+apiVersion: v1
+kind: Service
+metadata:
+  name: idm-framework-service
+  namespace: <NameSpace>
+spec:
+  type: NodePort
+  ports:
+    - port: 80          
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: idm-framework-server
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  type: NodePort
+...
+---
+#To create a Secret for PostGres Database (IdM Framework Repository)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: idm-framework
+  namespace: <NameSpace>
+data:
+  password: U3VwZXJTZWNyZXRQYXNzd29yZDAwNw==
+type: Opaque
+...
+---
+#To create a ingress for IdM Framework Server
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: idm-framework-ingress
+  namespace: <NameSpace>
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"  
+    nginx.ingress.kubernetes.io/session-cookie-expires: '172800'
+    nginx.ingress.kubernetes.io/session-cookie-max-age: '172800'
+    nginx.ingress.kubernetes.io/session-cookie-name: idm-framework
+  name: ingress-for-idm-framework
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: <FQDN> #FQDN for IDM Framework (Change as per your Solution)
+    http:
+      paths:
+      - backend:
+          service:
+            name: idm-framework-service
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - <FQDN> #FQDN for IDM Framework (Change as per your Solution)
+    secretName: <SSL-Secret> #Secret name for the TLS certificate for IDM Framwork (Change as per your Solution)
