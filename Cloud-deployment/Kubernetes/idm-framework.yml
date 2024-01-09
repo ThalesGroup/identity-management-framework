@@ -19,7 +19,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: mp-db-init
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
           command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
           env:
             - name: MP_INIT_DB_CONCAT
@@ -41,7 +41,10 @@ spec:
             - name: POSTGRES_USER
               value: midpoint
             - name: POSTGRES_PASSWORD
-              value: SuperSecretPassword007
+              valueFrom:
+                secretKeyRef:
+                  name: idm-framework
+                  key: password
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
           volumeMounts:
@@ -93,7 +96,7 @@ spec:
             defaultMode: 420
       initContainers:
         - name: mp-config-init
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
           command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
           env:
             - name: MP_INIT_CFG
@@ -104,7 +107,7 @@ spec:
           imagePullPolicy: IfNotPresent
       containers:
         - name: idm-framework-server
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:kay-V1'
+          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
           ports:
             - name: gui
               containerPort: 8080
@@ -178,7 +181,7 @@ metadata:
   name: idm-framework
   namespace: <NameSpace>
 data:
-  password: U3VwZXJTZWNyZXRQYXNzd29yZDAwNw==
+  password: eXVtbXlQYXNzd29yZDAwOA==
 type: Opaque
 ...
 ---
