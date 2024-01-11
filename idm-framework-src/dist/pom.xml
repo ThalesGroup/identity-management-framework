@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>midpoint</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>dist</artifactId>
+    <packaging>pom</packaging>
+
+    <name>midPoint Distribution</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.evolveum.midpoint.gui</groupId>
+            <artifactId>admin-gui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.tools</groupId>
+            <artifactId>ninja</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint</groupId>
+            <artifactId>midpoint-samples</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency><!-- Not used, but required for surefire plugin not to complain -->
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>test-ng</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Used to pull XSD files from the JAR -->
+                <groupId>com.evolveum.prism.tools</groupId>
+                <artifactId>schema-dist-maven-plugin</artifactId>
+                <version>${prism.version}</version>
+                <executions>
+                    <execution>
+                        <id>schemadist-prism</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>schemadist</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.evolveum.prism</groupId>
+                                    <artifactId>prism-impl</artifactId>
+                                    <version>${prism.version}</version>
+                                    <type>jar</type>
+                                    <!-- no catalog (the one in schema suffices) -->
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.evolveum.midpoint.infra</groupId>
+                                    <artifactId>schema</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <catalog>META-INF/catalog-schema-dist.xml</catalog>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>**/*.xsd,**/*.dtd,**/*.wsdl,META-INF/*</includes>
+                            <excludes>xml/ns/test/**,xml/ns/private/**,prism-impl/**</excludes>
+                            <outputDirectory>${project.basedir}/target/schemadist</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/dist.xml</descriptor>
+                    </descriptors>
+                    <finalName>midpoint-${project.version}</finalName>
+                    <tarLongFileMode>gnu</tarLongFileMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>dist-assembly</id>
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>docs</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>midpoint-api</module>
+                <module>javadoc</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

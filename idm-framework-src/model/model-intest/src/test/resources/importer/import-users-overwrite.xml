@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- Sample file to test import -->
+
+<objects xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:piracy='http://midpoint.evolveum.com/xml/ns/samples/piracy'>
+
+    <user oid="c0c010c0-d34d-b33f-f00d-111111111112">
+        <name>will</name>
+        <subtype>legendary</subtype>
+        <fullName>Will Turner</fullName>
+        <givenName>William</givenName>
+        <familyName>Turner</familyName>
+    </user>
+
+    <!-- No OID -->
+    <user>
+        <name>guybrush</name>
+        <fullName>Guybrush Threepwood</fullName>
+        <givenName>Guybrush</givenName>
+        <familyName>Threepwood</familyName>
+        <locality>Deep in the Caribbean</locality>
+    </user>
+
+    <!-- New User -->
+    <user>
+        <name>ht</name>
+        <fullName>Herman Toothrot</fullName>
+        <givenName>Herman</givenName>
+        <familyName>Toothrot</familyName>
+    </user>
+
+    <!-- match oid -->
+    <user oid="c0c010c0-d34d-b33f-f00d-111111111113">
+        <name>elizabethT</name>
+        <fullName>Elizabeth Turner</fullName>
+        <givenName>Elizabeth</givenName>
+        <familyName>Turner</familyName>
+    </user>
+
+    <!-- match name -->
+    <user oid="c0c010c0-d34d-b33f-f00d-111111112345">
+        <name>james</name>
+        <subtype>admiral</subtype>
+        <fullName>James Norrington</fullName>
+        <givenName>James</givenName>
+        <familyName>Norrington</familyName>
+    </user>
+
+</objects>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>midpoint</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <groupId>com.evolveum.midpoint.gui</groupId>
+    <artifactId>gui</artifactId>
+    <packaging>pom</packaging>
+
+    <name>midPoint User Interface</name>
+
+    <modules>
+        <module>admin-gui</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>midpoint-jar</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

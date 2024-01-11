@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- Light recompute. Efficient recompute that only recomputes the focus. -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        oid="b7b6af78-fffe-11e6-ac04-2fdd62641ce2">
+    <name>User Light Recompute</name>
+    <assignment>
+        <targetRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    </assignment>
+    <archetypeRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    <roleMembershipRef oid="77615e4c-b82e-4b3a-b265-5487a6ac016b" type="ArchetypeType"/>
+    <!-- No task identifier. It will be generated during import -->
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <recomputation>
+                <objects>
+                    <type>UserType</type>
+                </objects>
+                <executionOptions>
+                    <reconcileFocus>true</reconcileFocus>
+                    <partialProcessing>
+                        <inbound>skip</inbound>
+                        <objectTemplateBeforeAssignments>skip</objectTemplateBeforeAssignments>
+                        <objectTemplateAfterAssignments>skip</objectTemplateAfterAssignments>
+                        <projection>skip</projection>
+                        <approvals>skip</approvals>
+                    </partialProcessing>
+                </executionOptions>
+            </recomputation>
+        </work>
+    </activity>
+</task>

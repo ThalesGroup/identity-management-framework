@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3" oid="c1f5a293-9fc9-4ab4-b497-de8605ee7dc6">
+    <name>Async update multithreaded</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002" type="UserType"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <asynchronousUpdate>
+                <updatedResourceObjects>
+                    <resourceRef oid="6628a329-4b29-4f3a-9339-8fa12c59c38f"/>
+                </updatedResourceObjects>
+            </asynchronousUpdate>
+        </work>
+        <distribution>
+            <workerThreads>3</workerThreads>
+        </distribution>
+    </activity>
+</task>

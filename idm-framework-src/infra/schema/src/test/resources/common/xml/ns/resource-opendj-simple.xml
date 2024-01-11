@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- Resource definition for an embedded OpenDJ instance. -->
+
+<resource oid="ef2bc95b-76e0-59e2-86d6-3d4f02d3ffff"
+          xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+          xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+          xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+          xmlns:a="http://prism.evolveum.com/xml/ns/public/annotation-3"
+          xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+          xmlns:ra="http://midpoint.evolveum.com/xml/ns/public/resource/annotation-3"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3">
+
+    <!-- Resource printable name -->
+    <name>
+        <t:orig>Embedded Test OpenDJ</t:orig>
+        <t:norm>embedded test opendj</t:norm>
+    </name>
+
+    <!-- Reference to the ICF LDAP connector. This is dynamic reference, it will be translated to
+          OID during import. -->
+    <connectorRef type="ConnectorType">
+        <filter>
+            <q:equal>
+                <q:path>connectorType</q:path>
+                <q:value>org.identityconnectors.ldap.LdapConnector</q:value>
+            </q:equal>
+        </filter>
+        <resolutionTime>run</resolutionTime>
+    </connectorRef>
+
+    <!-- Resource configuration section -->
+    <connectorConfiguration
+            xmlns:icfcldap="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/bundle/org.forgerock.openicf.connectors.ldap.ldap/org.identityconnectors.ldap.LdapConnector"
+            xmlns:icfc="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/connector-schema-3">
+
+        <!-- Configuration specific for the LDAP connector -->
+        <icfc:configurationProperties>
+
+            <icfcldap:port>10389</icfcldap:port>
+            <icfcldap:host>localhost</icfcldap:host>
+            <icfcldap:baseContexts>dc=example,dc=com</icfcldap:baseContexts>
+            <icfcldap:principal>cn=directory manager</icfcldap:principal>
+            <icfcldap:credentials>
+                <clearValue>secret</clearValue>
+
+            </icfcldap:credentials>
+            <icfcldap:vlvSortAttribute>uid</icfcldap:vlvSortAttribute>
+            <icfcldap:accountOperationalAttributes>ds-pwp-account-disabled</icfcldap:accountOperationalAttributes>
+        </icfc:configurationProperties>
+
+    </connectorConfiguration>
+
+</resource>

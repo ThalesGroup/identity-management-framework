@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<systemConfiguration oid="00000000-0000-0000-0000-000000000001" version="0"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>SystemConfiguration</name>
+    <logging>
+        <rootLoggerAppender>File Appender</rootLoggerAppender>
+        <rootLoggerLevel>INFO</rootLoggerLevel>
+        <classLogger>
+            <level>TRACE</level>
+            <package>com.evolveum.midpoint.common.LoggingConfigurationManager</package>
+        </classLogger>
+        <c:classLogger>
+            <c:level>TRACE</c:level>
+            <c:package>com.evolveum.midpoint.notifications</c:package>
+        </c:classLogger>
+        <appender xsi:type="c:FileAppenderConfigurationType" name="File Appender" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <pattern>%date [%thread] %-5level \(%logger{46}\): %message%n</pattern>
+            <fileName>target/test.log</fileName>
+            <append>true</append>
+        </appender>
+    </logging>
+
+    <notificationConfiguration>
+        <handler>
+            <simpleReportNotifier>
+                <recipientExpression>
+                    <value>dummy@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:reports</transport>
+            </simpleReportNotifier>
+        </handler>
+    </notificationConfiguration>
+
+    <internals>
+        <caching>
+            <profile>
+                <!--
+                Profile caching role objects (any abstract role subtype) for tasks that are expected
+                to repeatedly ask for (likely) a small subset of the roles/orgs/etc.
+                See task: task-export-role-caching.xml
+                -->
+                <name>task-role-cache</name>
+                <!-- not enabled by default -->
+                <globalRepoObjectCache>
+                    <append>true</append>
+                    <timeToLive>60</timeToLive>
+                    <maxSize>1000</maxSize> <!-- sanity limit -->
+                    <statistics>
+                        <classification>perCacheAndObjectType</classification>
+                    </statistics>
+                    <objectTypeSettings>
+                        <objectType>ArchetypeType</objectType> <!-- normally in default as well, that's OK -->
+                        <objectType>OrgType</objectType>
+                        <objectType>RoleType</objectType>
+                        <objectType>ServiceType</objectType>
+                    </objectTypeSettings>
+                </globalRepoObjectCache>
+            </profile>
+        </caching>
+    </internals>
+
+    <simulation>
+        <metric>
+            <identifier>modifications</identifier>
+            <documentation>The number of non-operational item modifications. Applies to all kinds of objects.</documentation>
+            <computation>
+                <domain>
+                    <expression>
+                        <script>
+                            <code>processedObject.modification</code>
+                        </script>
+                    </expression>
+                </domain>
+                <valueExpression>
+                    <script>
+                        <code>processedObject.nonOperationalItemModificationsCount</code>
+                    </script>
+                </valueExpression>
+            </computation>
+        </metric>
+        <metric>
+            <identifier>attribute-modifications</identifier>
+            <computation>
+                <domain>
+                    <expression>
+                        <script>
+                            <code>processedObject.shadow &amp;&amp; processedObject.modification</code>
+                        </script>
+                    </expression>
+                </domain>
+                <valueExpression>
+                    <script>
+                        <code>processedObject.attributeModificationsCount</code>
+                    </script>
+                </valueExpression>
+            </computation>
+        </metric>
+        <metric>
+            <identifier>association-values-changed</identifier>
+            <computation>
+                <domain>
+                    <expression>
+                        <script>
+                            <code>processedObject.shadow &amp;&amp; processedObject.modification</code>
+                        </script>
+                    </expression>
+                </domain>
+                <valueExpression>
+                    <script>
+                        <code>processedObject.associationValuesChanged</code>
+                    </script>
+                </valueExpression>
+            </computation>
+        </metric>
+        <metric>
+            <identifier>special</identifier>
+            <computation>
+                <domain>
+                    <expression>
+                        <script>
+                            <code>processedObject.focus</code>
+                        </script>
+                    </expression>
+                </domain>
+                <selection>
+                    <expression>
+                        <script>
+                            <code>basic.stringify(processedObject.name).contains('7')</code>
+                        </script>
+                    </expression>
+                </selection>
+                <valueExpression>
+                    <script>
+                        <code>
+                            try {
+                                def index = basic.stringify(processedObject.name).takeAfter('-').substring(0, 4)
+                                3.14 * Integer.parseInt(index)
+                            } catch (Exception e) {
+                                log.error('Problem while determining the index', e)
+                                0
+                            }
+                        </code>
+                    </script>
+                </valueExpression>
+            </computation>
+        </metric>
+    </simulation>
+</systemConfiguration>

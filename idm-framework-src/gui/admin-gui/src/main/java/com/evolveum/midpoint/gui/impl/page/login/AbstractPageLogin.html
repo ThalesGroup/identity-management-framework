@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  ~
+  ~ ThalesGroup Disclaimer:
+  ~ This file has been modified by ThalesGroup under the dual licenses mentioned above.
+  ~ The versioning information below indicates the changes made by ThalesGroup:
+  ~
+  ~ - Updated Code Section:
+  ~   <div class="card-header text-center">
+  ~       <h1>IdM Framework</h1>
+  ~       <p wicket:id="sequence"/>
+  ~   </div>
+  ~
+  ~   <div class="card-footer login-footer" wicket:id="footerContainer">
+  ~       <span class="pull-left">
+  ~           <strong>Powered by <a href="https://cpl.thalesgroup.com/" target="_blank">THALES</a></strong>
+  ~       </span>
+  ~   </div>
+  ~   Description: Updated version information to reflect ThalesGroup modifications.
+  ~
+  ~ Users of this modified version should be aware that this is not the original version,
+  ~ and any transmission of this modified work should include this disclaimer.
+  ~ Recipients must understand that ThalesGroup is responsible for these modifications,
+  ~ and any issues arising from these changes are not the responsibility of the original author.
+  ~
+  ~ For more information, contact ThalesGroup at [https://cpl.thalesgroup.com/].
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <div wicket:id="feedbackContainer" class="feedbackContainer" style="min-width: 360px">
+        <div wicket:id="feedback" class="messagePanel"/>
+    </div>
+
+
+    <div class="login-box">
+        <div class="card card-primary">
+            <div class="card-header text-center">
+                <h1>IdM Framework</h1>
+                <p wicket:id="sequence"/>
+            </div>
+            <div class="card-body login-card-body justify-content-between">
+                <h4 class="login-box-msg" wicket:id="panelTitle"></h4>
+                <p class="login-panel-description text-center" wicket:id="panelDescription"></p>
+
+                <wicket:child/>
+
+                <wicket:enclosure child="switchToDefaultSequence">
+                    <div class="d-flex justify-content-end mt-2">
+                        <a wicket:id="switchToDefaultSequence" class="text-center"/>
+                    </div>
+                </wicket:enclosure>
+                <div class="d-flex flex-wrap gap-2 justify-content-between login-panel-control">
+                    <a class="btn text-center text-primary login-panel-control mt-2" style="display: inline-block;"  wicket:id="back">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        <wicket:message key="PageEmailNonce.backButtonLabel"/>
+                    </a>
+                </div>
+            </div>
+            <div class="card-footer login-footer" wicket:id="footerContainer">
+                <span class="pull-left"><strong>Powered by <a href="https://cpl.thalesgroup.com/" target="_blank">THALES</a></strong></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3" wicket:id="locale"/>
+</wicket:extend>
+</body>
+</html>

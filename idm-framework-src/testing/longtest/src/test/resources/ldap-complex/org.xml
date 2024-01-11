@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<org oid="00000000-8888-6666-0000-100000000001" xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>F0001</name>
+    <description>The office of the most respectful Governor.</description>
+    <displayName>Governor Office</displayName>
+    <identifier>0001</identifier>
+    <orgType>functional</orgType>
+    <costCenter>CC0</costCenter>
+    <locality>The Governor's Mansion</locality>
+</org>

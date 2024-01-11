@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="51bbde22-9c4e-4d04-8daf-5fef7043a368">
+    <name>Reconciliation: AD groups</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="88ea07a2-2bca-4746-8276-07bdb4b014d5" type="ResourceType"/>
+    <schedule>
+        <recurrence>recurring</recurrence>
+    </schedule>
+    <activity>
+        <work>
+            <reconciliation>
+                <resourceObjects>
+                    <resourceRef oid="88ea07a2-2bca-4746-8276-07bdb4b014d5"/>
+                    <objectclass>ri:GroupObjectClass</objectclass>
+                </resourceObjects>
+            </reconciliation>
+        </work>
+        <execution>
+            <mode>dryRun</mode>
+        </execution>
+    </activity>
+</task>

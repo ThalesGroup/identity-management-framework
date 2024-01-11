@@ -1,33 +1,39 @@
-# Identity Management Framework 
-
+# Identity Management Framework
 ## Overview
+The Identity Management (IdM) Framework enables users and groups provisioning between SafeNet Trusted Access and other third-party applications and directories. It utilizes an open-source identity management and governance platform, midPoint, underneath.
 
-The Identity Management (IdM) Framework enables users and groups provisioning between SafeNet Trusted Access and other third-party applications and directories. It utilizes an open-source identity management and governance platform, [midPoint][def], underneath.
+Please refer to STA Documentation for more information about Identity Management Framework.
 
-Please refer to STA documentation for more information about Identity Management Framework. 
+## Tags:
+- `latest`[(IdM Framework GA Release version 1.2.0)](https://github.com/ThalesGroup/identity-management-framework/releases/tag/v1.2.0)
+- `1.1.0`[(IdM Framework GA Release version 1.1.0)](https://github.com/ThalesGroup/identity-management-framework/releases/tag/v1.1.0)
 
-## Accessing the Image
+## Accessing the Image:
+- download image without building:
+```
+$ docker pull artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:latest
+```
 
-To load the image the &#39;docker pull&#39; command should be used. The image name should be supplied with the pull command, along with a tag that corresponds to the image version number. For example:
-
-docker pull artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:1.1.0
-
-## How to use
+## How to use:
 For the steps to deploy, please follow [Deploying Identity Management Framework][def2].
 
-## Examine the log file of the container
+## Examine the log file of the container:
 
 docker logs -f &lt;container-name&gt;
 
-## Documentation
+## Access IdM Framework:
+- URL: https://127.0.0.1/midpoint
+- username: Administrator
+- password: 5ecr3t
 
-The official documentation of the Identity Management Framework is available at [Thalesdocs][def3].
+## Documentation:
+The official documentation of the Identity Management Framework is available at [Thalesdocs](https://thalesdocs.com/sta/crns/identity_management_framework_crn/index.html)
 
-## Contributing
+## Contributing:
 
 If you are interested in contributing to the Identity Management Framework project, start by reading the [Contributing guide](/CONTRIBUTING.md).
 
-## License
+## License:
 
 The project uses [Apache-2.0 license](/LICENSE).
 

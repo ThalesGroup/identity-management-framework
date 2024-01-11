@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<accessCertificationDefinition xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+        oid="33333333-0000-0000-0000-000000000002">
+    <name>User Assignment Cert (more reviewers)</name>
+    <handlerUri>http://midpoint.evolveum.com/xml/ns/public/certification/certification-3#user-assignment-basic</handlerUri>
+    <stageDefinition>
+        <number>1</number>
+        <duration>P14D</duration>
+        <reviewerSpecification>
+            <useTargetOwner>true</useTargetOwner>
+            <defaultReviewerRef oid="00000000-0000-0000-0000-000000000002" type="UserType" />   <!-- administrator -->
+            <additionalReviewerRef oid="c0c010c0-d34d-b33f-f00d-111111111111" type="UserType" />   <!-- jack -->
+        </reviewerSpecification>
+        <outcomeStrategy>oneAcceptAccepts</outcomeStrategy>
+    </stageDefinition>
+    <stageDefinition>
+        <number>2</number>
+        <duration>P7D</duration>
+        <reviewerSpecification>
+            <useTargetApprover>true</useTargetApprover>
+            <additionalReviewerRef oid="c0c010c0-d34d-b33f-f00d-222222222222" type="UserType" />   <!-- chief reviewer -->
+        </reviewerSpecification>
+        <outcomeStrategy>allMustAccept</outcomeStrategy>
+    </stageDefinition>
+
+</accessCertificationDefinition>

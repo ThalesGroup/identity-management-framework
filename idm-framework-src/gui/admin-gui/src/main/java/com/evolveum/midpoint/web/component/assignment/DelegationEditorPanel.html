@@ -1,0 +1,109 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="card-header p-0">
+        <div class="d-flex p-3" wicket:id="headerRow">
+            <div class="row check-table-header" style="margin-left: 2px;">
+                <input type="checkbox" wicket:id="selected"/>
+                <div class="check-table-label">
+                    <i class="check-table-header-icon" wicket:id="typeImage"></i>
+                    <a class="check-table-header-name" wicket:id="name">
+                        <span class="name" wicket:id="nameLabel"/>
+                    </a>
+                    <i class="delegation-arrow-icon fa fa-long-arrow-right text-info" wicket:id="arrowIcon"
+                            style="font-size: 24px; margin-left: 5px; margin-right: 5px;"></i>
+                    <i class="check-table-header-icon" wicket:id="delegatedToImage"></i>
+                    <a class="check-table-header-name" wicket:id="delegatedTo">
+                        <span class="name" wicket:id="delegatedToLabel"/>
+                    </a>
+                </div>
+            </div>
+            <div class="card-tools ml-auto">
+                <button wicket:id="expand" class="btn btn-tool"><i class="fa fa-chevron-left"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" wicket:id="body">
+        <div class="d-flex flex-column mb-3">
+            <div>
+                <span class="text-gray font-weight-bold text-center"><wicket:message key="AssignmentEditorPanel.description"/></span>
+            </div>
+            <div>
+                <textarea class="form-control form-control-sm" rows="2" wicket:id="delegationDescription"></textarea>
+            </div>
+        </div>
+        <div class="d-flex flex-column mb-3">
+            <div>
+                <span class="text-gray font-weight-bold text-center"><wicket:message key="ActivationType.validFrom"/></span>
+            </div>
+            <div>
+                <div wicket:id="delegationValidFrom"/>
+            </div>
+        </div>
+
+            <div class="d-flex flex-column mb-3">
+                <div>
+                    <span class="text-gray font-weight-bold text-center"><wicket:message key="ActivationType.validTo"/></span>
+                </div>
+                <div>
+                    <div wicket:id="delegationValidTo"/>
+                </div>
+            </div>
+            <div wicket:id="assignmentPrivilegesContainer" class="d-flex flex-column mb-3">
+                <div>
+                    <span class="text-gray font-weight-bold text-center"><wicket:message key="DelegationEditorPanel.privileges"/></span>
+                </div>
+                <div>
+                    <div class="pull-left">
+                        <input type="checkbox" wicket:id="assignmentPrivilegesCheckbox"/>
+                    </div>
+                    <div>
+                        <div wicket:id="assignmentPrivilegesLabelContainer">
+                            <div wicket:id="assignmentPrivilegesLabel"/>
+                            <a wicket:id="limitPrivilegesButton"></a>
+                        </div>
+                        <div wicket:id="privilegesList">
+                            <div wicket:id="privilege"/>
+                        </div>
+                    </div>
+                    <!--<div class="pull-right">-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="d-flex flex-column mb-3">
+                <div>
+                    <span class="text-gray font-weight-bold text-center"><wicket:message key="DelegationEditorPanel.assignmentLimitations"/></span>
+                </div>
+                <div>
+                    <input type="checkbox" wicket:id="allowTransitive"/>
+                    <wicket:message key="DelegationEditorPanel.allowTransitive"/>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <div>
+                    <span class="text-gray font-weight-bold text-center"><wicket:message key="DelegationEditorPanel.workflowApprovals"/></span>
+                </div>
+                <div>
+                    <input type="checkbox" wicket:id="approvalWorkItems"/>
+                    <wicket:message key="DelegationEditorPanel.delegateCaseWorkItems"/>
+                </div>
+                <div>
+                    <input class="pull-left" type="checkbox" wicket:id="certificationWorkItems"/>
+                    <wicket:message key="DelegationEditorPanel.delegateCertificationWorkItems"/>
+                </div>
+                <div>
+                    <input type="checkbox" wicket:id="managementWorkItems"/>
+                    <!--TODO uncomment when it is implemented-->
+                    <!--<wicket:message key="DelegationEditorPanel.delegateManagementWorkItems"/>-->
+                </div>
+            </div>
+    </div>
+</wicket:panel>
+</html>

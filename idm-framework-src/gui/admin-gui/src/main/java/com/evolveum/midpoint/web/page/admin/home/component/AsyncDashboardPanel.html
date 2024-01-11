@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="card card-outline card-secondary" wicket:id="dashboardParent">
+        <div class="card-header" wicket:id="dashboardTitle">
+            <h3 class="card-title"><i class="mr-2" wicket:id="icon"/> <span wicket:id="title"/></h3>
+        </div>
+        <div class="card-body" wicket:id="dashboardContent">
+            <div class="m-3" wicket:id="preloaderContainer">
+                <div class="text-center">
+                    <i wicket:id="preloader" class="fas fa-sync fa-spin fa-lg text-secondary"></i>
+                </div>
+                <div class="m-2 text-center"><wicket:message key="AsyncDashboardPanel.loading"/></div>
+            </div>
+            <div wicket:id="content"/>
+        </div>
+    </div>
+</wicket:panel>
+</html>

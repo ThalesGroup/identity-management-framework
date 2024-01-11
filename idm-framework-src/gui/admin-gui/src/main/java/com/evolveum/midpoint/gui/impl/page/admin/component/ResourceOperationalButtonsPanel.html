@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (c) 2021 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <wicket:extend>
+        <fieldset class="objectButtons" wicket:id="resourceOperationsContainer">
+            <legend><wicket:message key="ResourceOperationalButtonsPanel.buttons.resource"/></legend>
+            <a class="mr-2 btn btn-default btn-sm" wicket:id="resourceButtons"/>
+        </fieldset>
+        <wicket:enclosure child="lifecycleStatePanel">
+            <fieldset class="objectButtons">
+                <legend><wicket:message key="ObjectType.lifecycleState"/></legend>
+                <div class="mr-2" wicket:id="lifecycleStatePanel"/>
+            </fieldset>
+        </wicket:enclosure>
+    </wicket:extend>
+</wicket:panel>
+</html>

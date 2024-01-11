@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<s:pipeline xmlns:s="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3"
+            xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <s:scriptingExpression xsi:type="s:SearchExpressionType">
+        <s:type>c:UserType</s:type>
+    </s:scriptingExpression>
+    <s:scriptingExpression xsi:type="s:SelectExpressionType">
+        <s:path>c:linkRef</s:path>
+    </s:scriptingExpression>
+    <s:scriptingExpression xsi:type="s:ActionExpressionType">
+        <s:type>log</s:type>
+    </s:scriptingExpression>
+    <s:scriptingExpression xsi:type="s:ActionExpressionType">
+        <s:type>resolve</s:type>
+    </s:scriptingExpression>
+</s:pipeline>

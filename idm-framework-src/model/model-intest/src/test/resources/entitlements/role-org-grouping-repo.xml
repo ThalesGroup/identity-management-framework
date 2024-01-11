@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="02bdd108-261f-11e8-ac3a-bf48bd1c4e40"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Organizational Grouping - repo</name>
+    <description>Same as Organizational Grouping role, but this has searchStrategy=inRepository</description>
+    <inducement>
+        <construction>
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="c:ResourceType"/>
+            <kind>account</kind>
+            <association>
+                <!-- No namespace prefix here. MID-4509 -->
+                <ref>group</ref>
+                <outbound>
+                    <strength>strong</strength>
+                    <source>
+                        <path>organization</path>
+                    </source>
+                    <expression>
+                        <associationTargetSearch>
+                            <filter>
+                                <q:equal>
+                                    <q:path>attributes/name</q:path>
+                                    <expression>
+                                        <script>
+                                            <code>'org-' + organization</code>
+                                        </script>
+                                    </expression>
+                                </q:equal>
+                            </filter>
+                            <searchStrategy>inRepository</searchStrategy>
+                        </associationTargetSearch>
+                    </expression>
+                </outbound>
+            </association>
+        </construction>
+    </inducement>
+</role>

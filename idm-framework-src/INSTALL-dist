@@ -1,0 +1,32 @@
+INSTALLING MIDPOINT FROM BINARY DISTRIBUTION
+--------------------------------------------
+
+This file contains quick installation guide. Full installation guide
+and release notes can be found at:
+
+    https://docs.evolveum.com/midpoint/release/
+
+1. Prerequisites:
+
+    Java (JRE) 17 or 21
+
+2. Install midPoint
+
+Unpack the distribution package to a convenient place (e.g. /opt/midpoint)
+
+3. Start midPoint server
+
+Use the start.sh (or start.bat) script in the bin directory:
+
+   bin/start.sh
+
+4. Access the GUI
+
+MidPoint web GUI should be accessible few moments after the web container
+starts and the application initialization is done. It is accessible on following
+URL by default:
+
+  http://localhost:8080/
+
+Login: administrator
+Password 5ecr3t

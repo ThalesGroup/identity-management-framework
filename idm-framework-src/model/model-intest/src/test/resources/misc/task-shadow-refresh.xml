@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        oid="eb8f5be6-2b51-11e7-848c-2fd84a283b03">
+    <name>Shadow refresh</name>
+    <taskIdentifier>eb8f5be6-2b51-11e7-848c-2fd84a283b03</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <shadowRefresh/>
+        </work>
+    </activity>
+</task>

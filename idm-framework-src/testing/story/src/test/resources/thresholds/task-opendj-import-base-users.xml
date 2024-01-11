@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="fa25e6dc-a858-11e7-8ebc-eb2b71ecce1d"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>HR Import</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <import>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000003" />
+                    <kind>account</kind>
+                </resourceObjects>
+            </import>
+        </work>
+    </activity>
+</task>

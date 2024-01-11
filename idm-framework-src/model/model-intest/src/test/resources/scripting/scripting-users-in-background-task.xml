@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<task xmlns:s="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        oid="79dacdf7-2bc9-4eef-9c63-08d53d2392c3">
+    <name>Change description task template</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>waiting</executionState> <!-- this is just a template, therefore it should not be executed -->
+    <cleanupAfterCompletion>PT1S</cleanupAfterCompletion>
+    <activity>
+        <work>
+            <nonIterativeScripting>
+                <scriptExecutionRequest>
+                    <s:pipeline>
+                        <s:search>
+                            <s:type>UserType</s:type>
+                            <s:query>
+                                <q:filter>
+                                    <q:equal>
+                                        <q:path>name</q:path>
+                                        <expression>
+                                            <path>$userName</path>
+                                        </expression>
+                                    </q:equal>
+                                </q:filter>
+                            </s:query>
+                        </s:search>
+                        <s:execute>
+                            <s:script>
+                                <code>
+                                    import com.evolveum.midpoint.xml.ns._public.common.common_3.*
+
+                                    log.info('Modifying user {}', input)
+                                    def deltas = midpoint.deltaFor(UserType.class)
+                                            .item(UserType.F_DESCRIPTION)
+                                            .replace(userDescription)
+                                            .asObjectDeltas(input.oid)
+                                    log.info('Change:\n{}', deltas.iterator().next().debugDump())
+                                    midpoint.executeChanges(deltas, null)
+                                </code>
+                            </s:script>
+                        </s:execute>
+                    </s:pipeline>
+                    <s:variables>
+                        <s:variable>
+                            <s:name>userName</s:name>
+                            <s:expression>
+                                <path>$task/extension/userName</path>
+                            </s:expression>
+                        </s:variable>
+                        <s:variable>
+                            <s:name>userDescription</s:name>
+                            <s:expression>
+                                <path>$task/extension/userDescription</path>
+                            </s:expression>
+                        </s:variable>
+                    </s:variables>
+                </scriptExecutionRequest>
+            </nonIterativeScripting>
+        </work>
+    </activity>
+</task>

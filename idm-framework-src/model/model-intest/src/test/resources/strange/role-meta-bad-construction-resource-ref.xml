@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (C) 2017-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="90b931ae-eba8-11e5-977a-b73ba58cf18b"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+
+    <name>Bad resourceRef in construction metarole</name>
+    <inducement>
+        <construction>
+            <!-- TestUtil.NON_EXISTENT_OID -->
+            <resourceRef oid="4e4f4e5f-4558-4953-5445-4e545f4f4944"/>
+            <kind>generic</kind>
+            <intent>whatever</intent>
+        </construction>
+    </inducement>
+</role>

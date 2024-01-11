@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+        default-lazy-init="false">
+
+    <bean id="repoSimpleObjectResolver" class="com.evolveum.midpoint.test.RepoSimpleObjectResolver"/>
+
+    <bean id="midpointConfiguration"
+            class="com.evolveum.midpoint.init.StartupConfiguration"
+            init-method="init">
+        <constructor-arg value="./target/midpoint-home"/>
+        <constructor-arg value="#{systemProperties['test.config.file'] ?: 'test-config.xml'}"/>
+    </bean>
+
+    <bean id="dummyAuditServiceFactory" class="com.evolveum.midpoint.test.DummyAuditServiceFactory"/>
+
+    <!-- protector initialization -->
+    <bean id="keyStoreFactory"
+            class="com.evolveum.midpoint.init.ConfigurableProtectorFactory"
+            init-method="init"/>
+
+    <!--
+    TODO: factory methods marked red, because this module (repo-test-util) does not depend
+    on system-init where the factory beans come from, so the IDE is rightfully confused.
+    This may get better when switched to Java config, as it will use the class in code and can be
+    added to dependencies - as it should - without Maven complaining. Argh...
+    -->
+    <bean id="protector"
+            factory-bean="keyStoreFactory"
+            factory-method="getProtector"/>
+
+    <bean id="auditFactory" class="com.evolveum.midpoint.init.AuditFactory"/>
+
+    <bean id="auditService"
+            factory-bean="auditFactory"
+            factory-method="createAuditService"/>
+
+    <!-- prism context initialization -->
+    <bean id="midPointPrismContextFactory" class="com.evolveum.midpoint.init.ConfigurablePrismContextFactory">
+        <property name="configuration" ref="midpointConfiguration"/>
+    </bean>
+
+    <bean id="prismContext"
+            factory-bean="midPointPrismContextFactory"
+            factory-method="createInitializedPrismContext"/>
+
+    <context:component-scan base-package="com.evolveum.midpoint.schema"/>
+    <context:component-scan base-package="com.evolveum.midpoint.init"/>
+    <context:annotation-config/>
+</beans>

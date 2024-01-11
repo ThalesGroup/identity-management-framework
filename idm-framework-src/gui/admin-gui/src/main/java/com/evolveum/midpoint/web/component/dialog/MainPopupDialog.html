@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+    <div wicket:id="overlay" class="modal fade" tabindex="-1">
+        <form wicket:id="dialog" class="modal-dialog">
+            <div class="modal-content">
+                <wicket:enclosure child="title">
+                    <div class="modal-header">
+                        <h4 class="modal-title" wicket:id="title"/>
+                    </div>
+                </wicket:enclosure>
+                <div class="modal-body" wicket:id="content"/>
+                <div class="modal-footer" wicket:id="footer"/>
+            </div>
+        </form>
+    </div>
+</wicket:panel>

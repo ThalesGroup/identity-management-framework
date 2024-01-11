@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="10000000-0000-0000-5555-55550000e404"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+
+    <name>Live Sync: Emerald Dummy Resource</name>
+
+    <taskIdentifier>10000000-0000-0000-5555-555500000404</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>closed</executionState> <!-- run on demand -->
+
+    <activity>
+        <work>
+            <liveSynchronization>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-00000000e404"/>
+                    <objectclass>ri:AccountObjectClass</objectclass>
+                </resourceObjects>
+            </liveSynchronization>
+        </work>
+        <!--<reporting>-->
+        <!--    <tracing>-->
+        <!--        <beforeItemCondition>-->
+        <!--            <interval>1</interval>-->
+        <!--        </beforeItemCondition>-->
+        <!--        <tracingProfile>-->
+        <!--            <fileNamePattern>trace %{timestamp} %{testNameShort} %{focusName} %{milliseconds}</fileNamePattern>-->
+        <!--            <collectLogEntries>true</collectLogEntries>-->
+        <!--            <loggingOverride>-->
+        <!--                <levelOverride>-->
+        <!--                    <logger>com.evolveum.midpoint.model</logger>-->
+        <!--                    <logger>com.evolveum.midpoint.provisioning</logger>-->
+        <!--                    <level>TRACE</level>-->
+        <!--                </levelOverride>-->
+        <!--            </loggingOverride>-->
+        <!--            <tracingTypeProfile>-->
+        <!--                <level>normal</level>-->
+        <!--            </tracingTypeProfile>-->
+        <!--        </tracingProfile>-->
+        <!--    </tracing>-->
+        <!--</reporting>-->
+    </activity>
+</task>

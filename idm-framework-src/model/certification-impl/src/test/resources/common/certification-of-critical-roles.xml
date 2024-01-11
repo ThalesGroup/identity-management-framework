@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!--
+
+Expected cases, reviewers and decisions/outcomes:
+
+CEO = 00000000-d34d-b33f-f00d-000000000001
+COO = 00000000-d34d-b33f-f00d-000000000002
+
+Stage1: oneAcceptAccepts, default: accept, stop on: revoke          (manager)
+Stage2: allMustAccept, default: accept, advance on: accept          (target owner)
+Stage3: oneDenyDenies, stop on: not decided
+Stage4: allMustAccept
+
+Overall: allMustAccept
+
+owners: CEO: elaine, COO: administrator, CTO: none
+
+Case                        Stage1              Stage2                           Stage3                                            Stage4
+===============================================================================================================================================
+elaine->CEO                 none (A) -> A       elaine A -> A             | A    elaine:null,administrator:ND -> ND  [STOP] | ND
+guybrush->COO               cheese: A -> A      admin: RV -> RV   [STOP]  | RV
+administrator->COO          none (A) -> A       admin: A -> A             | A    elaine:A,administrator:null -> A           | A    cheese:A -> A | A
+administrator->CEO          none (A) -> A       elaine: A -> A            | A    elaine:NR,administrator:NR -> NR           | NR   cheese:A -> A | NR
+jack->CEO                   none (A) -> A       elaine: null -> NR [STOP] | NR
+jack->CTO                   none (A) -> A       none (A) -> A             | A    elaine:null,administrator:null -> NR       | NR   cheese:null | NR
+-->
+
+<accessCertificationDefinition
+        xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        oid="33333333-0000-0000-0000-000000000003">
+    <name>Certification of critical roles</name>
+    <description>Certification of critical roles. First the review is done by users' managers, then by Elaine the Governor.</description>
+    <handlerUri>http://midpoint.evolveum.com/xml/ns/public/certification/handlers-3#direct-assignment</handlerUri>
+    <scopeDefinition xsi:type="AccessCertificationAssignmentReviewScopeType">
+        <objectType>UserType</objectType>
+        <itemSelectionExpression>
+            <script>
+                <code>
+                    role = midpoint.resolveReferenceIfExists(assignment.targetRef)
+                    role != null &amp;&amp; role.riskLevel == 'critical'
+                </code>
+            </script>
+        </itemSelectionExpression>
+        <includeRoles>true</includeRoles>
+        <includeOrgs>false</includeOrgs>
+        <includeResources>false</includeResources>
+        <relation>default</relation>
+    </scopeDefinition>
+    <remediationDefinition>
+        <style>automated</style>
+    </remediationDefinition>
+    <stageDefinition>
+        <number>1</number>
+        <duration>P3D</duration>
+        <deadlineRounding>hour</deadlineRounding>
+        <reviewerSpecification>
+            <useObjectManager>
+                <orgType>functional</orgType>
+                <allowSelf>false</allowSelf>
+            </useObjectManager>
+        </reviewerSpecification>
+        <outcomeStrategy>oneAcceptAccepts</outcomeStrategy>
+        <outcomeIfNoReviewers>accept</outcomeIfNoReviewers>
+        <stopReviewOn>revoke</stopReviewOn>
+    </stageDefinition>
+    <stageDefinition>
+        <number>2</number>
+        <duration>P7D</duration>
+        <deadlineRounding>none</deadlineRounding>
+        <reviewerSpecification>
+            <useTargetOwner>true</useTargetOwner>
+        </reviewerSpecification>
+        <!-- very strict strategy: only ACCEPT is allowed to proceed -->
+        <outcomeStrategy>allMustAccept</outcomeStrategy>
+        <outcomeIfNoReviewers>accept</outcomeIfNoReviewers>
+        <advanceToNextStageOn>accept</advanceToNextStageOn>
+    </stageDefinition>
+    <stageDefinition>
+        <number>3</number>
+        <duration>P14D</duration>
+        <reviewerSpecification>
+            <defaultReviewerRef oid="c0c010c0-d34d-b33f-f00d-11111111111e" type="UserType" />   <!-- elaine -->
+            <defaultReviewerRef oid="00000000-0000-0000-0000-000000000002" type="UserType" />   <!-- administrator -->
+        </reviewerSpecification>
+        <outcomeStrategy>oneDenyDenies</outcomeStrategy>
+        <stopReviewOn>notDecided</stopReviewOn>
+    </stageDefinition>
+    <stageDefinition>
+        <number>4</number>
+        <!-- no duration set -->
+        <reviewerSpecification>
+            <defaultReviewerRef oid="c0c010c0-d34d-b33f-f00d-111111111130" type="UserType" />   <!-- cheese -->
+        </reviewerSpecification>
+        <outcomeStrategy>allMustAccept</outcomeStrategy>
+    </stageDefinition>
+    <reviewStrategy>
+        <outcomeStrategy>allMustAccept</outcomeStrategy>
+        <advanceToNextStageOn>delegate</advanceToNextStageOn>       <!-- just to see it's not used in stage 1 and 2 -->
+    </reviewStrategy>
+</accessCertificationDefinition>

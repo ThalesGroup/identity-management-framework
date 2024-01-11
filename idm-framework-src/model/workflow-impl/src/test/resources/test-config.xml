@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<configuration>
+    <midpoint>
+        <global>
+            <extensionDir>./src/test/resources/schema</extensionDir>
+        </global>
+        <repository>
+            <repositoryServiceFactoryClass>com.evolveum.midpoint.repo.sql.testing.TestSqlRepositoryFactory</repositoryServiceFactoryClass>
+            <port>5438</port>
+            <asServer>true</asServer>
+            <dropIfExists>true</dropIfExists>
+        </repository>
+        <workflow>
+            <enabled>true</enabled>
+        </workflow>
+        <audit>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.audit.impl.LoggerAuditServiceFactory</auditServiceFactoryClass>
+            </auditService>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.repo.sql.SqlAuditServiceFactory</auditServiceFactoryClass>
+            </auditService>
+            <auditService>
+                <auditServiceFactoryClass>com.evolveum.midpoint.test.DummyAuditServiceFactory</auditServiceFactoryClass>
+            </auditService>
+        </audit>
+        <taskManager>
+            <jdbcJobStore>false</jdbcJobStore>
+            <testMode>true</testMode>
+        </taskManager>
+        <icf>
+            <scanClasspath>true</scanClasspath>
+            <scanDirectory>/C:/tmp</scanDirectory>
+            <scanDirectory>/var/tmp</scanDirectory>
+            <scanDirectory>${midpoint.home}/icf-connectors</scanDirectory>
+            <scanDirectory>${midpoint.home}/connid-connectors</scanDirectory>
+        </icf>
+        <keystore>
+            <keyStorePath>${midpoint.home}/keystore.jceks</keyStorePath>
+            <keyStorePassword>changeit</keyStorePassword>
+            <encryptionKeyAlias>default</encryptionKeyAlias>
+        </keystore>
+    </midpoint>
+</configuration>

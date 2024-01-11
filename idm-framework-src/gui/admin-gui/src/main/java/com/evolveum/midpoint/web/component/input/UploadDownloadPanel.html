@@ -1,0 +1,22 @@
+<!--
+  ~ Copyright (c) 2010-2013 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="form-object-value-binary-box">
+        <input wicket:id="fileInput" type="file" class="form-object-value-binary-file-input"/>
+        <span class="btn-group">
+            <a class="btn btn-success btn-xs" wicket:id="download" wicket:message="title:UploadPanel.download.tooltip">
+                <i class="fa fa-download"/>
+            </a>
+            <a class="btn btn-danger btn-xs" wicket:id="remove" wicket:message="title:UploadPanel.delete.tooltip">
+                <i class="fa fa-trash-alt"/>
+            </a>
+        </span>
+    </div>
+</wicket:panel>
+</html>

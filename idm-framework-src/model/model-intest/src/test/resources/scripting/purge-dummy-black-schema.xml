@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<s:search xmlns:s="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3">
+    <s:type>ResourceType</s:type>
+    <s:searchFilter>
+        <equal xmlns="http://prism.evolveum.com/xml/ns/public/query-3">
+            <path>name</path>
+            <value>Dummy Resource Black</value>
+        </equal>
+    </s:searchFilter>
+    <s:purgeSchema/>
+</s:search>

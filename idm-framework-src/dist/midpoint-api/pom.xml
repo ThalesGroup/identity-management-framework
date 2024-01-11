@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>dist</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>midpoint-api</artifactId>
+    <packaging>pom</packaging>
+
+    <name>midPoint API Distribution</name>
+
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+        <javadoc.options></javadoc.options>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.evolveum.midpoint.model</groupId>
+            <artifactId>model-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.infra</groupId>
+            <artifactId>schema</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.prism</groupId>
+            <artifactId>prism-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>util</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>api-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <source>${project.source.version}</source>
+                    <includeDependencySources>true</includeDependencySources>
+                    <dependencySourceIncludes>
+                        <dependencySourceInclude>com.evolveum.*:*</dependencySourceInclude>
+                    </dependencySourceIncludes>
+                    <quiet>false</quiet>
+                    <debug>false</debug>
+                    <doclint>none</doclint>
+                    <additionalJOption>${javadoc.options}</additionalJOption>
+
+                    <!--
+                    TODO: Not usable yet, see https://github.com/asciidoctor/asciidoclet/pull/96 for the progress on JDK 11+ support.
+                    Currently fails on:
+                    [ERROR] javadoc: error - invalid flag: -author
+
+                    And with configuration option:
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    It fails with:
+                    [ERROR] java.lang.NoSuchMethodError: 'boolean com.sun.tools.doclets.standard.Standard.validOptions(java.lang.String[][], com.sun.javadoc.DocErrorReporter)'
+
+                    And that is a showstopper for now.
+                    <doclet>org.asciidoctor.Asciidoclet</doclet>
+                    <docletArtifact>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoclet</artifactId>
+                        <version>${asciidoclet.version}</version>
+                    </docletArtifact>
+                    -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

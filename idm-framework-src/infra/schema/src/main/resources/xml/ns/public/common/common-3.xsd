@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<xsd:schema targetNamespace="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:cap="http://midpoint.evolveum.com/xml/ns/public/resource/capabilities-3"
+            xmlns:a="http://prism.evolveum.com/xml/ns/public/annotation-3"
+            xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+            xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+            xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+            xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+            xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+            xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+            elementFormDefault="qualified"
+            jaxb:extensionBindingPrefixes="xjc"
+            jaxb:version="3.0">
+
+    <xsd:annotation>
+        <xsd:documentation>
+            <p>
+                This is a common schema for midPoint project. It contains all the
+                data types that the stock midPoint is using
+                This file contains more that a common schema in fact. It contains
+                all the objects, even parts of what is known as identity schema and
+                model schema in midPoint.
+            </p>
+
+            See
+            <a href="https://docs.evolveum.com/midpoint/reference/schema/">https://docs.evolveum.com/midpoint/reference/schema/</a>
+            for more details.
+
+            <p>Version: 4.4</p>
+
+            <p>Recommended namespace prefix: (default), c</p>
+        </xsd:documentation>
+        <xsd:appinfo>
+            <jaxb:globalBindings>
+                <xjc:typeSubstitution type="complex"/>
+                <xjc:serializable uid="201105211233"/>
+            </jaxb:globalBindings>
+            <a:defaultPrefix>c</a:defaultPrefix>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/annotation-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/annotation-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Common prism annotations used in various XSD schemas.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/types-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/types-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Prism data types.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/query-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/query-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Prism data types.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+                schemaLocation="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                This is a hack. It should not be here. And it will be gone as soon as we remove a deprecated functionality
+                in ResourceObjectPatternType.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <!-- Individual components of the common schema -->
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-core-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-certification-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-model-context-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-notifications-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-asynchronous-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-workflows-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-tasks-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-policy-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-case-management-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-security-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-metadata-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-gui-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-provisioning-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-correlation-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-simulations-3"/>
+    <xsd:include schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-mining-3"/>
+
+</xsd:schema>

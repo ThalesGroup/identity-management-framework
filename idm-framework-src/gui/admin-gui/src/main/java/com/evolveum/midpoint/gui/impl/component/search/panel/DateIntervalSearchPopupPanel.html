@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<html xmlns:wicket="http://wicket.apache.org">
+<head/>
+<body>
+<wicket:extend>
+        <div class="row">
+            <label class="col-form-label-sm col-2" wicket:id="fromLabel">
+                <wicket:message key="UserReportConfigPanel.dateFrom"/>
+            </label>
+            <div wicket:id="fromValueContainer">
+                <div wicket:id="dateFromValue" />
+            </div>
+        </div>
+        <div class="row" wicket:id="toDateContainer">
+            <label class="col-form-label-sm col-2">
+                <wicket:message key="UserReportConfigPanel.dateTo"/>
+            </label>
+            <div class="col-10" wicket:id="dateToValue"/>
+        </div>
+</wicket:extend>
+</body>
+</html>

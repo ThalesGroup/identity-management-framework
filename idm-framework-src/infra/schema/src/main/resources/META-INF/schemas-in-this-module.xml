@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!--
+
+Schemas that are provided directly by the schema module.
+========================================================
+
+Notes:
+
+1. When resolving schemas referenced by xsd:import/xsd:include ::
+   xsd:import seems to use publicId, while xsd:include uses systemId.
+   In order to make this file more readable we provide only one of this
+   pair (public/system entry) for each referenced file.
+
+   There are some weird exceptions when parsing at runtime (namely,
+   searching by publicId=null), but these are handled by resolvers in SchemaRegistry
+   class. Other strange cases related to xmlenc/xmldsig (occurring when using xjc)
+   are solved by using both public and system entries.
+
+2. If you see "White spaces are required between publicId and systemId" error message,
+   most probably a declaration is missing or has a wrong type.
+
+3. After updating this file, please make corresponding update to catalog files in
+   model-client module (and maybe prism, if applicable).
+
+-->
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+
+    <!-- common schema and its components; as they are included, use 'system' element to declare them -->
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/common/common-3" uri="../xml/ns/public/common/common-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-certification-3" uri="../xml/ns/public/common/common-certification-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-core-3" uri="../xml/ns/public/common/common-core-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-model-context-3" uri="../xml/ns/public/common/common-model-context-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-notifications-3" uri="../xml/ns/public/common/common-notifications-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-asynchronous-3" uri="../xml/ns/public/common/common-asynchronous-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-workflows-3" uri="../xml/ns/public/common/common-workflows-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-tasks-3" uri="../xml/ns/public/common/common-tasks-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-policy-3" uri="../xml/ns/public/common/common-policy-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-case-management-3" uri="../xml/ns/public/common/common-case-management-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-security-3" uri="../xml/ns/public/common/common-security-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-metadata-3" uri="../xml/ns/public/common/common-metadata-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-gui-3" uri="../xml/ns/public/common/common-gui-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-provisioning-3" uri="../xml/ns/public/common/common-provisioning-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-correlation-3" uri="../xml/ns/public/common/common-correlation-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-simulations-3" uri="../xml/ns/public/common/common-simulations-3.xsd" />
+    <system systemId="http://midpoint.evolveum.com/xml/ns/public/common/common-mining-3" uri="../xml/ns/public/common/common-mining-3.xsd" />
+
+
+    <!-- WSDLs -->
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/model/model-3" uri="../xml/ns/public/model/model-3.wsdl" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/common/fault-3" uri="../xml/ns/public/common/fault-3.wsdl" />
+
+    <!-- midPoint XSDs -->
+    <!-- common -->
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/common/api-types-3" uri="../xml/ns/public/common/api-types-3.xsd" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/common/audit-3" uri="../xml/ns/public/common/audit-3.xsd" />
+
+    <!-- provisioning -->
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3" uri="../xml/ns/public/connector/icf-1/resource-schema-3.xsd" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/connector-schema-3" uri="../xml/ns/public/connector/icf-1/connector-schema-3.xsd" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/resource/capabilities-3" uri="../xml/ns/public/resource/capabilities-3.xsd" />
+
+    <!-- model -->
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/model/import/extension-3" uri="../xml/ns/public/model/import/extension-3.xsd" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3" uri="../xml/ns/public/model/scripting/scripting-3.xsd" />
+    <public publicId="http://midpoint.evolveum.com/xml/ns/public/model/scripting/extension-3" uri="../xml/ns/public/model/scripting/extension-3.xsd" />
+
+    <!-- Bundled standard schemas (duplicated in prism catalog files) -->
+    <public publicId="datatypes" uri="../xml/ns/standard/datatypes.dtd" />
+    <public publicId="-//W3C//DTD XMLSchema 200102//EN" uri="../xml/ns/standard/XMLSchema.dtd" />
+    <public publicId="-//W3C//DTD XMLSCHEMA 200102//EN" uri="../xml/ns/standard/XMLSchema.dtd" />
+    <public publicId="http://www.w3.org/2001/XMLSchema" uri="../xml/ns/standard/XMLSchema.xsd" />
+    <public publicId="XMLSchema.dtd" uri="../xml/ns/standard/XMLSchema.dtd" />
+    <public publicId="http://www.w3.org/2001/04/xmlenc#" uri="../xml/ns/standard/xenc-schema.xsd" />
+    <system systemId="http://www.w3.org/2001/04/xmlenc" uri="../xml/ns/standard/xenc-schema.xsd" />         <!-- for some strange reason, sometimes there is a search with publicId="...xmlenc" from xjc -->
+    <public publicId="http://www.w3.org/2000/09/xmldsig#" uri="../xml/ns/standard/xmldsig-core-schema.xsd" />
+    <system systemId="http://www.w3.org/2000/09/xmldsig" uri="../xml/ns/standard/xmldsig-core-schema.xsd" />
+    <public publicId="http://www.w3.org/XML/1998/namespace" uri="../xml/ns/standard/xml.xsd" />
+    <public publicId="xml.xsd" uri="../xml/ns/standard/xml.xsd" />
+
+</catalog>

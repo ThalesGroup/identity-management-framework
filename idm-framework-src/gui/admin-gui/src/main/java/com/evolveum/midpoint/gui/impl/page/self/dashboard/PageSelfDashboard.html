@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <form wicket:id="mainForm">
+        <div class="d-flex justify-content-end mb-3" wicket:id="searchPanel"/>
+        <div class="d-flex flex-wrap gap-3 mb-3">
+            <wicket:container wicket:id="statisticWidgetsPanel">
+                <div class="dashboard-link-component" wicket:id="statisticWidget"/>
+            </wicket:container>
+        </div>
+        <div class="row">
+            <wicket:container wicket:id="objectCollectionViewWidgetsPanel">
+                <div wicket:id="objectCollectionViewWidget"/>
+            </wicket:container>
+        </div>
+    </form>
+</wicket:extend>
+</body>
+</html>

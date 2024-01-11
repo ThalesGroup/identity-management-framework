@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<resource oid="deadbeef-c001-f00d-1111-222233330001"
+          xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>white</name>
+    <connectorConfiguration/>
+    <schemaHandling>
+        <objectType>
+            <kind>account</kind>
+            <intent>default</intent>
+            <objectClass xmlns:qn738="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">qn738:AccountObjectClass</objectClass>
+        </objectType>
+        <objectType>
+            <kind>account</kind>
+            <intent>test</intent>
+            <objectClass xmlns:qn738="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">qn738:AccountObjectClass</objectClass>
+        </objectType>
+    </schemaHandling>
+</resource>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+        default-lazy-init="false">
+
+    <!-- enabling annotation driven configuration -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.evolveum.midpoint.model.impl"/>
+    <context:spring-configured/>
+
+    <!-- We are wiring repo-common and model-common objects here. These are not wired in repo-common or model-common as we want to
+         place the right dependencies there. E.g. we want to inject modelResolver at proper places in those beans. -->
+
+    <bean id="basicFunctionObject"
+            class="com.evolveum.midpoint.model.common.expression.functions.BasicExpressionFunctions">
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <constructor-arg name="clock" ref="clock"/>
+    </bean>
+
+    <bean id="basicFunctionLibrary"
+            class="com.evolveum.midpoint.model.common.expression.functions.FunctionLibraryBinding">
+        <constructor-arg name="variableName" value="basic"/>
+        <constructor-arg name="implementation" ref="basicFunctionObject"/>
+    </bean>
+
+    <bean id="logFunctionObject"
+            class="com.evolveum.midpoint.model.common.expression.functions.LogExpressionFunctions">
+        <constructor-arg name="prismContext" ref="prismContext"/>
+    </bean>
+
+    <bean id="logFunctionLibrary" class="com.evolveum.midpoint.model.common.expression.functions.FunctionLibraryBinding">
+        <constructor-arg name="variableName" value="log"/>
+        <constructor-arg name="implementation" ref="logFunctionObject"/>
+    </bean>
+
+    <bean id="javascriptScriptEvaluator"
+            class="com.evolveum.midpoint.model.common.expression.script.jsr223.Jsr223ScriptEvaluator">
+        <constructor-arg name="engineName" value="JavaScript"/>
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <constructor-arg name="localizationService" ref="localizationService"/>
+    </bean>
+
+    <bean id="groovyScriptEvaluator"
+            class="com.evolveum.midpoint.model.common.expression.script.groovy.GroovyScriptEvaluator">
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <constructor-arg name="localizationService" ref="localizationService"/>
+    </bean>
+
+    <bean id="pythonScriptEvaluator"
+            class="com.evolveum.midpoint.model.common.expression.script.jsr223.Jsr223ScriptEvaluator">
+        <constructor-arg name="engineName" value="python"/>
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <constructor-arg name="localizationService" ref="localizationService"/>
+    </bean>
+
+    <bean id="velocityScriptEvaluator"
+            class="com.evolveum.midpoint.model.common.expression.script.velocity.VelocityScriptEvaluator">
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <constructor-arg name="localizationService" ref="localizationService"/>
+    </bean>
+
+    <bean id="scriptExpressionFactory"
+            class="com.evolveum.midpoint.model.common.expression.script.ScriptExpressionFactory">
+        <constructor-arg name="prismContext" ref="prismContext"/>
+        <constructor-arg name="builtInLibraryBindings">
+            <list>
+                <ref bean="basicFunctionLibrary"/>
+                <ref bean="logFunctionLibrary"/>
+                <ref bean="midpointFunctionLibrary"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="evaluators">
+            <list>
+                <ref bean="javascriptScriptEvaluator"/>
+                <ref bean="groovyScriptEvaluator"/>
+                <ref bean="pythonScriptEvaluator"/>
+                <ref bean="velocityScriptEvaluator"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="objectResolver" ref="modelObjectResolver"/>
+        <constructor-arg name="functionLibraryManager" ref="functionLibraryManager"/>
+    </bean>
+
+    <bean id="functionExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.FunctionExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="generateExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.GenerateExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg ref="protector"/>
+        <constructor-arg ref="valuePolicyProcessor"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="pathExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.path.PathExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="assignmentTargetSearchExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.AssignmentTargetSearchExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="referenceSearchExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.ReferenceSearchExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="associationTargetSearchExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.AssociationTargetSearchExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="associationFromLinkExpressionEvaluatorFactory"
+            class="com.evolveum.midpoint.model.common.expression.evaluator.AssociationFromLinkExpressionEvaluatorFactory">
+        <constructor-arg ref="expressionFactory"/>
+        <constructor-arg name="protector" ref="protector"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="expressionFactory" class="com.evolveum.midpoint.repo.common.expression.ExpressionFactory">
+        <constructor-arg ref="securityContextManager"/>
+        <constructor-arg ref="localizationService"/>
+        <property name="defaultEvaluatorFactory" ref="asIsExpressionEvaluatorFactory"/>
+        <property name="objectResolver" ref="modelObjectResolver"/>
+    </bean>
+
+    <bean id="mappingFactory" class="com.evolveum.midpoint.model.common.mapping.MappingFactory">
+        <property name="beans" ref="modelCommonBeans"/>
+    </bean>
+
+    <bean id="midpointFunctionLibrary"
+            class="com.evolveum.midpoint.model.common.expression.functions.FunctionLibraryBinding">
+        <constructor-arg name="variableName" value="midpoint"/>
+        <constructor-arg name="implementation" ref="midpointFunctionsImpl"/>
+    </bean>
+</beans>

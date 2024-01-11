@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        oid="b5a8b51d-d834-4803-a7d0-c81bcc58113e">
+    <name>Shadow Integrity Check</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002" type="UserType"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <shadowIntegrityCheck>
+                <diagnose>uniqueness</diagnose>
+                <fix>uniqueness</fix>
+            </shadowIntegrityCheck>
+        </work>
+    </activity>
+</task>

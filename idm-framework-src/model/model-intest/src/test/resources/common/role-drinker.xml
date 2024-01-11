@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (c) 2016-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="0abbde4c-ab3f-11e6-910d-d7dabf5f09f0"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Drinker</name>
+    <description>Rum drinker. Almost empty role that is assigned to the org in a way similar to role catalog.</description>
+    <assignment>
+        <!-- Ministry of Rum -->
+        <targetRef oid="00000000-8888-6666-0000-100000000004" type="OrgType"/>
+    </assignment>
+    <delegable>true</delegable>
+    <idempotence>conservative</idempotence>
+    <authorization>
+        <action>http://midpoint.evolveum.com/xml/ns/test/authorization#drink</action>
+    </authorization>
+</role>

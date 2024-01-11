@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="e2edaa90-7624-4a82-8a7c-92e00c78d8d3">
+    <name>Import groups</name>
+    <taskIdentifier>e2edaa90-7624-4a82-8a7c-92e00c78d8d3</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="1eff65de-5bb6-483d-9edf-8cc2c2ee0233" type="ResourceType"/> <!-- Grouper -->
+    <activity>
+        <work>
+            <import>
+                <resourceObjects>
+                    <resourceRef oid="1eff65de-5bb6-483d-9edf-8cc2c2ee0233"/>
+                    <objectclass>ri:GroupObjectClass</objectclass>
+                </resourceObjects>
+            </import>
+        </work>
+    </activity>
+</task>

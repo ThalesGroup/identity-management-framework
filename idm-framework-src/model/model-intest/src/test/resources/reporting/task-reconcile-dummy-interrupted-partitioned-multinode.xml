@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="9a52b7a4-afda-4b22-932e-f45b9f90cf95"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+
+    <name>Reconcile: Dummy Interrupted Partitioned Multinode</name>
+
+    <taskIdentifier>9a52b7a4-afda-4b22-932e-f45b9f90cf95</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+
+    <objectRef oid="7a58233a-1cfb-46d1-a404-08cdf4626ebb" type="ResourceType"/>
+
+    <activity>
+        <work>
+            <reconciliation>
+                <resourceObjects>
+                    <resourceRef oid="7a58233a-1cfb-46d1-a404-08cdf4626ebb" />
+                    <kind>account</kind>
+                    <intent>default</intent>
+                    <objectclass>ri:AccountObjectClass</objectclass>
+                </resourceObjects>
+            </reconciliation>
+        </work>
+        <distribution>
+            <subtasks/>
+        </distribution>
+        <tailoring>
+            <change>
+                <reference>resourceObjects</reference>
+                <distribution>
+                    <buckets>
+                        <stringSegmentation>
+                            <discriminator>attributes/name</discriminator>
+                            <boundary>
+                                <position>1</position>
+                                <characters>w</characters>
+                            </boundary>
+                            <boundary>
+                                <position>2</position>
+                                <position>3</position>
+                                <characters>0-9</characters>
+                            </boundary>
+                            <comparisonMethod>prefix</comparisonMethod>
+                        </stringSegmentation>
+                    </buckets>
+                    <workers>
+                        <workersPerNode>
+                            <count>2</count>
+                        </workersPerNode>
+                    </workers>
+                    <workerThreads>2</workerThreads>
+                </distribution>
+            </change>
+        </tailoring>
+    </activity>
+</task>

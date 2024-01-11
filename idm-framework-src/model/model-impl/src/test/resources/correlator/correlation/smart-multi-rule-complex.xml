@@ -1,0 +1,76 @@
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<compositeCorrelator
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>complex</name>
+    <scaling>
+        <scale>1.0</scale>
+    </scaling>
+    <items>
+        <name>full</name>
+        <item>
+            <ref>givenName</ref>
+        </item>
+        <item>
+            <ref>familyName</ref>
+            <!-- uses "orig" search defined in the object template -->
+        </item>
+        <item>
+            <ref>extension/nationalId</ref>
+        </item>
+        <composition>
+            <tier>1</tier>
+        </composition>
+    </items>
+    <items>
+        <name>both-names</name>
+        <item>
+            <ref>givenName</ref>
+        </item>
+        <item>
+            <ref>familyName</ref>
+            <!-- uses "orig" search defined in the object template -->
+        </item>
+        <composition>
+            <weight>0.5</weight>
+            <ignoreIfMatchedBy>full</ignoreIfMatchedBy>
+        </composition>
+    </items>
+    <items>
+        <name>familyName</name>
+        <item>
+            <ref>familyName</ref>
+            <!-- uses "orig" search defined in the object template -->
+        </item>
+        <composition>
+            <weight>0.25</weight>
+            <ignoreIfMatchedBy>both-names</ignoreIfMatchedBy>
+        </composition>
+    </items>
+    <items>
+        <!-- just for the testing, not to be used in real life! -->
+        <name>givenName</name>
+        <item>
+            <ref>givenName</ref>
+        </item>
+        <composition>
+            <weight>0.1</weight>
+            <ignoreIfMatchedBy>both-names</ignoreIfMatchedBy>
+        </composition>
+    </items>
+    <items>
+        <name>nationalId</name>
+        <item>
+            <ref>extension/nationalId</ref>
+        </item>
+        <composition>
+            <weight>0.75</weight>
+            <ignoreIfMatchedBy>full</ignoreIfMatchedBy>
+        </composition>
+    </items>
+</compositeCorrelator>

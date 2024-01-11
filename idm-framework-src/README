@@ -1,0 +1,58 @@
+MidPoint 4.8 "Curie"
+-------------------------------
+
+General information:
+
+MidPoint is a comprehensive identity management and governance system.
+MidPoint can synchronize several identity repositories, manage and
+transform data in these repositories to keep them synchronized. MidPoint can
+make the data available in unified form, apply and manage policies,
+manage object lifecycle, maintain audit trails and many other things.
+
+The most important features of midPoint are:
+   - User provisioning and deprovisioning
+   - Identity governance
+   - Administration GUI
+   - Identity repository implementation (SQL)
+   - Custom schema extensibility
+   - Identity synchronization (liveSync, reconciliation, discovery, import)
+   - Support for expressions in synchronization mappings (Groovy, JavaScript, Python)
+   - Advanced RBAC support with temporal constraints
+   - Identity management process automation (workflow, notifications)
+   - Password policies
+   - Password reset
+   - Organizational structure management
+   - Entitlements
+   - Archetypes
+   - Support for ConnId connectors
+   - Provisioning consistency and error handling
+   - Support for security auditing and reporting
+   - Data protection (experimental)
+   - Request approval
+   - Reporting
+   - Notifications
+   - Local Java APIs, Remote web service interface (SOAP), REST API
+   - High availability (HA) support
+
+For more information please go to:
+
+  https://midpoint.evolveum.com/
+
+For bugtracking system please go to:
+
+  https://jira.evolveum.com/
+
+MidPoint source code is maintained on github:
+
+  https://github.com/Evolveum/midpoint
+
+Latest source code can be obtained from our Git repository using one of the
+following repository locations:
+
+  https://github.com/Evolveum/midpoint.git
+
+  git@github.com:Evolveum/midpoint.git
+
+This project is dual-licensed under Apache License 2.0 and European Union Public License. The documentation is licensed under
+the terms of Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license.
+See LICENSE file for details.

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<objectTemplate oid="c2e52c79-a0ea-42ec-8853-1e9ea16175a9"
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:c='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:t='http://prism.evolveum.com/xml/ns/public/types-3'
+   xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+   xmlns:piracy='http://midpoint.evolveum.com/xml/ns/samples/piracy'>
+    <name>Schema Constraints User Template</name>
+
+    <item>
+        <ref>familyName</ref>
+        <limitations>
+            <layer>model</layer>
+            <minOccurs>1</minOccurs>
+        </limitations>
+    </item>
+
+</objectTemplate>

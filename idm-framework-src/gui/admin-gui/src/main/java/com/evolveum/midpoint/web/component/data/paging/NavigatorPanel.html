@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright (c) 2010-2013 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <ul class="pagination mb-0" wicket:id="pagination">
+        <li class="page-item" wicket:id="first">
+            <a class="page-link" wicket:id="firstLink">
+                <wicket:message key="NavigatorPanel.firstLink"/>
+            </a>
+        </li>
+        <li class="page-item" wicket:id="previous">
+            <a class="page-link" wicket:id="previousLink">
+                <wicket:message key="NavigatorPanel.previousLink"/>
+            </a>
+        </li>
+        <li class="page-item" wicket:id="navigation">
+            <a class="page-link" wicket:id="pageLink"/>
+        </li>
+        <li class="page-item" wicket:id="next">
+            <a class="page-link" wicket:id="nextLink">
+                <wicket:message key="NavigatorPanel.nextLink"/>
+            </a>
+        </li>
+        <li class="page-item" wicket:id="last">
+            <a class="page-link" wicket:id="lastLink">
+                <wicket:message key="NavigatorPanel.lastLink"/>
+            </a>
+        </li>
+    </ul>
+</wicket:panel>
+</html>

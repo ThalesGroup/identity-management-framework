@@ -1,0 +1,94 @@
+/*!
+ * Copyright (c) 2022 Evolveum and contributors
+ *
+ * This work is dual-licensed under the Apache License 2.0
+ * and European Union Public License. See LICENSE file for details.
+ */
+
+@use "sass:math";
+@use "sass:color";
+
+// simple width, mainly usable for table columns. Bootstrap has only w-* for 25%, 50%, 75%, 100%
+@each $breakpoint in map-keys($grid-breakpoints) {
+  $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+
+    @if $grid-columns > 0 {
+      @for $i from 1 through $grid-columns {
+        .mp-w#{$infix}-#{$i} {
+          width: math.div(100%, $grid-columns) * $i;
+        }
+      }
+    }
+  }
+}
+
+// spacing utility used to space child elements, e.g. button bar without the need to add margin to each element individually
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    // Negative margins (e.g., where `.mb-n1` is negative version of `.mb-1`)
+    @each $size, $length in $spacers {
+      .space#{$infix}-#{$size} > * + *,
+      .space-x#{$infix}-#{$size} > * + * {
+        margin-left: $length !important;
+        margin-right: $length !important;
+      }
+
+      .space#{$infix}-#{$size} > * + *,
+      .space-y#{$infix}-#{$size} > * + * {
+        margin-top: $length !important;
+        margin-bottom: $length !important;
+      }
+
+      .gap#{$infix}-#{$size} {
+        gap: $length !important;
+      }
+    }
+  }
+}
+
+.rounded-xl {
+  border-radius: .5rem !important;
+}
+
+.trend {
+  width: fit-content;
+  font-weight: normal;
+}
+
+.trend-success {
+  background: rgba($green, .2);
+  color: $green;
+}
+
+.trend-danger {
+  background-color:rgba($red, .2);
+  color: $red;
+}
+
+.gap-2h {
+    gap: 0.75rem!important;
+}
+
+//Extra smooth transition function with importance flag
+@mixin smooth-transition($duration, $important: "") {
+  $important-flag: if($important == "important", ' !important', '');
+
+  transition: all ease $duration#{$important-flag};
+  -webkit-transition: all ease $duration#{$important-flag};
+}
+
+.fp-center {
+  min-height:100%!important;
+  width: 100%;
+  min-height: 100% !important;
+  height: auto !important;
+  position: absolute;
+}
+
+.lh-n {
+  line-height: normal!important;
+}

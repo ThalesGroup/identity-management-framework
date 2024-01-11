@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2023 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+    <div class="d-flex flex-column gap-2">
+        <div wicket:id="recoveredIdentities" class="user-panel info-box mb-1">
+            <div wicket:id="detailsPanel" class="d-flex flex-wrap gap-2 w-100" />
+        </div>
+    </div>
+    <div wicket:id="paging" class="d-flex gap-2 w-100 justify-content-center mt-3 mb-1" />
+    <div>
+        <a wicket:id="restartFlow" class="d-flex btn btn-default justify-content-center w-100 mt-4 align-items-center">
+            <i class="mr-2 fa fa-sync-alt" />
+            <wicket:message key="PageIdentityRecovery.restartFlow"/>
+        </a>
+        <a wicket:id="registrationLink" class="d-flex btn btn-default justify-content-center w-100 mt-2 align-items-center">
+            <i class="mr-2 fa fa-solid fa-user-plus" />
+            <wicket:message key="PageLogin.registerNewAccount"/>
+        </a>
+    </div>
+</wicket:extend>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="59a74606-0550-470b-856d-50890c31f3a4">
+    <name>task-crm-import</name>
+    <taskIdentifier>59a74606-0550-470b-856d-50890c31f3a4</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="74a73b98-3372-465b-a247-3d695b794170" type="c:ResourceType"/> <!-- resource-crm -->
+    <schedule>
+        <recurrence>recurring</recurrence> <!-- scheduled manually -->
+    </schedule>
+    <activity>
+        <work>
+            <import>
+                <resourceObjects>
+                    <resourceRef oid="74a73b98-3372-465b-a247-3d695b794170"/>
+                    <kind>account</kind>
+                    <intent>default</intent>
+                    <objectclass>ri:AccountObjectClass</objectclass>
+                </resourceObjects>
+            </import>
+        </work>
+    </activity>
+</task>

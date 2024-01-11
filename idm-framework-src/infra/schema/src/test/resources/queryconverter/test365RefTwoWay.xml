@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!-- this is the 'official' format as provided by query serialization code -->
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3"
+       xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+       xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <filter>
+        <or>
+            <ref>
+                <path>c:resourceRef</path>
+                <value xsi:type="t:ObjectReferenceType" oid="oid1" />
+            </ref>
+            <ref>
+                <path>c:resourceRef</path>
+                <value xsi:type="t:ObjectReferenceType" oid="oid2" type="c:ResourceType" />
+            </ref>
+            <ref>
+                <path>c:resourceRef</path>
+                <value xsi:type="t:ObjectReferenceType" oid="oid3" type="c:ResourceType" relation="test"/>
+                <value xsi:type="t:ObjectReferenceType" oid="oid4" type="c:ResourceType" relation="test"/>
+            </ref>
+        </or>
+    </filter>
+</query>
