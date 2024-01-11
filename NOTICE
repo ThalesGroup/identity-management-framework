@@ -25,7 +25,7 @@ OpenJDK Nashorn 15.3 : GNU General Public License v2.0 w/Classpath exception
           please reach out to us instead of raising it to actual writer of 
           Open Source.
 
-Below are the modified to customize the GUI for IDM Framework.
+Below are the modified files to customize the GUI for IDM Framework.
 
 	– GuiStyleConstants.java
 	– ReportCollectionViewPanel.java

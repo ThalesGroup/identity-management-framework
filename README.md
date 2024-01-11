@@ -33,7 +33,6 @@ The official documentation of the Identity Management Framework is available at 
 If you are interested in contributing to the Identity Management Framework project, start by reading the [Contributing guide](/CONTRIBUTING.md).
 
 ## License:
-
 The project uses [Apache-2.0 license](/LICENSE).
 
 
