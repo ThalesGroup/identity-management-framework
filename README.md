@@ -6,7 +6,6 @@ Please refer to STA Documentation for more information about Identity Management
 
 ## Tags:
 - `latest`[(IdM Framework GA Release version 1.2.0)](https://github.com/ThalesGroup/identity-management-framework/releases/tag/v1.2.0)
-- `1.1.0`[(IdM Framework GA Release version 1.1.0)](https://github.com/ThalesGroup/identity-management-framework/releases/tag/v1.1.0)
 
 ## Accessing the Image:
 - download image without building:
