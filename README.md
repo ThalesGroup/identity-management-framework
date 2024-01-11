@@ -20,11 +20,6 @@ For the steps to deploy, please follow [Deploying Identity Management Framework]
 
 docker logs -f &lt;container-name&gt;
 
-## Access IdM Framework:
-- URL: https://127.0.0.1/midpoint
-- username: Administrator
-- password: 5ecr3t
-
 ## Documentation:
 The official documentation of the Identity Management Framework is available at [Thalesdocs](https://thalesdocs.com/sta/crns/identity_management_framework_crn/index.html)
 
