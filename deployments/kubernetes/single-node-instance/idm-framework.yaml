@@ -19,7 +19,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: mp-db-init
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
+          image: 'artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:latest'
           command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
           env:
             - name: MP_INIT_DB_CONCAT
@@ -96,7 +96,7 @@ spec:
             defaultMode: 420
       initContainers:
         - name: mp-config-init
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
+          image: 'artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:latest'
           command: ["/bin/bash","/opt/midpoint/bin/midpoint.sh","init-native"]
           env:
             - name: MP_INIT_CFG
@@ -107,7 +107,7 @@ spec:
           imagePullPolicy: IfNotPresent
       containers:
         - name: idm-framework-server
-          image: 'us-west1-docker.pkg.dev/cpl-sta-l-app-devlab-01/lab-artifactory/idm-framework:latest'
+          image: 'artifactory.thalesdigital.io/docker-public/identity-management-framework/idm_framework:latest'
           ports:
             - name: gui
               containerPort: 8080
