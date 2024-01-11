@@ -208,7 +208,7 @@
         <cxf-xjc.version>3.3.1</cxf-xjc.version>
         <wss4j.version>2.3.3</wss4j.version>
         <opendj.version>2.6.2</opendj.version>
-        <quartz.version>2.3.2.e3</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <opensaml.version>4.1.1</opensaml.version>
         <cache2k.version>2.0.0.Final</cache2k.version>
         <testng.version>7.8.0</testng.version>
