@@ -1,0 +1,94 @@
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<objectTemplate xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                oid="17f11c7f-3692-4f80-9fec-63f89ee6763e">
+    <name>object-template-user</name>
+    <iterationSpecification>
+        <maxIterations>9999</maxIterations>
+    </iterationSpecification>
+    <item>
+        <ref>givenName</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>familyName</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>extension/dateOfBirth</ref>
+        <multiSource/>
+    </item>
+    <item>
+        <ref>extension/nationalId</ref>
+        <multiSource/>
+    </item>
+    <mapping>
+        <strength>strong</strength>
+        <source>
+            <path>givenName</path>
+        </source>
+        <source>
+            <path>familyName</path>
+        </source>
+        <expression>
+            <script>
+                <code>
+                    basic.stringify(givenName) + ' ' + basic.stringify(familyName)
+                </code>
+            </script>
+        </expression>
+        <target>
+            <path>fullName</path>
+        </target>
+    </mapping>
+    <mapping>
+        <strength>weak</strength>
+        <source>
+            <path>familyName</path>
+        </source>
+        <expression>
+            <script>
+                <code>
+                    basic.stringify(familyName).toLowerCase() + (iteration + 1)
+                </code>
+            </script>
+        </expression>
+        <target>
+            <path>name</path>
+        </target>
+    </mapping>
+    <multiSource>
+        <defaultAuthoritativeSource>
+            <expression>
+                <script>
+                    <code>
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_EXTERNAL
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_HR
+                        import static com.evolveum.midpoint.testing.story.correlation.TestInternalCorrelationMedium.RESOURCE_SIS
+
+                        // Here would be some very smart code evaluating specified business rules aimed to pick
+                        // the most accurate and precise data.
+                        //
+                        // However, currently we simply take the assignment with the "lowest" ID (i.e. tag).
+
+                        if (identity == null) {
+                            return null
+                        }
+
+                        identity
+                                .collect { it.source }
+                                .findAll { it != null }
+                                .min { it.tag }
+                                ?.clone()
+                    </code>
+                </script>
+            </expression>
+        </defaultAuthoritativeSource>
+    </multiSource>
+
+</objectTemplate>

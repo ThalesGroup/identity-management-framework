@@ -1,0 +1,42 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <form wicket:id="panelContainer" class="form-horizontal" style="margin-bottom: 20px;">
+        <table>
+            <tr class="row">
+                <td rowspan="3" class="col-md-1"><i wicket:id="statusIcon" style="font-size: 30px;"></i></td>
+                <td class="col-md-7">
+                    <div wicket:id="existingAssignment"/>
+                </td>
+                <td class="col-md-3">
+                    <a wicket:id="removeButton" class="btn btn-primary btn-xs"></a>
+                </td>
+            </tr>
+            <tr class="row">
+                <td class="col-md-7">
+                    <label>
+                        <wicket:message key="AssignmentConflictPanel.conflictMessage"/>
+                    </label>
+                </td>
+                <td class="col-md-3">
+                </td>
+            </tr>
+            <tr class="row">
+                <td class="col-md-7">
+                    <div wicket:id="addedAssignment"/>
+                </td>
+                <td class="col-md-3">
+                    <a wicket:id="unselectButton" class="btn btn-primary btn-xs"></a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</wicket:panel>
+</html>

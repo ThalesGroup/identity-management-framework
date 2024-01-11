@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!--
+This one is used by JAX-WS endpoints at runtime.
+By default, it looks for a file named "jax-ws-catalog.xml".
+As I haven't found a way to configure this, I'm keeping this file as a redirection.
+-->
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
+    <nextCatalog catalog="catalog-runtime.xml"/>
+</catalog>

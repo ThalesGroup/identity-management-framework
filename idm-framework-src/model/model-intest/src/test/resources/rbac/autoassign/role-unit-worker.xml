@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="e83969fa-bfda-11e7-8b5b-ab60e0279f06"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Unit Worker</name>
+    <inducement>
+        <construction xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="c:ResourceType"/>
+            <kind>account</kind>
+            <attribute>
+                <ref>ri:title</ref>
+                <outbound>
+                    <expression>
+                        <value>Worker</value>
+                    </expression>
+                </outbound>
+            </attribute>
+        </construction>
+    </inducement>
+    <autoassign>
+        <enabled>true</enabled>
+        <focus>
+            <selector>
+                <type>UserType</type>
+            </selector>
+            <mapping>
+                <name>autoassign-worker</name>
+                <trace>true</trace>
+                <source>
+                    <path>organizationalUnit</path>
+                </source>
+                <condition>
+                    <script>
+                        <code>basic.stringify(organizationalUnit) == 'worker'</code>
+                    </script>
+                </condition>
+            </mapping>
+        </focus>
+    </autoassign>
+</role>

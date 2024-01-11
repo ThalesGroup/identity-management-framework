@@ -1,0 +1,49 @@
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:org="http://midpoint.evolveum.com/xml/ns/public/common/org-3"
+        xmlns:s="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        oid="829c2d59-91c0-493f-9501-afc336e991c8"
+        version="14">
+    <name>Create user</name>
+    <taskIdentifier>1507208317101:451769069</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002" relation="org:default" type="c:UserType">
+        <!-- administrator -->
+    </ownerRef>
+    <executionState>closed</executionState>
+    <binding>tight</binding>
+    <activity>
+        <work>
+            <nonIterativeScripting>
+                <scriptExecutionRequest>
+                    <s:action>
+                        <s:type>add</s:type>
+                    </s:action>
+                    <s:input>
+                        <s:value xsi:type="c:UserType">
+                            <name>joe</name>
+                            <fullName>Joe Doe</fullName>
+                            <givenName>Joe</givenName>
+                            <familyName>Doe</familyName>
+                        </s:value>
+                    </s:input>
+                    <s:variables>
+                        <s:variable>
+                            <s:name>test</s:name>
+                            <s:expression>
+                                <c:value xsi:type="xsd:int">12345</c:value>
+                            </s:expression>
+                        </s:variable>
+                    </s:variables>
+                </scriptExecutionRequest>
+            </nonIterativeScripting>
+        </work>
+    </activity>
+</task>

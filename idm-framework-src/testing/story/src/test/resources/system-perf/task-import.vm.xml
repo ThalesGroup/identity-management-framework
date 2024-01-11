@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!--
+Parameters:
+ - taskOid
+ - index
+ - resourceOid
+ - workerThreads
+-->
+
+<task oid="$taskOid"
+      xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+
+    <name>task-import-$index</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <import>
+                <resourceObjects>
+                    <resourceRef oid="$resourceOid"/>
+                    <objectclass>ri:AccountObjectClass</objectclass>
+                </resourceObjects>
+            </import>
+        </work>
+        <distribution>
+            <workerThreads>$workerThreads</workerThreads>
+        </distribution>
+        <reporting>
+            <!--<tracing>-->
+            <!--    <order>1</order>-->
+            <!--    <beforeItemCondition>-->
+            <!--        <interval>50</interval>-->
+            <!--    </beforeItemCondition>-->
+            <!--    <tracingProfile>-->
+            <!--        <fileNamePattern>trace-normal %{timestamp} %{focusName} %{milliseconds}</fileNamePattern>-->
+            <!--        <tracingTypeProfile>-->
+            <!--            <level>normal</level>-->
+            <!--        </tracingTypeProfile>-->
+            <!--        <tracingTypeProfile>-->
+            <!--            <operationType>ScriptEvaluationTraceType</operationType>-->
+            <!--            <level>off</level>-->
+            <!--        </tracingTypeProfile>-->
+            <!--    </tracingProfile>-->
+            <!--</tracing>-->
+            <!--<tracing>-->
+            <!--    <order>2</order>-->
+            <!--    <beforeItemCondition>-->
+            <!--        <interval>20</interval>-->
+            <!--    </beforeItemCondition>-->
+            <!--    <tracingProfile>-->
+            <!--        <fileNamePattern>trace-minimal %{timestamp} %{focusName} %{milliseconds}</fileNamePattern>-->
+            <!--        <tracingTypeProfile>-->
+            <!--            <level>minimal</level>-->
+            <!--        </tracingTypeProfile>-->
+            <!--    </tracingProfile>-->
+            <!--</tracing>-->
+            <!--<tracing>-->
+            <!--    <order>3</order>-->
+            <!--    <beforeItemCondition>-->
+            <!--        <interval>1</interval>-->
+            <!--    </beforeItemCondition>-->
+            <!--    <tracingProfile>-->
+            <!--        <fileNamePattern>trace %{timestamp} %{focusName} %{milliseconds}</fileNamePattern>-->
+            <!--        <operationMonitoring/>-->
+            <!--        <tracingTypeProfile>-->
+            <!--            <level>off</level>-->
+            <!--        </tracingTypeProfile>-->
+            <!--    </tracingProfile>-->
+            <!--</tracing>-->
+        </reporting>
+    </activity>
+</task>

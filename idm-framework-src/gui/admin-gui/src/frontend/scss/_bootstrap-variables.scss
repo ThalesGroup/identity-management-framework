@@ -1,0 +1,33 @@
+/*!
+  ~  Copyright (c) 2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  ~
+  ~ ThalesGroup Disclaimer:
+  ~ This file has been modified by ThalesGroup under the dual licenses mentioned above.
+  ~ The versioning information below indicates the changes made by ThalesGroup:
+  ~
+  ~ Version Change: Updated color code #1a2856 for lightblue in CSS.
+  ~
+  ~ Description: Updated version information to reflect ThalesGroup modifications.
+  ~
+  ~ Users of this modified version should be aware that this is not the original version,
+  ~ and any transmission of this modified work should include this disclaimer.
+  ~ Recipients must understand that ThalesGroup is responsible for these modifications,
+  ~ and any issues arising from these changes are not the responsibility of the original author.
+  ~
+  ~ For more information, contact ThalesGroup at [https://cpl.thalesgroup.com/].
+ */
+
+// taken from adminlte and bootstrap, also based on figma
+$gray-700: #495057 !default;
+$lightblue: #1a2856 !default;
+
+$midpoint-secondary: #818D98 !default;
+
+// override bootstrap defaults where necessary
+$primary: $lightblue;
+$secondary: $midpoint-secondary;
+
+$body-color: $gray-700;

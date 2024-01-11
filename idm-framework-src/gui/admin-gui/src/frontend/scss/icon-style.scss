@@ -1,0 +1,229 @@
+/*
+  ~  Copyright (c) 2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  ~
+  ~ ThalesGroup Disclaimer:
+  ~ This file has been modified by ThalesGroup under the dual licenses mentioned above.
+  ~ The versioning information below indicates the changes made by ThalesGroup:
+  ~
+  ~ Version Change: Updated color code #1a2856 for lightblue in CSS.
+  ~
+  ~ Description: Updated version information to reflect ThalesGroup modifications.
+  ~
+  ~ Users of this modified version should be aware that this is not the original version,
+  ~ and any transmission of this modified work should include this disclaimer.
+  ~ Recipients must understand that ThalesGroup is responsible for these modifications,
+  ~ and any issues arising from these changes are not the responsibility of the original author.
+  ~
+  ~ For more information, contact ThalesGroup at [https://cpl.thalesgroup.com/].
+ */
+
+$default: #f4f4f4;
+
+$icon-stroke-colors: () !default;
+$icon-stroke-colors: map-merge((
+        "success": $green,
+        "default": $default,
+        "primary": $lightblue,
+        "info": $info,
+        "warning": $yellow,
+        "danger": $red,
+), $icon-stroke-colors);
+
+$text-stroke-colors: () !default;
+$text-stroke-colors: map-merge((
+        "success": #00a65a,
+        "default": #f4f4f4,
+        "primary": #1a2856,
+        "info": #00c0ef,
+        "warning": #f39c12,
+        "danger": #dd4b39,
+), $text-stroke-colors);
+
+@mixin icon-stroke-layer($color) {
+  -webkit-text-stroke: 2px $color;
+  -moz-text-stroke: 2px $color;
+}
+
+@mixin text-shadow-stroke($color) {
+  text-shadow: 1px 0px $color, 0px -1px $color, 1px -1px $color, -1px 0px $color, -1px -1px $color;
+}
+
+i.icon-stroke-layer {
+  @include icon-stroke-layer(white);
+}
+
+@each $name, $color in $icon-stroke-colors {
+  .btn-#{$name} > i.icon-stroke-layer {
+    @include icon-stroke-layer($color);
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  i.icon-stroke-layer {
+    @include text-shadow-stroke(white);
+  }
+
+  @each $name, $color in $text-stroke-colors {
+    .btn-#{$name} > i.icon-stroke-layer {
+      @include text-shadow-stroke($color);
+    }
+  }
+}
+
+i.icon-basic-transparent {
+  color: #0029ff00;
+}
+
+i.icon-basic-transparent-for-column {
+  color: #0029ff00;
+  font-size: 157%;
+}
+
+i.icon-basic-layer {
+  font-size: 200% !important;
+  position: absolute;
+  top: 6%;
+  left: 0;
+  right: 0;
+}
+
+i.icon-basic-layer-for-column {
+  font-size: 157% !important;
+  position: absolute;
+  top: 6%;
+  left: 0;
+  right: 0;
+  color: initial;
+}
+
+i.in-row-layer {
+  padding-left: 5px;
+}
+
+i.bottom-right-layer {
+  font-size: 65% !important;
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+}
+
+i.bottom-right-layer-max-icon {
+  font-size: 65% !important;
+  position: absolute;
+  left: 55%;
+  bottom: 10%;
+}
+
+i.bottom-right-layer-for-column {
+  font-size: 80% !important;
+  position: absolute;
+  left: 50%;
+  bottom: -15%;
+}
+
+i.center-with-right-shift-layer {
+  font-size: 125%;
+  padding-right: 30%;
+  bottom: 20%;
+}
+
+i.bottom-left-layer {
+  font-size: 85% !important;
+  position: absolute;
+  left: 10%;
+  bottom: 5%;
+}
+
+i.bottom-left-layer-for-column {
+  font-size: 80% !important;
+  position: absolute;
+  left: -40%;
+  bottom: -15%;
+}
+
+i.top-left-layer {
+  font-size: 85% !important;
+  position: absolute;
+  left: 10%;
+  top: 5%;
+}
+
+i.top-right-layer-for-column {
+  font-size: 80% !important;
+  position: absolute;
+  left: 65%;
+  top: -15%;
+}
+
+i.top-right-layer {
+  font-size: 65% !important;
+  position: absolute;
+  right: 10%;
+  top: 0%;
+}
+
+i.top-right-layer-max-icon {
+  font-size: 65% !important;
+  position: absolute;
+  left: 55%;
+  top: 0%;
+}
+
+i.center-layer {
+  font-size: 90% !important;
+  position: absolute;
+  top: 40%;
+  right: 0;
+  left: 0;
+}
+
+i.center-layer-for-column {
+  position: absolute;
+  top: 30%;
+  right: 0;
+  left: 0;
+}
+
+i.center-icon-stroke-layer {
+  -webkit-text-stroke: 1px white;
+  -moz-text-stroke: 1px white;
+}
+
+i.font-size-130-per {
+  font-size: 130% !important;
+  top: 24%;
+}
+
+i.change-password-icon-result-center {
+  padding-right: 5px;
+  margin-left: 2.5px;
+}
+
+.color-green {
+  color: $green !important;
+}
+
+.color-yellow {
+  color: $yellow !important;
+}
+
+.color-red {
+  color: $red !important;
+}
+
+.color-blue {
+  color: $blue !important;
+}
+
+i.flip-icon {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+i.flip-icon-margin {
+  margin-left: -7px;
+  margin-right: 7px;
+}

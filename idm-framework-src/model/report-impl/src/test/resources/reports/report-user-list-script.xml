@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<report oid="222bf2b8-c89b-11e7-bf36-ebd4e4d45a80"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+   <name>report-users</name>
+   <description>Users listed in MidPoint.</description>
+    <objectCollection>
+        <collection>
+            <filter>
+                <q:and>
+                    <q:equal>
+                        <q:path>activation/administrativeStatus</q:path>
+                        <expression>
+                            <queryInterpretationOfNoValue>filterAll</queryInterpretationOfNoValue>
+                            <script>
+                                <code>
+                                    if (!activation) {
+                                    return null;
+                                    }
+                                    return activation;
+                                </code>
+                            </script>
+                        </expression>
+                    </q:equal>
+                    <q:ref>
+                        <q:path>assignment/targetRef</q:path>
+                        <expression>
+                            <queryInterpretationOfNoValue>filterAll</queryInterpretationOfNoValue>
+                            <script>
+                                <objectVariableMode>prismReference</objectVariableMode>
+                                <code>
+                                    import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectReferenceType;
+
+                                    if (!organization) {
+                                    return null;
+                                    }
+
+                                    ObjectReferenceType ort = new ObjectReferenceType();
+                                    ort.setOid(organization.getOid());
+                                    ort.setRelation(organization.getRelation());
+                                    ort.setType(organization.getTargetType());
+                                    return ort;
+                                </code>
+                            </script>
+                        </expression>
+                    </q:ref>
+                    <q:ref>
+                        <q:path>assignment/targetRef</q:path>
+                        <expression>
+                            <queryInterpretationOfNoValue>filterAll</queryInterpretationOfNoValue>
+                            <script>
+                                <objectVariableMode>prismReference</objectVariableMode>
+                                <code>
+                                    import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectReferenceType;
+
+                                    if (!role) {
+                                    return null;
+                                    }
+
+                                    ObjectReferenceType ort = new ObjectReferenceType();
+                                    ort.setOid(role.getOid());
+                                    ort.setRelation(role.getRelation());
+                                    ort.setType(role.getTargetType());
+                                    return ort;
+                                </code>
+                            </script>
+                        </expression>
+                    </q:ref>
+                    <q:ref>
+                        <q:path>assignment/construction/resourceRef</q:path>
+                        <expression>
+                            <queryInterpretationOfNoValue>filterAll</queryInterpretationOfNoValue>
+                            <script>
+                                <objectVariableMode>prismReference</objectVariableMode>
+                                <code>
+                                    import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectReferenceType;
+
+                                    if (!resource) {
+                                    return null;
+                                    }
+
+                                    ObjectReferenceType ort = new ObjectReferenceType();
+                                    ort.setOid(resource.getOid());
+                                    ort.setRelation(resource.getRelation());
+                                    ort.setType(resource.getTargetType());
+                                    return ort;
+                                </code>
+                            </script>
+                        </expression>
+                    </q:ref>
+                </q:and>
+            </filter>
+        </collection>
+        <parameter>
+            <name>activation</name>
+            <type>ActivationStatusType</type>
+            <display>
+                <label>
+                    <orig>activation</orig>
+                    <translation>
+                        <key>ActivationType.administrativeStatus</key>
+                    </translation>
+                </label>
+            </display>
+        </parameter>
+        <parameter>
+            <name>organization</name>
+            <type>c:ObjectReferenceType</type>
+            <targetType>c:OrgType</targetType>
+            <display>
+                <label>
+                    <orig>organization</orig>
+                    <translation>
+                        <key>ObjectTypeGuiDescriptor.org</key>
+                    </translation>
+                </label>
+            </display>
+        </parameter>
+        <parameter>
+            <name>role</name>
+            <type>c:ObjectReferenceType</type>
+            <targetType>c:RoleType</targetType>
+            <display>
+                <label>
+                    <orig>role</orig>
+                    <translation>
+                        <key>ObjectTypeGuiDescriptor.role</key>
+                    </translation>
+                </label>
+            </display>
+        </parameter>
+        <parameter>
+            <name>resource</name>
+            <type>c:ObjectReferenceType</type>
+            <targetType>c:ResourceType</targetType>
+            <display>
+                <label>
+                    <orig>resource</orig>
+                    <translation>
+                        <key>ObjectTypeGuiDescriptor.resource</key>
+                    </translation>
+                </label>
+            </display>
+        </parameter>
+        <view>
+            <type>UserType</type>
+        </view>
+    </objectCollection>
+   <postReportScript>
+        <macro>
+            <name>file</name>
+            <asIs/>
+        </macro>
+        <macro>
+            <name>name</name>
+            <script>
+                <code>
+                    object.getName().getOrig()
+                </code>
+            </script>
+        </macro>
+        <executionMethod>shell</executionMethod>
+        <code>cp %file% "target/%name%"</code>
+    </postReportScript>
+</report>

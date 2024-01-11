@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3">
+    <filter>
+        <org>
+            <orgRef>
+                <oid>222</oid>
+            </orgRef>
+            <scope>ONE_LEVEL</scope>
+        </org>
+    </filter>
+</query>

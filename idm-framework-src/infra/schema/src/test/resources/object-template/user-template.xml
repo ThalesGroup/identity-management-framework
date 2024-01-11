@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!-- default namespace is undefined purposely here -->
+
+<objectTemplate oid="10000000-0000-0000-0000-000000000002"
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:c='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:t='http://prism.evolveum.com/xml/ns/public/types-3'>
+    <name>Default User Template</name>
+    <includeRef oid="10000000-0000-0000-0000-000000000998" type="c:ObjectTemplateType" />
+    <includeRef oid="10000000-0000-0000-0000-000000000999" type="ObjectTemplateType" />
+    <mapping>
+        <strength>weak</strength>
+        <source>
+            <name>c:givenName</name>
+            <path>$user/givenName</path>
+        </source>
+        <source>
+            <name>familyName</name>
+            <path>$user/familyName</path>
+        </source>
+        <expression>
+            <script>
+                <code>
+                    givenName + ' ' + familyName
+                </code>
+             </script>
+        </expression>
+        <target>
+            <path>fullName</path>
+        </target>
+    </mapping>
+
+    <!-- Unconditional automatic assignment of Blue Dummy resource -->
+    <mapping>
+        <expression>
+            <value>
+                <construction>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000204" type="c:ResourceType"/>
+                    <kind>account</kind>
+                </construction>
+            </value>
+            <value>
+                <construction>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000205" type="ResourceType"/>
+                    <kind>account</kind>
+                </construction>
+            </value>
+        </expression>
+        <target>
+            <path>assignment</path>
+        </target>
+    </mapping>
+</objectTemplate>

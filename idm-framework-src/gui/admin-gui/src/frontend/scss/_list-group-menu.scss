@@ -1,0 +1,183 @@
+/*!
+ * Copyright (c) 2022 Evolveum and contributors
+ *
+ * This work is dual-licensed under the Apache License 2.0
+ * and European Union Public License. See LICENSE file for details.
+ */
+
+$list-group-item-padding-sm-y: 0.5rem;
+$list-group-item-padding-sm-x: 1rem;
+
+$max-levels: 10;
+
+@mixin list-reset() {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+@mixin list-group-menu() {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include list-reset();
+
+  & ul, li {
+    // reset browser default to be sure
+    @include list-reset();
+  }
+
+  @include border-radius($list-group-border-radius);
+}
+
+@mixin list-group-menu-item() {
+  display: flex;
+  flex-direction: column;
+  color: $list-group-color;
+  background-color: $list-group-bg;
+
+  & > .item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: $list-group-item-padding-y $list-group-item-padding-x;
+    color: inherit;
+
+    & > .item-link {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      flex-grow: 1;
+      color: inherit;
+      overflow: hidden;
+
+      & > i.icon {
+        margin-right: 1rem;
+      }
+
+      & > span.label {
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    & > .chevron {
+      margin-left: 10px;
+      color: inherit;
+    }
+
+    @include hover-focus() {
+      z-index: 1; // Place hover/focus items above their siblings for proper border styling
+      color: $list-group-action-hover-color;
+      text-decoration: none;
+      background-color: $list-group-hover-bg;
+    }
+
+    &.disabled,
+    &:disabled {
+      color: $list-group-disabled-color;
+      pointer-events: none;
+      background-color: $list-group-disabled-bg;
+    }
+
+    // Include both here for `<a>`s and `<button>`s
+    &.active {
+      z-index: 2; // Place active items above their siblings for proper border styling
+      color: $list-group-active-color;
+      background-color: $list-group-active-bg;
+      border-color: $list-group-active-border-color;
+    }
+
+    &:active {
+      color: $list-group-action-active-color;
+      background-color: $list-group-action-active-bg;
+    }
+  }
+
+  & > .form-control {
+    margin: 1rem;
+    width: auto;
+  }
+}
+
+.list-group-menu {
+  @include list-group-menu();
+}
+
+.list-group-menu-item {
+  @include list-group-menu-item;
+
+  border: $list-group-border-width solid $list-group-border-color;
+
+  &:first-child {
+    @include border-top-radius(inherit);
+
+    & > div.item {
+      @include border-top-radius(inherit);
+    }
+  }
+
+  &:last-child {
+    @include border-bottom-radius(inherit);
+
+    & > div.item:last-child {
+      @include border-bottom-radius(inherit);
+    }
+  }
+
+  & + & {
+    border-top-width: 0;
+
+    &.active {
+      margin-top: -$list-group-border-width;
+      border-top-width: $list-group-border-width;
+    }
+  }
+
+  &.open > .item-link > .chevron > i {
+    transform: rotate(270deg);
+  }
+}
+
+.list-group-submenu {
+  @include list-group-menu();
+}
+
+.list-group-submenu-item {
+  @include list-group-menu-item;
+  border-radius: inherit;
+
+  // padding for level 3-10
+  @for $i from 2 through $max-levels {
+    & > div.item.level-#{$i} {
+      padding-left: 2rem + ($i - 2) * 1.25rem;
+    }
+  }
+}
+
+a.item-link > .form-control {
+  margin: 1rem;
+}
+
+.list-group-menu-sm {
+
+  & .item {
+    padding: $list-group-item-padding-sm-y $list-group-item-padding-sm-x;
+  }
+
+  & .list-group-menu-item,
+  & .list-group-submenu-item {
+    & > .input-group,
+    & > .form-control {
+      margin: 0.5rem;
+      width: auto;
+    }
+  }
+}
+
+@include dark-mode() {
+  // todo dark mode
+}

@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+
+    <div wicket:id="warningMessage"/>
+    <div class="form-inline search-form">
+
+        <div wicket:id="typePanel" class="form-group">
+            <label><wicket:message key="roleMemberPanel.type" /></label>
+            <select class="form-control form-control-sm" wicket:id="type" />
+        </div>
+    </div>
+
+    <div wicket:id="table" style="margin: 5px;"></div>
+    <div class="center">
+        <a class="btn btn-sm btn-primary"  wicket:id="addButton"/>
+        <a class="btn btn-sm btn-default"  wicket:id="cancelButton"/>
+    </div>
+</wicket:panel>

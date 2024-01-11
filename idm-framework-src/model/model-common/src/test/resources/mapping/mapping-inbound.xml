@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<mapping xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+    xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+    xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+    <strength>weak</strength>
+    <source><!-- This is for external accounts to pass to $user/name when creating
+            midPoint users -->
+        <name>UserID</name>
+        <path>$account/attributes/ri:uid</path>
+    </source>
+    <expression>
+        <script>
+            <code>
+                <!-- If icfs:name contains OU=, it's an employe -->
+                tmp = input =~ /OU=(\d+)/
+                if (tmp?.asBoolean() == true)
+                'ps' + tmp[0][1]
+                else  <!-- otherwise use UserID attribute (flastname format) -->
+                {
+                UserID<!-- FIXME multivalue? -->
+                }
+            </code>
+        </script>
+    </expression>
+    <target>
+        <path>$user/name</path>
+    </target>
+</mapping>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        default-lazy-init="true">
+
+    <!-- This @Configuration drives component-scan + can use @Conditional... -->
+    <bean id="sqlRepositoryBeanConfig"
+            class="com.evolveum.midpoint.repo.sql.testing.TestSqlRepositoryBeanConfig"/>
+
+    <!--
+    This is not necessary for tests in repo-sql-impl-test (those are only for old repo),
+    but it is used by integration tests that use this config.
+    -->
+    <bean id="sqaleRepositoryBeanConfig"
+            class="com.evolveum.midpoint.repo.sql.testing.TestSqaleRepositoryBeanConfig"/>
+</beans>

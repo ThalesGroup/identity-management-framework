@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="f23ab26c-69df-11e6-8330-979c643ea51c"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:org='http://midpoint.evolveum.com/xml/ns/public/common/org-3'
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Project Omnimanager</name>
+    <description>Manager of all projects</description>
+    <inducement>
+        <targetRef>
+            <type>OrgType</type>
+            <filter>
+                <q:equal>
+                    <q:path>subtype</q:path>
+                    <q:value>project</q:value>
+                </q:equal>
+            </filter>
+            <resolutionTime>run</resolutionTime>
+            <relation>org:manager</relation>
+        </targetRef>
+    </inducement>
+</role>

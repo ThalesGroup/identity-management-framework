@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2019 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:org="http://midpoint.evolveum.com/xml/ns/public/common/org-3"
+      oid="e6cc59c5-8404-4a0f-9ad0-2cd5c81d9f6b">
+    <name>HR async update (one worker)</name>
+    <taskIdentifier>e6cc59c5-8404-4a0f-9ad0-2cd5c81d9f6b</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002" relation="org:default" type="c:UserType">
+        <!-- administrator -->
+    </ownerRef>
+    <executionState>runnable</executionState>
+    <objectRef oid="63693a4a-07ee-4903-a206-3f777f4495a5" relation="org:default" type="c:ResourceType">
+        <!-- HR Resource -->
+    </objectRef>
+    <activity>
+        <work>
+            <asynchronousUpdate>
+                <updatedResourceObjects>
+                    <resourceRef oid="63693a4a-07ee-4903-a206-3f777f4495a5"/>
+                </updatedResourceObjects>
+            </asynchronousUpdate>
+        </work>
+        <distribution>
+            <workerThreads>1</workerThreads>
+        </distribution>
+    </activity>
+</task>

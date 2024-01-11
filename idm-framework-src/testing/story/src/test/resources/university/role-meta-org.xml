@@ -1,0 +1,63 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<role xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3"
+      xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+      xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+      xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+      xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+      oid="10000000-0000-0000-0000-000000006601">
+    <name>Metarole ORG</name>
+    <displayName>Metarole ORG</displayName>
+
+    <inducement id="1">
+        <construction>
+            <description>org-group creation</description>
+            <resourceRef xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                         oid="10000000-0000-0000-0000-000000000003"
+                         type="tns:ResourceType"></resourceRef>
+            <kind>entitlement</kind>
+            <intent>org-group</intent>
+        </construction>
+    </inducement>
+    <inducement id="2">
+        <construction>
+            <description>org-group is a member of parent org-group</description>
+            <resourceRef xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                         oid="10000000-0000-0000-0000-000000000003"
+                         type="tns:ResourceType"></resourceRef>
+            <kind>entitlement</kind>
+            <intent>org-group</intent>
+            <association>
+                <c:ref>ri:group</c:ref>
+                <outbound>
+                    <strength>strong</strength>
+                    <expression>
+                        <associationFromLink>
+                            <projectionDiscriminator>
+                                <kind>entitlement</kind>
+                                <intent>org-group</intent>
+                            </projectionDiscriminator>
+                        </associationFromLink>
+                    </expression>
+                </outbound>
+            </association>
+        </construction>
+        <order>2</order>
+    </inducement>
+    <inducement id="3">
+        <construction>
+            <description>org-ou creation</description>
+            <resourceRef xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                         oid="10000000-0000-0000-0000-000000000003"
+                         type="tns:ResourceType"></resourceRef>
+            <kind>generic</kind>
+            <intent>org-ou</intent>
+        </construction>
+    </inducement>
+</role>

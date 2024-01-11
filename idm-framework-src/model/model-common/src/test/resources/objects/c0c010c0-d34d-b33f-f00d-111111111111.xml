@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user oid="c0c010c0-d34d-b33f-f00d-111111111111"
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns:xsd='http://www.w3.org/2001/XMLSchema'
+   xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:c='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+   xmlns:ext='http://midpoint.evolveum.com/xml/ns/test/extension'>
+    <name>jack</name>
+    <!-- Description is a string as opposed to name which is PolyString. We use description instead of
+         name in tests where we need string. -->
+    <description>jack</description>
+    <extension>
+        <ext:ship xsi:type="xsd:string">Black Pearl</ext:ship>
+    </extension>
+    <fullName>Jack Sparrow</fullName>
+    <givenName>Jack</givenName>
+    <familyName>Sparrow</familyName>
+    <additionalName>Jackie</additionalName>
+    <honorificPrefix>Cpt.</honorificPrefix>
+
+    <honorificSuffix>PhD.</honorificSuffix>
+    <emailAddress>jack.sparrow@evolveum.com</emailAddress>
+    <telephoneNumber>555-1234</telephoneNumber>
+    <employeeNumber>emp1234</employeeNumber>
+    <subtype>CAPTAIN</subtype>
+    <organizationalUnit>Leaders</organizationalUnit>
+    <organizationalUnit>Followers</organizationalUnit>
+    <locality>Black Pearl</locality>
+
+    <credentials>
+        <password>
+            <value>
+                <clearValue>deadmentellnotales</clearValue>
+            </value>
+        </password>
+    </credentials>
+</user>

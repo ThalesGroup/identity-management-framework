@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="property-stripe" wicket:id="localizedValueContainer">
+        <div class="col-3" wicket:id="localizedValueLabel" />
+        <div wicket:id="localizedValueWithButton" class="input-group">
+            <wicket:container wicket:id="localizedValue"/>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <i class="fa fa-language" wicket:id="showHideLanguagesLocalized"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wicket:id="originValueContainer">
+            <div class="col-3" wicket:id="originValueLabel" />
+            <div wicket:id="origValueWithButton" class="input-group">
+                <wicket:container wicket:id="origValue"/>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <i class="fa fa-language" wicket:id="showHideLanguagesOrig"/>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <wicket:container wicket:id="fullDataContainer">
+        <div class="property-stripe">
+            <div class="row no-gutters prism-property">
+                <div class="col-3"><wicket:message key="PolyStringEditorPanel.keyLabel"/></div>
+                <div class="col-9" wicket:id="keyValue"/>
+            </div>
+        </div>
+        <div class="property-stripe">
+            <div class="row no-gutters prism-property">
+                <div class="col-3"><wicket:message key="PolyStringEditorPanel.languagesList"/></div>
+            </div>
+        </div>
+        <div class="property-stripe" wicket:id="languageEditor">
+            <div class="row no-gutters prism-property">
+                <div class="col-3 pr-2" wicket:id="languagesList"/>
+                <div class="col-8 pr-2" wicket:id="valueToAdd"/>
+                <div class="col-1">
+                    <a class="btn btn-tool" wicket:id="addLanguageValue"><i class="fa fa-plus-circle"/></a>
+                </div>
+            </div>
+        </div>
+        <div class="property-stripe" wicket:id="languagesRepeater">
+            <div class="row no-gutters prism-property">
+                <div class="col-3 pr-2" wicket:id="languageName"/>
+                <div class="col-8 pr-2" wicket:id="translation"/>
+                <div class="col-1">
+                    <a class="btn btn-tool" wicket:id="removeLanguageButton"><i class="fa fa-minus-circle"/></a>
+                </div>
+            </div>
+        </div>
+    </wicket:container>
+</wicket:panel>
+</html>

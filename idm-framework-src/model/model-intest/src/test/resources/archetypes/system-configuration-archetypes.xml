@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<systemConfiguration oid="00000000-0000-0000-0000-000000000001" version="0"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+
+    <name>SystemConfiguration</name>
+    <globalSecurityPolicyRef oid="28bf845a-b107-11e3-85bc-001e8c717e5b"/>
+    <logging>
+        <rootLoggerAppender>File Appender</rootLoggerAppender>
+        <rootLoggerLevel>INFO</rootLoggerLevel>
+        <classLogger>
+            <level>TRACE</level>
+            <package>com.evolveum.midpoint.common.LoggingConfigurationManager</package>
+        </classLogger>
+        <c:classLogger>
+            <c:level>TRACE</c:level>
+            <c:package>com.evolveum.midpoint.notifications</c:package>
+        </c:classLogger>
+        <appender xsi:type="c:FileAppenderConfigurationType" name="File Appender" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <pattern>%date [%thread] %-5level \(%logger{46}\): %message%n</pattern>
+            <fileName>target/test.log</fileName>
+            <append>true</append>
+        </appender>
+    </logging>
+
+    <!-- No defaultObjectPolicyConfiguration, no default object templates, lifecycle, etc. -->
+
+    <notificationConfiguration>
+        <handler>
+            <simplePolicyRuleNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:policyRuleNotifier</transport>
+            </simplePolicyRuleNotifier>
+        </handler>
+        <handler>
+            <accountActivationNotifier>
+                <recipientExpression>
+                    <script>
+                        <code>requestee.getEmailAddress()</code>
+                    </script>
+                </recipientExpression>
+                <transport>dummy:accountActivationNotifier</transport>
+                <confirmationMethod>link</confirmationMethod>
+            </accountActivationNotifier>
+        </handler>
+        <handler>
+            <accountPasswordNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:accountPasswordNotifier</transport>
+            </accountPasswordNotifier>
+        </handler>
+        <handler>
+            <userPasswordNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:userPasswordNotifier</transport>
+            </userPasswordNotifier>
+        </handler>
+        <handler>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <status>failure</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-FAILURE</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <operation>add</operation>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-ADD-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <operation>delete</operation>
+            <status>success</status>
+            <simpleResourceObjectNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleAccountNotifier-DELETE-SUCCESS</transport>
+            </simpleResourceObjectNotifier>
+        </handler>
+        <handler>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <operation>add</operation>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-ADD</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <operation>delete</operation>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-DELETE</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <status>failure</status>
+            <simpleUserNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <transport>dummy:simpleUserNotifier-FAILURE</transport>
+            </simpleUserNotifier>
+        </handler>
+        <handler>
+            <category>customEvent</category>
+            <operation>delete</operation>
+            <status>failure</status>
+            <expressionFilter>
+                <script>
+                    <code>
+                        event.subtype == 'type2'
+                    </code>
+                </script>
+            </expressionFilter>
+            <generalNotifier>
+                <recipientExpression>
+                    <value>recipient@evolveum.com</value>
+                </recipientExpression>
+                <subjectExpression>
+                    <value>Failure notification of type 2</value>
+                </subjectExpression>
+                <bodyExpression>
+                    <script>
+                        <language>http://midpoint.evolveum.com/xml/ns/public/expression/language#velocity</language>
+                        <code>$event.object.get(0).value</code>
+                    </script>
+                </bodyExpression>
+                <transport>dummy:CustomType2</transport>
+            </generalNotifier>
+        </handler>
+        <mail>
+            <redirectToFile>target/mail-notifications.log</redirectToFile>
+        </mail>
+    </notificationConfiguration>
+
+    <internals>
+        <maxModelClicks>30</maxModelClicks>     <!-- especially for TestIteration.test235 to prevent long test run in case of failure -->
+    </internals>
+
+    <adminGuiConfiguration>
+        <objectDetails>
+            <objectDetailsPage>
+                <type>ServiceType</type>
+                <panel id="111">
+                    <identifier>basic</identifier>
+                    <panelType>basic</panelType>
+                </panel>
+            </objectDetailsPage>
+        </objectDetails>
+        <objectCollectionViews>
+            <objectCollectionView>
+                <identifier>all-employees</identifier>
+                <type>UserType</type>
+                <collection>
+                    <collectionRef oid="7135e68c-ee53-11e8-8025-170b77da3fd6" type="ArchetypeType"/> <!-- Employee archetype -->
+                </collection>
+            </objectCollectionView>
+        </objectCollectionViews>
+    </adminGuiConfiguration>
+
+</systemConfiguration>

@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2014 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<xsd:schema targetNamespace="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3"
+            xmlns:tns="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:a="http://prism.evolveum.com/xml/ns/public/annotation-3"
+            xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+            xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+            xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+            xmlns:apit="http://midpoint.evolveum.com/xml/ns/public/common/api-types-3"
+            xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+            elementFormDefault="qualified"
+            xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+            jaxb:extensionBindingPrefixes="xjc"
+            jaxb:version="3.0">
+
+    <xsd:annotation>
+        <xsd:documentation>
+            Schema for midPoint scripting language.
+
+            Recommended namespace prefix: s
+        </xsd:documentation>
+        <xsd:appinfo>
+            <a:defaultPrefix>s</a:defaultPrefix>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/annotation-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/annotation-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Common prism annotations used in various XSD schemas.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/types-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/types-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Prism data types.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://prism.evolveum.com/xml/ns/public/query-3"
+                schemaLocation="http://prism.evolveum.com/xml/ns/public/query-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Prism data types.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+        <xsd:annotation>
+            <xsd:documentation>
+                Common midPoint schema.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:import>
+
+    <xsd:import namespace="http://midpoint.evolveum.com/xml/ns/public/common/api-types-3"
+                schemaLocation="http://midpoint.evolveum.com/xml/ns/public/common/api-types-3"/>
+
+    <xsd:complexType name="ScriptingExpressionEvaluationOptionsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Options related to evaluation of scripting expression.
+                EXPERIMENTAL
+                In the future, these may become part of any scripting expression, allowing parts of a complex expression
+                to be evaluated differently from its other parts.
+            </xsd:documentation>
+            <xsd:appinfo>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="continueOnAnyError" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Causes evaluation to continue even in the presence of any errors.
+                        TODO make this more elaborate w.r.t. kind of error(s) encountered.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="hideOperationResults" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Hides operation results from the output data.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ScriptingVariablesDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of scripting variables.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>3.7</a:since>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="variable" type="tns:ScriptingVariableDefinitionType" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- This is similar to c:VariableBindingDefinitionType but it might be defined not only by path but by any other expression.
+         Also, the "set" item (of ValueSetDefinitionType) has no meaning here. So we decided to create a separate data type
+         for this variable definition -->
+    <xsd:complexType name="ScriptingVariableDefinitionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Definition of a scripting variable.
+                Expression types other than path-based ones are to be considered EXPERIMENTAL.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>3.7</a:since>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="description" type="xsd:string" minOccurs="0" />
+            <xsd:element name="type" type="xsd:QName" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Type of the variable. Can be omitted for path expressions. EXPERIMENTAL.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="maxOccurs" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Multiplicity specification. Can be omitted for path expressions. EXPERIMENTAL.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="expression" type="c:ExpressionType" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="scriptingExpression" type="tns:ScriptingExpressionType"  />        <!-- constants have to be treated separately -->
+
+    <xsd:complexType name="ScriptingExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Root of the expression type inheritance hierarchy.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ExpressionSequenceType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Sequence of command expressions - they are executed one after another,
+                input sent to the sequence as a whole is then sent individually
+                to each expression. Output of the last expression is considered to be the output of
+                the whole sequence.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:scriptingExpression" minOccurs="0" maxOccurs="unbounded" />
+                </xsd:sequence>
+                <xsd:attribute name="list" type="xsd:boolean" />        <!-- requires there are no elements other than 'expression' -->
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="sequence" type="tns:ExpressionSequenceType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ExpressionPipelineType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Pipeline of expressions - they are executed one after another,
+                input sent to the pipeline as a whole is sent to the first expression.
+                Output from the N-th expression is sent as an input to the N+1-th expression.
+                Output of the last expression is considered to be the output of the whole
+                pipeline.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:sequence>
+                    <xsd:element ref="tns:scriptingExpression" minOccurs="0" maxOccurs="unbounded" />
+                </xsd:sequence>
+                <xsd:attribute name="list" type="xsd:boolean" /> <!-- requires there are no elements other than 'scriptingExpression' -->
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="pipeline" type="tns:ExpressionPipelineType" substitutionGroup="tns:scriptingExpression" >
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <!-- Should be perhaps called SearchActionExpressionType, but keeping this one for compatibility reasons. -->
+    <xsd:complexType name="SearchExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Queries the model for objects of a given type, optionally fulfilling given condition.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="type" type="xsd:QName">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Type whose instances are searched for.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="variable" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Variable to hold found instances. Not yet supported.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="query" type="q:QueryType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Query to apply when searching for instances. (Alternative to searchFilter. This is tried as the first one.)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="searchFilter" type="q:SearchFilterType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Filter to apply when searching for instances. (Alternative to query. This is tried as second one.)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="options" type="c:SelectorQualifiedGetOptionsType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Options to use when executing the search.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="parameter" type="tns:ActionParameterValueType" minOccurs="0"
+                                 maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Action parameters.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="tns:scriptingExpression" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Expression to evaluate for each object found.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="aggregateOutput" type="xsd:boolean" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whether to aggregate and pass forward the output of expression evaluations that are done
+                                for each object found. (Meaningful only if scriptingExpression is specified.)
+                                Default is true for compatibility reasons. Set to false to optimize memory consumption.
+                            </xsd:documentation>
+                            <xsd:appinfo>
+                                <a:since>3.7.1</a:since>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="search" type="tns:SearchExpressionType" substitutionGroup="tns:scriptingExpression" >
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="FilterExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Filters input on a given condition.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="filter" type="q:SearchFilterType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Filter to apply to the input stream.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="filter" type="tns:FilterExpressionType" substitutionGroup="tns:scriptingExpression" >
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="SelectExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Select given item.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="path" type="t:ItemPathType">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Path to the data item that has to be selected.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="select" type="tns:SelectExpressionType" substitutionGroup="tns:scriptingExpression" >
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="FilterContentExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Keeps/removes selected items from the input value.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:choice>
+                    <xsd:element name="keep" type="t:ItemPathType" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Path to the data item(s) that should be kept.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="remove" type="t:ItemPathType" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Path to the data item(s) that should be removed.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="filterContent" type="tns:FilterContentExpressionType" substitutionGroup="tns:scriptingExpression" >
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ForeachExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Executes a given command individually for each item arriving at the input.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="variable" type="xsd:QName" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Variable to hold emitted instances.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="tns:scriptingExpression" minOccurs="0" maxOccurs="unbounded"/>        <!-- TODO list -->
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="foreach" type="tns:ForeachExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <!-- Should be perhaps called ActionExpressionType (and that one "DynamicActionExpressionType") but keeping
+         this for compatibility reasons. -->
+    <xsd:complexType name="AbstractActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Either traditional "dynamic" action (add, modify, ...), or a search, that is considered to be an action since 4.8.
+                The search cannot be a dynamic action because of the conflict on the "type" property.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.8</a:since> <!-- Introduced so that "search" can be also an action. -->
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ScriptingExpressionType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Executes a given action (add, modify, delete, enable, disable, assign, ...)
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="type" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Action to execute.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="parameter" type="tns:ActionParameterValueType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Action parameters.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="action" type="tns:ActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ActionParameterValueType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Value of a parameter for an action.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Parameter name.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element ref="c:value" minOccurs="0"/>
+                <xsd:element ref="tns:scriptingExpression" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Parameter (argument) value.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AbstractExecutionActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Supertype for "execution" actions, carrying some common properties.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="executeOptions" type="c:ModelExecuteOptionsType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Model execute options.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="dryRun" type="xsd:boolean" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Should the action be only previewed (run as "dry")?
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="AddActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "add" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="add" type="tns:AddActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ApplyDefinitionActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "apply-definition" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="applyDefinition" type="tns:ApplyDefinitionActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="AssignActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "assign" action. Its parameters differ significantly from the
+                parameters of dynamically-type assign action, because the latter ones were not
+                designed well.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="targetRef" type="c:ObjectReferenceType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Target(s) to be assigned. May contain filters. If such filters are present, they
+                                are evaluated at action execution time. (This behavior may change in the future!)
+                                If relations other than default are to be used, they should be provided within the reference(s).
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="resourceRef" type="c:ObjectReferenceType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Resource(s) to be assigned. May contain filters. If such filters are present, they
+                                are evaluated at action execution time. (This behavior may change in the future!)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="construction" type="c:ConstructionType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Resource object constructions to be assigned. These are assigned "as is", with no
+                                filter evaluation. (This behavior may change in the future!)
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="assign" type="tns:AssignActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="DeleteActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "delete" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="delete" type="tns:DeleteActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="DisableActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "disable" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="disable" type="tns:DisableActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="EnableActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "enable" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="enable" type="tns:EnableActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="AbstractExecuteActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "execute-script" or "evaluate-expression" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="outputItemName" type="xsd:QName" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                If the script produces any output, this is a specification of an item (property, reference,
+                                container, or object) that provides a definition for the output. EXPERIMENTAL.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="outputTypeName" type="xsd:QName" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                If the script produces any output, this is a specification of a simple or complex type
+                                that provides a definition for the output. EXPERIMENTAL.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="forWholeInput" type="xsd:boolean" minOccurs="0" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Should we execute the script for the whole input (true) or for each individual input item (false)?
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="quiet" type="xsd:boolean" minOccurs="0" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                If true, console output is suppressed.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ExecuteScriptActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "execute-script" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecuteActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="script" type="c:ScriptExpressionEvaluatorType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Script to be executed.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="execute" type="tns:ExecuteScriptActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="EvaluateExpressionActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "evaluate-expression" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.8</a:since>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecuteActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="expression" type="c:ExpressionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Expression to be evaluated.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="evaluateExpression" type="tns:EvaluateExpressionActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="GenerateValueActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "generate-values" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="items" type="apit:PolicyItemsDefinitionType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Defined items and rules for generating/validating values.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="generateValue" type="tns:GenerateValueActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="LogActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "log" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="message" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Message to be logged.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="level" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Level on which the message should be logged.
+                                We use xsd:string here just for compatibility with the
+                                dynamic variant. In the future we will switch to c:LoggingLevelType.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="log" type="tns:LogActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ModifyActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "modify" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="delta" type="t:ObjectDeltaType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Delta to be applied.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="modify" type="tns:ModifyActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="NotifyActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "notify" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="subtype" type="xsd:string" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Subtype of the event created: Free-text information about category (type)
+                                of this custom event.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="operation" type="c:EventOperationType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Operation to be put into event (add, modify, delete). Default is "add".
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="status" type="c:EventStatusType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Status to be put into event (success, failure, inProgress, alsoSuccess, onlyFailure).
+                                Default is "success".
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="handler" type="c:EventHandlerType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Ad-hoc event handler that should be used to process the event.
+                                If not specified, system configuration is used to determine the handler(s).
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="forWholeInput" type="xsd:boolean" minOccurs="0" default="false">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Whole input (i.e. all items in the pipeline) should be sent as event object.
+                                The default behavior is to generate one event for each input object.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="notify" type="tns:NotifyActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="PurgeSchemaActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "purge-schema" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="purgeSchema" type="tns:PurgeSchemaActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="RecomputeActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "recompute" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="triggered" type="c:TriggerCreationType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Does not invoke recompute immediately but uses a trigger to do that.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="recompute" type="tns:RecomputeActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ResolveReferenceActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "resolve" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="options" type="c:SelectorQualifiedGetOptionsType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Options to use when getting the object(s).
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="resolveReference" type="tns:ResolveReferenceActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ResumeTaskActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "resume" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="resumeTask" type="tns:ResumeTaskActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="TestResourceActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "test-resource" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:ActionExpressionType"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="testResource" type="tns:TestResourceActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="UnassignActionExpressionType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Statically-typed "unassign" action.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>4.2</a:since>
+                <a:experimental>true</a:experimental>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="tns:AbstractExecutionActionExpressionType">
+                <xsd:sequence>
+                    <xsd:element name="filter" type="q:SearchFilterType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Filter matching assignments to be deleted.
+                                Expressions are supported here, but only as an experimental feature.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="unassign" type="tns:UnassignActionExpressionType" substitutionGroup="tns:scriptingExpression">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <a:heterogeneousListItem/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="ExecuteScriptType">
+        <xsd:sequence>
+            <xsd:element ref="tns:scriptingExpression"/>
+            <xsd:element name="input" type="tns:ValueListType" minOccurs="0"/>
+            <xsd:element name="options" type="tns:ScriptingExpressionEvaluationOptionsType" minOccurs="0"/>
+            <xsd:element name="variables" type="tns:ScriptingVariablesDefinitionType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:since>3.7</a:since>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="executeScript" type="tns:ExecuteScriptType" />        <!-- collides with executeScript in extension, but let's ignore it for the moment -->
+
+    <xsd:complexType name="ExecuteScriptOutputType">
+        <xsd:annotation>
+            <xsd:documentation>
+                Output of a single script execution.
+            </xsd:documentation>
+            <xsd:appinfo>
+                <a:since>3.6</a:since>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="dataOutput" type="tns:PipelineDataType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Data output of the execution of the script.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="consoleOutput" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Text ("console") output of the execution of the script.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="executeScriptOutput" type="tns:ExecuteScriptOutputType"/>
+
+    <xsd:complexType name="ValueListType">
+        <xsd:sequence>
+            <xsd:element name="value" type="xsd:anyType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:rawType/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PipelineDataType">
+        <xsd:sequence>
+            <xsd:element name="item" type="tns:PipelineItemType" minOccurs="0" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="pipelineData" type="tns:PipelineDataType"/>
+
+    <xsd:complexType name="PipelineItemType">
+        <xsd:sequence>
+            <xsd:element name="value" type="xsd:anyType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        TODO
+                    </xsd:documentation>
+                    <xsd:appinfo>
+                        <a:rawType/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="result" type="c:OperationResultType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        TODO
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

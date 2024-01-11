@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <name>
+        <orig xmlns="http://prism.evolveum.com/xml/ns/public/types-3">u2</orig>
+        <norm xmlns="http://prism.evolveum.com/xml/ns/public/types-3">u2</norm>
+    </name>
+    <fullName>
+        <orig xmlns="http://prism.evolveum.com/xml/ns/public/types-3">fu2</orig>
+        <norm xmlns="http://prism.evolveum.com/xml/ns/public/types-3">fu2</norm>
+    </fullName>
+    <givenName>
+        <orig xmlns="http://prism.evolveum.com/xml/ns/public/types-3">gi2</orig>
+        <norm xmlns="http://prism.evolveum.com/xml/ns/public/types-3">gi2</norm>
+    </givenName>
+    <familyName>
+        <orig xmlns="http://prism.evolveum.com/xml/ns/public/types-3">fa2</orig>
+        <norm xmlns="http://prism.evolveum.com/xml/ns/public/types-3">fa2</norm>
+    </familyName>
+    <credentials>
+        <password>
+         <value>
+            <t:encryptedData xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3">
+               <t:encryptionMethod>
+                  <t:algorithm>http://www.w3.org/2001/04/xmlenc#aes128-cbc</t:algorithm>
+               </t:encryptionMethod>
+               <t:keyInfo>
+                  <t:keyName>4HXeUejV93Vd3JuIZz7sbs5bVko=</t:keyName>
+               </t:keyInfo>
+               <t:cipherData>
+                  <t:cipherValue>Q27VymuHR348Vb9Ln5p06RT667FqZPSijEMxVDWw7D8=</t:cipherValue>
+               </t:cipherData>
+            </t:encryptedData>
+         </value>
+<!--             <c:value xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3" -->
+<!--                      xmlns:icfs="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/resource-schema-3" -->
+<!--                      xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3" -->
+<!--                      xmlns:icfc="http://midpoint.evolveum.com/xml/ns/public/connector/icf-1/connector-schema-3" -->
+<!--                      xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3" -->
+<!--                      xmlns:cap="http://midpoint.evolveum.com/xml/ns/public/resource/capabilities-3" -->
+<!--                      xmlns:apti="http://midpoint.evolveum.com/xml/ns/public/common/api-types-3" -->
+<!--                      xmlns:ds="http://www.w3.org/2000/09/xmldsig#" -->
+<!--                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
+<!--                      xmlns:enc="http://www.w3.org/2001/04/xmlenc#" -->
+<!--                      xsi:type="t:ProtectedStringType"> -->
+<!--                 <enc:EncryptedData Type="http://www.w3.org/2001/04/xmlenc#Element"> -->
+<!--                     <enc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/> -->
+<!--                     <ds:KeyInfo> -->
+<!--                         <ds:KeyName>4HXeUejV93Vd3JuIZz7sbs5bVko=</ds:KeyName> -->
+<!--                     </ds:KeyInfo> -->
+<!--                     <enc:CipherData> -->
+<!--                         <enc:CipherValue>Yljd4kJM7UA4iDkgjHM6OXDLAlbNSteliPRjH6KZFEmN1V+ohkHHkUjiDAkXGgld</enc:CipherValue> -->
+<!--                     </enc:CipherData> -->
+<!--                 </enc:EncryptedData> -->
+<!--             </c:value> -->
+        </password>
+    </credentials>
+    <activation>
+        <administrativeStatus>enabled</administrativeStatus>
+    </activation>
+    <extension>
+        <loot:weapon xmlns:loot="http://example.com/p">gun</loot:weapon>
+        <loot:shipName xmlns:loot="http://example.com/p">pltka</loot:shipName>
+        <loot:loot xmlns:loot="http://example.com/p">123</loot:loot>
+        <loot:funeralDate xmlns:loot="http://example.com/p">2012-12-05T00:00:00.000+01:00</loot:funeralDate>
+    </extension>
+</user>

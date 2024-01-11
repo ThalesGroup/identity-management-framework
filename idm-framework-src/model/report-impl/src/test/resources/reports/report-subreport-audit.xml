@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<report oid="44026fc7-c73d-4210-91c3-e5d10391c02b" xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3" xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3">
+    <name>Object Collection: subreport audit</name>
+    <objectCollection>
+        <collection>
+            <filter>
+                <!-- eventStage = "execution" and targetRef/@/name = `targetName` -->
+                <q:text>
+                    eventStage = "execution"
+                </q:text>
+            </filter>
+        </collection>
+        <condition>
+            <script>
+                <code>
+                    import com.evolveum.midpoint.xml.ns._public.common.audit_3.AuditEventRecordType
+
+                    def object = object as AuditEventRecordType
+
+                    return basic.stringify(object.targetRef?.targetName) == 'test140ExportAuditRecords'
+                </code>
+            </script>
+        </condition>
+        <parameter>
+            <name>targetName</name>
+            <type>string</type>
+        </parameter>
+        <view>
+            <column>
+                <name>timestamp</name>
+                <path>timestamp</path>
+                <display>
+                    <label>Timestamp</label>
+                </display>
+            </column>
+            <column>
+                <name>targetRef</name>
+                <path>targetRef</path>
+                <display>
+                    <label>Target</label>
+                </display>
+                <previousColumn>timestamp</previousColumn>
+            </column>
+            <column>
+                <name>eventType</name>
+                <path>eventType</path>
+                <display>
+                    <label>Audit event type</label>
+                </display>
+                <previousColumn>targetRef</previousColumn>
+            </column>
+            <column>
+                <name>assignment</name>
+                <display>
+                    <label>Assignment</label>
+                </display>
+                <previousColumn>eventType</previousColumn>
+                <export>
+                    <expression>
+                        <script>
+                            <code>
+                                import com.evolveum.midpoint.xml.ns._public.common.common_3.AssignmentType
+                                import com.evolveum.prism.xml.ns._public.types_3.ItemDeltaType
+                                import com.evolveum.prism.xml.ns._public.types_3.ModificationTypeType
+                                import org.apache.commons.lang3.tuple.ImmutablePair
+
+                                def assignment = assignment as ImmutablePair&lt; ModificationTypeType, AssignmentType&gt;
+
+                                return assignment.left.value() + ' - ' + assignment.right.targetRef.oid
+                            </code>
+                        </script>
+                    </expression>
+                </export>
+            </column>
+            <type>AuditEventRecordType</type>
+        </view>
+        <useOnlyReportView>true</useOnlyReportView>
+        <subreport>
+            <name>deltaOperation</name>
+            <expression>
+                <script>
+                    <code>
+                        import com.evolveum.midpoint.xml.ns._public.common.audit_3.AuditEventRecordType
+
+                        def object = object as AuditEventRecordType
+
+                        return object.delta
+                    </code>
+                </script>
+            </expression>
+            <order>10</order>
+            <resultHandling>
+                <multipleValues>splitParentRow</multipleValues>
+            </resultHandling>
+        </subreport>
+        <subreport>
+            <name>objectDelta</name>
+            <expression>
+                <script>
+                    <code>
+                        import com.evolveum.midpoint.xml.ns._public.common.audit_3.AuditEventRecordType
+                        import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectDeltaOperationType
+
+                        def object = object as AuditEventRecordType
+                        def deltaOperation = deltaOperation as ObjectDeltaOperationType
+
+                        return deltaOperation.objectDelta
+                    </code>
+                </script>
+            </expression>
+            <order>20</order>
+            <resultHandling>
+                <multipleValues>splitParentRow</multipleValues>
+            </resultHandling>
+        </subreport>
+        <subreport>
+            <name>assignment</name>
+            <expression>
+                <script>
+                    <code>
+                        import com.evolveum.midpoint.prism.path.ItemPath
+                        import com.evolveum.midpoint.xml.ns._public.common.audit_3.AuditEventRecordType
+                        import com.evolveum.midpoint.xml.ns._public.common.common_3.AssignmentHolderType
+                        import com.evolveum.midpoint.xml.ns._public.common.common_3.AssignmentType
+                        import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectDeltaOperationType
+                        import com.evolveum.midpoint.xml.ns._public.common.common_3.ObjectType
+                        import com.evolveum.prism.xml.ns._public.types_3.ItemDeltaType
+                        import com.evolveum.prism.xml.ns._public.types_3.ModificationTypeType
+                        import com.evolveum.prism.xml.ns._public.types_3.ObjectDeltaType
+                        import org.apache.commons.lang3.tuple.ImmutablePair
+
+                        def object = object as AuditEventRecordType
+                        def deltaOperation = deltaOperation as ObjectDeltaOperationType
+                        def objectDelta = objectDelta as ObjectDeltaType
+
+                        List&lt;ImmutablePair&gt; assignments = []
+
+                        ObjectType objectToAdd = objectDelta.objectToAdd
+                        if (objectToAdd instanceof AssignmentHolderType) {
+                            AssignmentHolderType holder = (AssignmentHolderType) objectToAdd
+                            holder.assignment.forEach { assignments.add(new ImmutablePair(ModificationTypeType.ADD, it))}
+                        }
+
+                        List&lt;ItemDeltaType&gt; itemDeltas = objectDelta.itemDelta.stream()
+                                .filter { it.path != null &amp;&amp; it.path.itemPath.equivalent(ItemPath.create(AssignmentHolderType.F_ASSIGNMENT)) }
+                                .toList()
+
+                        itemDeltas.each { item ->
+                            item.value.each { value ->
+                                {
+                                    assignments.add(new ImmutablePair(item.modificationType, value.getParsedRealValue(AssignmentType.class)))
+                                }
+                            }
+                        }
+
+                        return assignments
+                    </code>
+                </script>
+            </expression>
+            <order>30</order>
+            <resultHandling>
+                <multipleValues>splitParentRow</multipleValues>
+            </resultHandling>
+        </subreport>
+    </objectCollection>
+</report>

@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright (c) 2010-2019 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="d-flex align-items-center">
+        <a wicket:id="expandCollapseButton" wicket:message="title:PrismObjectPanel.expandCollapseContainer"
+                    class="btn btn-tool expand-collapse-button" trigger="hover"/>
+
+        <a class="prism-title" wicket:id="label"/>
+
+        <span wicket:id="required" class="text-danger text-bold" wicket:message="title:prismPropertyPanel.required">*</span>
+
+        <i wicket:id="help"/>
+
+        <a wicket:id="addButton" wicket:message="title:ExpressionPropertyHeaderPanel.addNewExpressionValue" class="btn btn-tool" trigger="hover">
+            <i class="fa fa-plus-circle"/>
+        </a>
+
+        <a wicket:id="removeButton" wicket:message="title:ExpressionPropertyHeaderPanel.removeExpressionValue" class="btn btn-tool" trigger="hover">
+            <i class="fa fa-minus-circle"/>
+        </a>
+    </div>
+</wicket:panel>
+</html>

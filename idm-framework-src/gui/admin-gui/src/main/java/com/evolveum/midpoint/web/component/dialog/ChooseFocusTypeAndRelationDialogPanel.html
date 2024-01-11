@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+    <div class="d-flex flex-column gap-2">
+        <div wicket:id="warningFeedback"/>
+        <div class="row" wicket:id="type"/>
+        <div class="row">
+            <label class="col-md-4 col-form-label font-weight-normal">
+                <wicket:message key="chooseFocusTypeAndRelationDialogPanel.relation"/>
+                <span class="text-danger font-weight-bold" wicket:message="title:prismPropertyPanel.required" wicket:id="relationRequired">*</span>
+            </label>
+            <div class="col-md-8" wicket:id="relation"/>
+        </div>
+        <span class="mb-2 text-center" wicket:id="infoMessage"/>
+        <div class="main-button-bar justify-content-end">
+            <a class="btn btn-primary btn-sm" wicket:id="cancel" />
+            <a class="btn btn-primary btn-sm" wicket:id="ok" />
+            <a class="btn btn-default btn-sm" wicket:id="configureTask" />
+        </div>
+    </div>
+</wicket:panel>

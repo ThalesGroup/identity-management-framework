@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <form wicket:id="valueForm">
+        <div class="prism-header mb-3" wicket:id="header">
+            <button wicket:id="expandCollapseButton" wicket:message="title:PrismObjectPanel.expandCollapseContainer" class="btn btn-tool expand-collapse-button" trigger="hover"></button>
+            <a class="prism-title" wicket:id="label"/>
+            <wicket:enclosure child="help">
+                <button class="btn btn-tool">
+                    <i class="helpTextIcon" wicket:id="help"/>
+                </button>
+            </wicket:enclosure>
+            <button wicket:id="sortProperties" wicket:message="title:PrismObjectPanel.sortProperties" class="btn btn-tool"></button>
+            <button wicket:id="addChildContainer" wicket:message="title:PrismObjectPanel.addChildContainer" class="btn btn-tool" trigger="hover">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <button wicket:id="removeButton" wicket:message="title:PrismObjectPanel.deleteContainer" class="btn btn-tool" trigger="hover">
+                <i class="fa fa-minus-circle"></i>
+            </button>
+            <a class="btn btn-tool" wicket:id="showMetadata" wicket:message="title:PageBase.button.metadata">
+                <i class="fa fa-tag"></i>
+            </a>
+        </div>
+        <div class="mb-3 ml-3" wicket:id="metadata"/>
+
+        <wicket:container wicket:id="valueContainer">
+            <span wicket:id="input"></span>
+            <div class="row" style="margin-left: 15px;">
+                <span wicket:id="feedback" class="text-danger"/>
+            </div>
+        </wicket:container>
+    </form>
+</wicket:panel>
+</html>

@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2020 Evolveum and contributors
+ *
+ * This work is dual-licensed under the Apache License 2.0
+ * and European Union Public License. See LICENSE file for details.
+ */
+
+package com.evolveum.midpoint.notifications.api.events;
+
+import com.evolveum.midpoint.xml.ns._public.common.common_3.EventOperationType;
+import com.evolveum.midpoint.xml.ns._public.common.common_3.EventStatusType;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public interface CustomEvent extends Event {
+    @NotNull EventOperationType getOperationType();
+    @NotNull EventStatusType getStatus();
+    @Nullable String getSubtype();
+    @Nullable Object getObject();
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<objects xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+         xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <user>
+        <name>u1</name>
+    </user>
+    <user>
+        <name>u2</name>
+    </user>
+    <role>
+        <name>r1</name>
+    </role>
+    <objectCollection>
+        <name>oc</name>
+        <type>c:UserType</type>
+        <filter>
+            <equal xmlns="http://prism.evolveum.com/xml/ns/public/query-3">
+                <path>c:costCenter</path>
+                <value>100</value>
+            </equal>
+        </filter>
+    </objectCollection>
+</objects>

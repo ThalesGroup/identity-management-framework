@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright (c) 2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="2bb2fb86-034e-11e8-9cf3-77abfc7aafec"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Gambler</name>
+    <description>This is non-employee role. It does NOT work as data processing basis.</description>
+    <!-- No subtype -->
+    <authorization>
+        <action>http://midpoint.evolveum.com/xml/ns/test/authorization#gamble</action>
+    </authorization>
+</role>

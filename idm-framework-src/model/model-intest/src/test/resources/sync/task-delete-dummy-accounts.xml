@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2015 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        oid="ab28a334-2aca-11e5-afe7-001e8c717e5b">
+    <name>Delete Dummy Accounts</name>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <binding>tight</binding>
+    <activity>
+        <work>
+            <deletion>
+                <objects>
+                    <type>ShadowType</type>
+                    <query>
+                        <q:filter>
+                            <q:and>
+                                <q:ref>
+                                    <q:path>resourceRef</q:path>
+                                    <q:value>
+                                        <oid>10000000-0000-0000-0000-000000000004</oid>
+                                    </q:value>
+                                </q:ref>
+                                <q:equal>
+                                    <q:path>objectClass</q:path>
+                                    <q:value>ri:AccountObjectClass</q:value>
+                                </q:equal>
+                            </q:and>
+                        </q:filter>
+                    </query>
+                    <searchOptions>
+                        <option>
+                            <options>
+                                <raw>false</raw>
+                            </options>
+                        </option>
+                    </searchOptions>
+                </objects>
+                <executionOptions>
+                    <raw>false</raw>
+                </executionOptions>
+            </deletion>
+        </work>
+    </activity>
+</task>

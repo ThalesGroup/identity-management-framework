@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2014 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        oid="10000000-0000-0000-5555-555500000001">
+    <name>Live Sync: Dummy Source Resource</name>
+    <taskIdentifier>10000000-0000-0000-5555-555500000001</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <objectRef oid="10000000-0000-0000-0000-000000000001" type="c:ResourceType"/>
+    <schedule>
+        <interval>1</interval>
+    </schedule>
+    <activity>
+        <work>
+            <liveSynchronization>
+                <resourceObjects>
+                    <resourceRef oid="10000000-0000-0000-0000-000000000001"/>
+                </resourceObjects>
+            </liveSynchronization>
+        </work>
+    </activity>
+</task>

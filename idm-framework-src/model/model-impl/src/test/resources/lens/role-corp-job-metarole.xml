@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<role oid="12345678-d34d-b33f-f00d-55555555a010"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+    <name>Job Metarole</name>
+    <description>Metarole for all job roles</description>
+    <inducement id="1">
+        <targetRef oid="12345678-d34d-b33f-f00d-55555555a020" type="RoleType"/> <!-- generic metarole -->
+        <!-- Generic metarole should be induced to any bearer of this role (job metarole) -->
+        <!-- So roles of Contractor, Employee, Engineer and Manager should be assigned the Generic Metarole as well as they are assigned Job Metarole -->
+    </inducement>
+    <inducement id="2">
+        <construction>
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="ResourceType"/>
+            <kind>account</kind>
+            <attribute>
+                <ref>ri:title</ref>
+                <outbound>
+                    <source>
+                        <path>$immediateRole/name</path>
+                    </source>
+                </outbound>
+            </attribute>
+        </construction>
+        <order>2</order>
+        <condition>     <!-- this is quite artificial but used to test a fix for MID-2190 -->
+            <!-- in these tests we enable and disable this metarole for holders of Manager role
+                 by setting their costCenter to the value of "management" (subtype for Manager role) -->
+            <source>
+                <path>$immediateRole/subtype</path>
+            </source>
+            <source>
+                <path>$focus/costCenter</path>
+            </source>
+            <expression>
+                <script>
+                    <code>subtype == 'job' || subtype == costCenter</code>
+                </script>
+            </expression>
+        </condition>
+    </inducement>
+</role>

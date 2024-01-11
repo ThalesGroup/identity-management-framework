@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>dist</artifactId>
+        <groupId>com.evolveum.midpoint</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>javadoc</artifactId>
+    <packaging>jar</packaging>
+
+    <name>midPoint JavaDoc</name>
+
+    <properties>
+        <!-- Don't set maven.deploy.skip to true, we want Jenkins to publish artifacts, see MID-5666. -->
+        <!-- See notes in main midPoint POM, install skip allows for -Dmaven.javadoc.skip, see MID-7242. -->
+        <maven.install.skip>true</maven.install.skip>
+        <!-- This enables build without -DskipTests option (e.g. full build). -->
+        <maven.test.skip>true</maven.test.skip>
+        <javadoc.options></javadoc.options>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.evolveum.midpoint.gui</groupId>
+            <artifactId>admin-gui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.evolveum.midpoint.model</groupId>
+            <artifactId>model-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <source>${project.source.version}</source>
+                    <includeDependencySources>true</includeDependencySources>
+                    <includeTransitiveDependencySources>true</includeTransitiveDependencySources>
+                    <dependencySourceIncludes>
+                        <dependencySourceInclude>com.evolveum.*:*</dependencySourceInclude>
+                    </dependencySourceIncludes>
+                    <isOffline>true</isOffline>
+                    <doctitle>midPoint Aggregate JavaDoc</doctitle>
+                    <windowtitle>midPoint Aggregate JavaDoc</windowtitle>
+                    <additionalJOption>${javadoc.options}</additionalJOption>
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
+                    <debug>false</debug>
+
+                    <!--
+                    TODO: Not usable yet, see https://github.com/asciidoctor/asciidoclet/pull/96 for the progress on JDK 11+ support.
+                    Currently fails on:
+                    [ERROR] javadoc: error - invalid flag: -author
+
+                    And with configuration option:
+                    <useStandardDocletOptions>false</useStandardDocletOptions>
+                    It fails with:
+                    [ERROR] java.lang.NoSuchMethodError: 'boolean com.sun.tools.doclets.standard.Standard.validOptions(java.lang.String[][], com.sun.javadoc.DocErrorReporter)'
+
+                    And that is a showstopper for now.
+                    <doclet>org.asciidoctor.Asciidoclet</doclet>
+                    <docletArtifact>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoclet</artifactId>
+                        <version>${asciidoclet.version}</version>
+                    </docletArtifact>
+                    -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!--
+        Fixes MID-8486 invalid "undefined" link in Javadoc search on JDK 11.
+        See also discussion under this answer: https://stackoverflow.com/a/52603413
+        -->
+        <profile>
+            <id>active-on-jdk-11</id>
+            <activation>
+                <jdk>11</jdk>
+            </activation>
+            <properties>
+                <javadoc.options>--no-module-directories</javadoc.options>
+            </properties>
+        </profile>
+    </profiles>
+</project>

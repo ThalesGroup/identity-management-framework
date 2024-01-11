@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2021 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<!--
+    Spring configuration for system-init module was split into smaller parts, that can be reused when initializing
+    midpoint up to certain level. This is currently used in command line tool ninja.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        default-lazy-init="false">
+
+    <import resource="ctx-configuration-10-system-init.xml"/>
+
+    <import resource="ctx-configuration-20-protector.xml"/>
+
+    <import resource="ctx-configuration-30-audit-factory.xml"/>
+
+    <import resource="ctx-configuration-40-prism.xml"/>
+
+</beans>

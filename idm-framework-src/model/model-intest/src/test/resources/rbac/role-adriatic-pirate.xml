@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<role oid="12345678-d34d-b33f-f00d-5555555566aa"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3"
+        xmlns:piracy="http://midpoint.evolveum.com/xml/ns/samples/piracy">
+    <name>Adriatic Pirate</name>
+    <inducement>
+        <extension>
+            <piracy:sea>Adriatic</piracy:sea>
+        </extension>
+        <targetRef oid="12345678-d34d-b33f-f00d-555555556666" type="c:RoleType"/>
+    </inducement>
+</role>

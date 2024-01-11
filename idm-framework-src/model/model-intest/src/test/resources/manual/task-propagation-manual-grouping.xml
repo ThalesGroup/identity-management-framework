@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<task oid="b84a2c46-f0b5-11e7-baff-d35c2f14080f"
+    xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+
+    <name>Propagation: Grouping Manual Resource</name>
+
+    <taskIdentifier>b84a2c46-f0b5-11e7-baff-d35c2f14080f</taskIdentifier>
+    <ownerRef oid="00000000-0000-0000-0000-000000000002"/>
+    <executionState>runnable</executionState>
+    <activity>
+        <work>
+            <propagation>
+                <resourceRef oid="a6e228a0-f092-11e7-b5bc-579f2e54e15c"/> <!-- Manual Grouping -->
+            </propagation>
+        </work>
+    </activity>
+</task>

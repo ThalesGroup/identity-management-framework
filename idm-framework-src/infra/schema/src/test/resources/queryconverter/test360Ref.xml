@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<query xmlns="http://prism.evolveum.com/xml/ns/public/query-3" xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <filter>
+        <or>
+            <ref>
+                <path>c:resourceRef</path>
+                <value xsi:type="c:ObjectReferenceType" oid="oid1" />               <!-- typed value, no ref type -->
+            </ref>
+            <ref>
+                <path>c:resourceRef</path>
+                <value xsi:type="c:ObjectReferenceType" oid="oid2" type="c:ResourceType" />     <!-- typed value, explicit ref type -->
+            </ref>
+            <ref>
+                <path>c:resourceRef</path>
+                <value>                                         <!-- untyped value, no ref type -->
+                    <c:oid>oid3</c:oid>
+                </value>
+            </ref>
+            <ref>
+                <path>c:resourceRef</path>
+                <value>                                         <!-- untyped value, explicit ref type -->
+                    <c:oid>oid4</c:oid>
+                    <c:type>c:ResourceType</c:type>
+                </value>
+            </ref>
+        </or>
+    </filter>
+</query>

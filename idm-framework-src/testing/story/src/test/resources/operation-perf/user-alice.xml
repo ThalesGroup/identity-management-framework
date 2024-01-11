@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user oid="a077357a-1c5f-11e8-ad16-af1b03cecee9"
+        xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'>
+    <name>alice</name>
+    <givenName>Alice</givenName>
+    <familyName>Anderson</familyName>
+
+    <credentials>
+        <password>
+            <value>
+                <clearValue>w0nd3rland</clearValue>
+            </value>
+        </password>
+    </credentials>
+
+    <activation>
+        <administrativeStatus>enabled</administrativeStatus>
+    </activation>
+</user>

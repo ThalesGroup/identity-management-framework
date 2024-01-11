@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<report oid="2b44aa2e-dd86-4842-bcf5-762c8a9a85cd">
+    <name>Audit Collection report with view</name>
+    <objectCollection>
+        <collection>
+            <collectionRef oid="00000000-0000-0000-0001-000000001234" type="ObjectCollectionType"/>
+        </collection>
+        <view>
+            <column>
+                <name>timeColumn</name>
+                <path>timestamp</path>
+                <display>
+                    <label>Time</label>
+                </display>
+            </column>
+            <column>
+                <name>timeColumn2</name>
+                <path>timestamp</path>
+                <display>
+                    <label>Time2</label>
+                </display>
+                <previousColumn>timeColumn</previousColumn>
+                <export>
+                    <expression>
+                        <script>
+                            <code>
+                                // This is to fail in the safe mode
+                                System.setProperty('hacking-system-via-setting-this-particular-property', 'dangerous-value')
+
+                                String str = "Test name: "
+                                return str + object
+                            </code>
+                        </script>
+                    </expression>
+                </export>
+            </column>
+        </view>
+    </objectCollection>
+</report>

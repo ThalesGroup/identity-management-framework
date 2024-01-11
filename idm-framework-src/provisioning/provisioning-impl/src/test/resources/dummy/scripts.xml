@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<c:provisioningScripts xmlns:c="http://midpoint.evolveum.com/xml/ns/public/common/common-3">
+    <c:script>
+        <c:operation>reconcile</c:operation>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:argument>
+            <c:value>left</c:value>
+            <c:value>right</c:value>
+            <c:name>direction</c:name>
+        </c:argument>
+        <c:code>Where to go now?</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>add</c:operation>
+        <c:order>before</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:argument>
+            <c:value>jbond</c:value>
+            <c:name>HOMEDIR</c:name>
+        </c:argument>
+        <c:code>In the beginning ...</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>add</c:operation>
+        <c:order>after</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:argument>
+            <c:value>this</c:value>
+            <c:name>which</c:name>
+        </c:argument>
+        <c:argument>
+            <c:value>now</c:value>
+            <c:name>when</c:name>
+        </c:argument>
+        <c:code>Hello World</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>modify</c:operation>
+        <c:order>before</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:code>Where am I?</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>modify</c:operation>
+        <c:order>after</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:argument>
+            <c:value>dead</c:value>
+            <c:value>alive</c:value>
+            <c:name>status</c:name>
+        </c:argument>
+        <c:code>Still here</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>delete</c:operation>
+        <c:order>before</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:argument>
+            <c:returnMultiplicity>multi</c:returnMultiplicity>
+            <c:value>cruel</c:value>
+            <c:name>what</c:name>
+        </c:argument>
+        <c:code>Goodbye World</c:code>
+    </c:script>
+    <c:script>
+        <c:operation>delete</c:operation>
+        <c:order>after</c:order>
+        <c:host>resource</c:host>
+        <c:language>Gibberish</c:language>
+        <c:code>R.I.P.</c:code>
+    </c:script>
+</c:provisioningScripts>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2020 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<report oid="2b44aa2e-dd86-4842-bcf5-762c8a9a85de">
+    <name>Object Collection report with view</name>
+    <objectCollection>
+        <collection>
+            <collectionRef oid="72b1f98e-f587-4b9f-b92b-72e251dbb255" type="ObjectCollectionType"/>
+        </collection>
+        <view>
+            <column>
+                <name>nameColumn</name>
+                <path>name</path>
+                <display>
+                    <label>Name</label>
+                </display>
+            </column>
+            <column>
+                <name>nickColumn</name>
+                <path>nickName</path>
+                <display>
+                    <label>Nick</label>
+                </display>
+                <previousColumn>nameColumn</previousColumn>
+                <export>
+                    <expression>
+                        <script>
+                            <code>
+                                return "Test nick: " + object;
+                            </code>
+                        </script>
+                    </expression>
+                </export>
+            </column>
+        </view>
+    </objectCollection>
+</report>

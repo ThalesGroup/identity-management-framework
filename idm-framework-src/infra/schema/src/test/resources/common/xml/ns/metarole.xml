@@ -1,0 +1,51 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<role oid="12345678-d34d-b33f-f00d-55555555a020"
+        xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+        xmlns:ri="http://midpoint.evolveum.com/xml/ns/public/resource/instance-3">
+    <name>Generic Metarole</name>
+    <description>Metarole for all roles which are assigned directly to users</description>
+    <inducement id="1">
+        <construction>
+            <resourceRef oid="10000000-0000-0000-0000-000000000004" type="ResourceType"/>
+            <kind>account</kind>
+            <attribute>
+                <ref>ri:location</ref>
+                <outbound>
+                    <source>
+                        <path>$focus/locality</path>
+                    </source>
+                </outbound>
+            </attribute>
+        </construction>
+        <order>2</order>
+    </inducement>
+    <inducement id="2">
+        <policyRule>
+            <policyConstraints>
+                <!-- applies to all assignment operations of this metarole-bearer as the target -->
+                <objectState>
+                    <executeScript>
+                        <s:search xmlns:s="http://midpoint.evolveum.com/xml/ns/public/model/scripting-3">
+                            <s:type>UserType</s:type>
+                        </s:search>
+                    </executeScript>
+                </objectState>
+                <assignment>
+                    <!-- intentionally empty -->
+                </assignment>
+            </policyConstraints>
+            <policyActions>
+                <approval>
+                    <approverRelation>test-approver</approverRelation>
+                </approval>
+            </policyActions>
+        </policyRule>
+        <order>2</order>
+    </inducement>
+</role>

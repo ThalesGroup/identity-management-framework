@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<accessCertificationDefinition
+        xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+        xmlns:q="http://prism.evolveum.com/xml/ns/public/query-3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        oid="d0470a01-8c7f-42fc-ae22-28b3b3656cc4">
+    <name>SoD</name>
+    <handlerUri>http://midpoint.evolveum.com/xml/ns/public/certification/handlers-3#exclusion</handlerUri>
+    <scopeDefinition xsi:type="AccessCertificationObjectBasedScopeType">
+        <objectType>UserType</objectType>
+    </scopeDefinition>
+    <remediationDefinition>
+        <style>automated</style>
+    </remediationDefinition>
+    <stageDefinition>
+        <number>1</number>
+        <duration>P14D</duration>
+        <reviewerSpecification>
+            <defaultReviewerRef oid="e015eb10-1426-4104-86c0-eb0cf9dc423f" type="OrgType" />
+        </reviewerSpecification>
+        <outcomeStrategy>acceptedIfNotDenied</outcomeStrategy>
+        <outcomeIfNoReviewers>accept</outcomeIfNoReviewers>
+    </stageDefinition>
+</accessCertificationDefinition>

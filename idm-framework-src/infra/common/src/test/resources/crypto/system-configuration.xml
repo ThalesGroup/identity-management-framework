@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2010-2018 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<systemConfiguration xmlns="http://midpoint.evolveum.com/xml/ns/public/common/common-3"
+                     xmlns:t="http://prism.evolveum.com/xml/ns/public/types-3">
+
+    <name>dummy</name>
+
+    <notificationConfiguration>
+        <mail>
+            <server>
+                <host>smtp.gmail.com</host>
+                <port>587</port>
+                <username>user</username>
+                <password>
+                    <t:clearValue>password</t:clearValue>
+                </password>
+                <transportSecurity>starttlsEnabled</transportSecurity>
+            </server>
+        </mail>
+        <sms name="sms1">
+            <gateway>
+                <password>
+                    <t:clearValue>password</t:clearValue>
+                </password>
+            </gateway>
+        </sms>
+        <sms name="sms2">
+            <gateway>
+                <password>
+                    <t:clearValue>password</t:clearValue>
+                </password>
+            </gateway>
+        </sms>
+    </notificationConfiguration>
+
+</systemConfiguration>

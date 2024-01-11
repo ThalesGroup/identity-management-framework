@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:panel>
+    <div class="d-flex flex-column gap-3">
+        <div class="card card-outline-left card-outline-left-success" wicket:id="doneCard">
+            <div class="card-body">
+                <div class="d-flex gap-2 border-bottom border-gray align-items-center pb-3 mb-3">
+                    <h5 class="mb-0"><wicket:message key="ConflictSolverPanel.doneAllTitle"/></h5>
+                </div>
+
+                <wicket:message key="ConflictSolverPanel.doneMessage"/>
+
+                <div class="main-button-bar mt-4">
+                    <a class="btn btn-success" wicket:id="backToSummary">
+                        <i class="fas fa-cart-shopping mr-1"></i>
+                        <wicket:message key="ConflictSolverPanel.doneBack"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="align-self-start" wicket:id="toggle"/>
+
+        <wicket:container wicket:id="items">
+            <div wicket:id="item"/>
+        </wicket:container>
+    </div>
+</wicket:panel>
+</html>

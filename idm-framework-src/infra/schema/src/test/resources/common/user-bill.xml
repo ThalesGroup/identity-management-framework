@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010-2017 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+<user xmlns='http://midpoint.evolveum.com/xml/ns/public/common/common-3'
+      xmlns:c='http://midpoint.evolveum.com/xml/ns/public/common/common-3'>
+    <name>bill</name>
+    <assignment>
+        <c:targetRef oid="00000001-d34d-b33f-f00d-000000000001" type="c:RoleType" />
+    </assignment>
+    <c:assignment>
+        <c:targetRef oid="00000001-d34d-b33f-f00d-000000000002" type="c:RoleType" />
+    </c:assignment>
+    <c:assignment>
+        <c:targetRef oid="00000001-d34d-b33f-f00d-000000000004" type="c:RoleType" />
+    </c:assignment>
+    <fullName>Bill Turner</fullName>
+    <givenName>Bill</givenName>
+    <familyName>Turner</familyName>
+    <locality>Caribbean</locality>
+</user>

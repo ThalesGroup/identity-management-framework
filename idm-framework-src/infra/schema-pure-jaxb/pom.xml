@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (C) 2010-2022 Evolveum and contributors
+  ~
+  ~ This work is dual-licensed under the Apache License 2.0
+  ~ and European Union Public License. See LICENSE file for details.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>infra</artifactId>
+        <groupId>com.evolveum.midpoint.infra</groupId>
+        <version>4.8</version>
+    </parent>
+
+    <artifactId>schema-pure-jaxb</artifactId>
+    <packaging>jar</packaging>
+
+    <name>midPoint Infrastructure - pure JAXB schema</name>
+
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
+    <dependencies>
+        <!-- Testing dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.evolveum.commons</groupId>
+            <artifactId>test-ng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <!-- Commented out experimentally, as this fools IDEA into searching for XSD types at this location as well. -->
+            <!--<resource>-->
+            <!--    <directory>target/midpoint-schema</directory>-->
+            <!--</resource>-->
+        </resources>
+        <plugins>
+            <plugin>
+                <!-- Used to pull XSD files from the JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-schema-files</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.evolveum.midpoint.infra</groupId>
+                                    <artifactId>schema</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>**/*.xsd,**/*.dtd</includes>
+                            <excludes>prism-impl/xml/ns/test/**,xml/ns/test/**</excludes>
+                            <outputDirectory>${project.basedir}/target/midpoint-schema</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <source>${project.basedir}/target/midpoint-schema</source>
+                    </sources>
+                    <catalog>${basedir}/src/compile/resources/catalog.xml</catalog>
+                    <laxSchemaValidation>true</laxSchemaValidation>
+                    <verbose>false</verbose>
+                </configuration>
+                <dependencies>
+                    <!--
+                    Don't change this to org.glassfish.jaxb:xsom:${glassfish-jaxb.version} to avoid
+                    error: JAXP09020006: The argument 'systemId' can not be null.
+                    (Is it valid error? I don't know, but we may drop this with Axiom anyway.)
+                    -->
+                    <dependency>
+                        <groupId>com.sun.xsom</groupId>
+                        <artifactId>xsom</artifactId>
+                        <version>20190730e</version>
+                    </dependency>
+                    <!--
+                    <dependency>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                        <version>${xerces.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                        -->
+                        <!-- Latest version, only used here, no security risk (as of 4.6). -->
+                        <!-- <version>2.7.3</version>
+                    </dependency>
+                    -->
+                    <!-- Added after MID-7937, fix based on https://stackoverflow.com/a/71979169/658826 -->
+                    <!--dependency>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-runtime</artifactId>
+                        <version>${glassfish-jaxb.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-xjc</artifactId>
+                        <version>${glassfish-jaxb.version}</version>
+                    </dependency-->
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
