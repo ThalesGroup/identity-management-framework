@@ -26,7 +26,7 @@
     "expose-loader": "^3.1.0",
     "file-loader": "^6.2.0",
     "flag-icons": "^6.4.2",
-    "jquery-validation": "^1.19.5",
+    "jquery-validation": "^1.21.0",
     "knockout": "^3.5.1",
     "mini-css-extract-plugin": "^2.6.0",
     "moment": "^2.29.4",
